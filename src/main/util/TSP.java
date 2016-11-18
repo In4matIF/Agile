@@ -1,4 +1,4 @@
-package tsp;
+package main.util;
 
 public interface TSP {
 		

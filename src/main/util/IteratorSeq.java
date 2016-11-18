@@ -1,4 +1,4 @@
-package tsp;
+package main.util;
 
 import java.util.Collection;
 import java.util.Iterator;
