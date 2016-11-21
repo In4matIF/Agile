@@ -3,9 +3,11 @@ package view;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Tooltip;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.VBoxBuilder;
 import javafx.scene.paint.Color;
@@ -64,6 +66,15 @@ public class Window {
                             6,
                             Color.DARKBLUE
                         );
+                    Tooltip t = new Tooltip("Intersection : "+intersection.getId());
+                    circle.setOnMouseEntered(event -> {
+                        Node node =(Node)event.getSource();
+                        t.show( node,
+                                primaryStage.getX()+event.getSceneX(),
+                                primaryStage.getY()+event.getSceneY()
+                            );
+                    });
+                    circle.setOnMouseExited(event -> t.hide());
                     root.getChildren().add(circle);
                 }
             );
