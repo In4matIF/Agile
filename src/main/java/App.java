@@ -24,6 +24,6 @@ public class App extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         Window window = new Window(primaryStage);
-        window.render();
+        window.renderButton();
     }
 }

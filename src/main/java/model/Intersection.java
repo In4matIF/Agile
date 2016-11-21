@@ -1,6 +1,7 @@
 package model;
 
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Olivice on 18/11/2016.
@@ -10,12 +11,19 @@ public class Intersection {
     private Integer id;
     private Integer x;
     private Integer y;
-    private Map<Integer, Section> sections;
+    private List<Section> sections;
 
     public Intersection() {
     }
 
-    public Intersection(Integer id, Integer x, Integer y, Map<Integer, Section> sections) {
+    public Intersection(Integer id, Integer x, Integer y) {
+        this.id = id;
+        this.x = x;
+        this.y = y;
+        sections = new ArrayList<>();
+    }
+
+    public Intersection(Integer id, Integer x, Integer y, ArrayList sections) {
         this.id = id;
         this.x = x;
         this.y = y;
@@ -46,11 +54,11 @@ public class Intersection {
         this.y = y;
     }
 
-    public Map<Integer, Section> getSections() {
+    public List getSections() {
         return sections;
     }
 
-    public void setSections(Map<Integer, Section> sections) {
+    public void setSections(ArrayList sections) {
         this.sections = sections;
     }
 

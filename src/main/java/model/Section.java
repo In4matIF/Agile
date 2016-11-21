@@ -1,6 +1,5 @@
 package model;
 
-import java.util.List;
 
 /**
  * Created by Olivice on 18/11/2016.
@@ -67,8 +66,8 @@ public class Section {
     @Override
     public String toString() {
         return "Section{" +
-                "origin=" + origin +
-                ", destination=" + destination +
+                "origin=" + origin.getId() +
+                ", destination=" + destination.getId() +
                 ", length=" + length +
                 ", speed=" + speed +
                 ", street='" + street + '\'' +
