@@ -3,13 +3,14 @@ package model;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import javax.xml.bind.Element;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.Map;
 
 /**
@@ -30,18 +31,19 @@ public class Tour implements Observable{
         this.duration = duration;
     }
     
-    public Tour(File xmlFile, Plan crPlan){
+    public Tour(File xmlFile, Plan plan){
         try {
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
             Document doc = dBuilder.parse(xmlFile);
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 
             doc.getDocumentElement().normalize();
             
             Element tElement = (Element) (doc.getElementsByTagName("entrepot").item(0));
             
             Warehouse warehouse = new Warehouse(
-            		crPlan.getIntersections().get(Integer.parseInt(tElement.getAttribute("adresse"))),
+                    plan.getIntersections().get(Integer.parseInt(tElement.getAttribute("adresse"))),
             		formatter.parse(tElement.getAttribute("heureDepart")).getTime()
             		);
             
@@ -57,9 +59,9 @@ public class Tour implements Observable{
 
                     Element t2Element = (Element) tNode;
 
-                    model.DeliveryPoint deliveryPoint = new DeliveryPoint(
-                    		crPlan.getIntersections().get(Integer.parseInt(t2Element.getAttribute("adresse"))),
-                    		Integer.parseInt(t2Element.getAttribute("duree"))
+                    DeliveryPoint deliveryPoint = new DeliveryPoint(
+                                plan.getIntersections().get(Integer.parseInt(t2Element.getAttribute("adresse"))),
+                                Integer.parseInt(t2Element.getAttribute("duree"))
                             );
                     
                     this.getCrossingPoints().put(deliveryPoint.getIntersection().getId(),deliveryPoint);

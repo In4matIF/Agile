@@ -7,21 +7,21 @@ import java.sql.Time;
  */
 public class Warehouse extends CrossingPoint{
 
-    private Time departureTime;
+    private Long departureTime;
 
     public Warehouse() {
     }
 
-    public Warehouse(Intersection intersection, Time departureTime) {
+    public Warehouse(Intersection intersection, Long departureTime) {
         super(intersection);
         this.departureTime = departureTime;
     }
 
-    public Time getDepartureTime() {
+    public long getDepartureTime() {
         return departureTime;
     }
 
-    public void setDepartureTime(Time departureTime) {
+    public void setDepartureTime(Long departureTime) {
         this.departureTime = departureTime;
     }
 
