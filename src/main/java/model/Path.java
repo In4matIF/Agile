@@ -8,6 +8,7 @@ import java.util.List;
 public class Path {
 
     private List<Section> sections;
+    private int length;
 
     public Path() {
     }
