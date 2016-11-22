@@ -1,6 +1,9 @@
 package controller;
 
+import model.Plan;
 import view.Window;
+
+import java.io.File;
 
 /**
  * Created by Olivice on 18/11/2016.
@@ -8,7 +11,7 @@ import view.Window;
 public class DefaultState implements State{
 
     @Override
-    public void loadPlan(Window window, CommandList commandList) {
+    public void loadPlan(Window window, CommandList commandList, Plan plan, File file) {
 
     }
 

@@ -1,5 +1,6 @@
 package view;
 
+import controller.Controller;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
@@ -27,14 +28,24 @@ import java.io.File;
 public class Window {
 
     private Stage primaryStage;
-    private Plan plan = new Plan();
+    private Plan plan;
+    private Controller controller;
+    private GraphicalUI gui;
 
     public Window() {
     }
 
-    public Window(Stage primaryStage) {
+    public Window(Stage primaryStage, Plan plan) {
         this.primaryStage = primaryStage;
+        this.gui = new GraphicalUI(primaryStage, controller, plan);
     }
+
+    public void setController(Controller controller){
+        this.controller = controller;
+        gui.setController(controller);
+    }
+
+
 
     public Stage getPrimaryStage() {
         return primaryStage;
@@ -45,6 +56,8 @@ public class Window {
     }
 
     public void render() throws Exception {
+        gui.renderButton();
+        /*
             // définit la largeur et la hauteur de la fenêtre
             // en pixels, le (0, 0) se situe en haut à gauche de la fenêtre
             primaryStage.setWidth(1200);
@@ -125,6 +138,7 @@ public class Window {
                 .build();
         root.getChildren().add(vBox);
         primaryStage.setScene(new Scene(root, 500, 400));
-        primaryStage.show();
+        primaryStage.show(); */
     }
+
 }

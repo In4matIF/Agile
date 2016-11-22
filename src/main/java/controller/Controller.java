@@ -1,6 +1,9 @@
 package controller;
 
+import model.Plan;
 import view.Window;
+
+import java.io.File;
 
 /**
  * Created by Olivice on 18/11/2016.
@@ -17,17 +20,18 @@ public class Controller {
     protected static final TourState tourState = new TourState();
     protected static final ErrorState errorState = new ErrorState();
 
-    public Controller(Window window, CommandList commandList) {
+    public Controller(Window window) {
+        this.currentState = initState;
         this.window = window;
-        this.commandList = commandList;
+        this.commandList = new CommandList();
     }
 
     protected static void setCurrentState(State state){
         currentState = state;
     }
 
-    public void loadPlan(){
-        currentState.loadPlan(window,commandList);
+    public void loadPlan(Plan plan, File file){
+        currentState.loadPlan(window,commandList, plan, file);
     }
 
     public void loadTour(){

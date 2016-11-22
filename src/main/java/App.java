@@ -1,5 +1,7 @@
+import controller.Controller;
 import javafx.application.Application;
 import javafx.stage.Stage;
+import model.Plan;
 import view.Window;
 
 /**
@@ -23,7 +25,11 @@ public class App extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Window window = new Window(primaryStage);
-        window.renderButton();
+        Plan plan = new Plan();
+        Window window = new Window(primaryStage, plan);
+        Controller controller = new Controller(window);
+        window.setController(controller);
+        window.render();
+
     }
 }
