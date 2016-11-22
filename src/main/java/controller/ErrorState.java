@@ -9,11 +9,13 @@ public class ErrorState extends DefaultState{
 
     @Override
     public void renitializePlan(Window window, CommandList commandList) {
+        commandList.addCommand(new RenitializePlanCommand());
         Controller.setCurrentState(Controller.initState);
     }
 
     @Override
-    public void renitializeDelivery(Window window, CommandList commandList) {
+    public void renitializeTour(Window window, CommandList commandList) {
+        commandList.addCommand(new RenitializeTourCommand());
         Controller.setCurrentState(Controller.planState);
     }
 }

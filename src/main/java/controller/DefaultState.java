@@ -23,7 +23,7 @@ public class DefaultState implements State{
     }
 
     @Override
-    public void renitializeDelivery(Window window, CommandList commandList) {
+    public void renitializeTour(Window window, CommandList commandList) {
 
     }
 

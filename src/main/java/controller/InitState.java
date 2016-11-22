@@ -9,6 +9,7 @@ public class InitState extends DefaultState{
 
     @Override
     public void loadPlan(Window window, CommandList commandList) {
+        commandList.addCommand(new LoadPlanCommand());
         Controller.setCurrentState(Controller.planState);
     }
 }
