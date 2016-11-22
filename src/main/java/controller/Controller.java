@@ -39,7 +39,7 @@ public class Controller {
     }
 
     public void renitializeDelivery(){
-        currentState.renitializeDelivery(window,commandList);
+        currentState.renitializeTour(window,commandList);
     }
 
     public void generateTourSheet(){

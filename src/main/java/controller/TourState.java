@@ -13,7 +13,7 @@ public class TourState extends DefaultState{
     }
 
     @Override
-    public void renitializeDelivery(Window window, CommandList commandList) {
+    public void renitializeTour(Window window, CommandList commandList) {
         Controller.setCurrentState(Controller.planState);
     }
 

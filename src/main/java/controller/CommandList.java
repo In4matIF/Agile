@@ -18,9 +18,10 @@ public class CommandList {
         this.commands = commands;
     }
 
-    public void addCommand(Command command){
-        command.doCommand();
-        commands.add(command);
+    public boolean addCommand(Command command){
+        boolean success = command.doCommand();
+        if(success) commands.add(command);
+        return success;
     }
 
 }
