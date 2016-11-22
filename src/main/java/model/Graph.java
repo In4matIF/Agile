@@ -5,7 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import Dijkstra.Dijkstra;
+import util.Dijkstra;
 
 /**
  * Created by Olivice on 18/11/2016.
@@ -16,6 +16,10 @@ public class Graph {
     private Map<Integer, CrossingPoint> crossingPoints;
 
     public Graph() {
+    	
+    }
+    
+    public Graph(Plan p,Tour t) {
     	
     	List<Path> paths = new ArrayList<Path>();
 		Dijkstra dijkstra = new Dijkstra(p);
