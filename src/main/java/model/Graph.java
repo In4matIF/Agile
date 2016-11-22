@@ -8,7 +8,9 @@ import java.util.Map;
 import util.Dijkstra;
 
 /**
- * Created by Olivice on 18/11/2016.
+ * Graph object
+ * @author Tom
+ *
  */
 public class Graph {
 
@@ -19,6 +21,11 @@ public class Graph {
     	
     }
     
+    /**
+     * Graph constructor based on a Plan and a Tour to generate the graph
+     * @param p the Plan object
+     * @param t the Tour object
+     */
     public Graph(Plan p,Tour t) {
     	
     	List<Path> paths = new ArrayList<Path>();
