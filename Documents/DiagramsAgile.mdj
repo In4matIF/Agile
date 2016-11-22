@@ -14804,7 +14804,7 @@
 													"height": 13,
 													"autoResize": false,
 													"underline": false,
-													"text": "Tour",
+													"text": "model.Tour",
 													"horizontalAlignment": 2,
 													"verticalAlignment": 5,
 													"wordWrap": false
@@ -29659,7 +29659,7 @@
 													"height": 13,
 													"autoResize": false,
 													"underline": false,
-													"text": "DeliveryPoint",
+													"text": "model.DeliveryPoint",
 													"horizontalAlignment": 2,
 													"verticalAlignment": 5,
 													"wordWrap": false
@@ -35648,7 +35648,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFYdoP6r2m5WSM="
 									},
-									"name": "DeliveryPoint",
+									"name": "model.DeliveryPoint",
 									"ownedElements": [
 										{
 											"_type": "UMLGeneralization",
@@ -35706,7 +35706,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFYdoP6r2m5WSM="
 									},
-									"name": "Tour",
+									"name": "model.Tour",
 									"ownedElements": [
 										{
 											"_type": "UMLAssociation",

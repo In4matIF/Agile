@@ -1,11 +1,14 @@
 package model;
 
+import model.CrossingPoint;
+import model.Intersection;
+
 import java.sql.Time;
 
 /**
  * Created by Olivice on 18/11/2016.
  */
-public class DeliveryPoint extends CrossingPoint{
+public class DeliveryPoint extends CrossingPoint {
 
     private Time beginTime;
     private Time endTime;
@@ -18,6 +21,11 @@ public class DeliveryPoint extends CrossingPoint{
         super(intersection);
         this.beginTime = beginTime;
         this.endTime = endTime;
+        this.duration = duration;
+    }
+    
+    public DeliveryPoint(Intersection intersection, Integer duration) {
+        super(intersection);
         this.duration = duration;
     }
 
@@ -47,7 +55,7 @@ public class DeliveryPoint extends CrossingPoint{
 
     @Override
     public String toString() {
-        return "DeliveryPoint{" +
+        return "model.DeliveryPoint{" +
                 "intersection=" + this.getIntersection() +
                 "beginTime=" + beginTime +
                 ", endTime=" + endTime +

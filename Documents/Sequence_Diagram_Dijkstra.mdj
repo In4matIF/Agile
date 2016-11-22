@@ -99,7 +99,7 @@
 											},
 											"edgePosition": 1,
 											"underline": false,
-											"text": "1 : Graph(Plan,Tour)",
+											"text": "1 : Graph(Plan,model.Tour)",
 											"horizontalAlignment": 2,
 											"verticalAlignment": 5,
 											"wordWrap": false
@@ -2559,7 +2559,7 @@
 							},
 							"visibility": "public",
 							"messageSort": "createMessage",
-							"arguments": "Plan,Tour",
+							"arguments": "Plan,model.Tour",
 							"isConcurrentIteration": false
 						},
 						{

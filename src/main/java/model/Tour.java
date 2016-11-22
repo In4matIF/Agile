@@ -2,7 +2,14 @@ package model;
 
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
+import javax.xml.bind.Element;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import java.io.File;
 import java.util.Map;
 
 /**
@@ -21,6 +28,47 @@ public class Tour implements Observable{
         this.sections = sections;
         this.crossingPoints = crossingPoints;
         this.duration = duration;
+    }
+    
+    public Tour(File xmlFile, Plan crPlan){
+        try {
+            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+            Document doc = dBuilder.parse(xmlFile);
+
+            doc.getDocumentElement().normalize();
+            
+            Element tElement = (Element) (doc.getElementsByTagName("entrepot").item(0));
+            
+            Warehouse warehouse = new Warehouse(
+            		crPlan.getIntersections().get(Integer.parseInt(tElement.getAttribute("adresse"))),
+            		formatter.parse(tElement.getAttribute("heureDepart")).getTime()
+            		);
+            
+            this.getCrossingPoints().put(warehouse.getIntersection().getId(),warehouse);
+            
+            NodeList tList = doc.getElementsByTagName("livraison");
+
+            for (int temp = 0; temp < tList.getLength(); temp++) {
+                
+            	Node tNode = tList.item(temp);
+
+                if (tNode.getNodeType() == Node.ELEMENT_NODE) {
+
+                    Element t2Element = (Element) tNode;
+
+                    model.DeliveryPoint deliveryPoint = new DeliveryPoint(
+                    		crPlan.getIntersections().get(Integer.parseInt(t2Element.getAttribute("adresse"))),
+                    		Integer.parseInt(t2Element.getAttribute("duree"))
+                            );
+                    
+                    this.getCrossingPoints().put(deliveryPoint.getIntersection().getId(),deliveryPoint);
+                }
+            }
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public Map<Integer, Section> getSections() {
@@ -49,7 +97,7 @@ public class Tour implements Observable{
 
     @Override
     public String toString() {
-        return "Tour{" +
+        return "model.Tour{" +
                 "sections=" + sections +
                 ", crossingPoints=" + crossingPoints +
                 ", duration=" + duration +

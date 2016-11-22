@@ -22,9 +22,9 @@ public class Graph {
     }
     
     /**
-     * Graph constructor based on a Plan and a Tour to generate the graph
+     * Graph constructor based on a Plan and a model.Tour to generate the graph
      * @param p the Plan object
-     * @param t the Tour object
+     * @param t the model.Tour object
      */
     public Graph(Plan p,Tour t) {
     	
