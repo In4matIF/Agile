@@ -13,8 +13,9 @@ public class Path {
     public Path() {
     }
 
-    public Path(List<Section> sections) {
+    public Path(List<Section> sections, int length) {
         this.sections = sections;
+        this.length = length;
     }
 
     public List<Section> getSections() {
@@ -25,10 +26,20 @@ public class Path {
         this.sections = sections;
     }
 
-    @Override
+    public int getLength() {
+		return length;
+	}
+
+	public void setLength(int length) {
+		this.length = length;
+	}
+
+	@Override
     public String toString() {
         return "Path{" +
                 "sections=" + sections +
                 '}';
     }
+    
+    
 }

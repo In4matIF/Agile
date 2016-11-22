@@ -29,6 +29,16 @@ public class Intersection {
         this.y = y;
         this.sections = sections;
     }
+    
+    public Section getSectionTo(Intersection dest)
+    {
+    	for(Section s : sections)
+    	{
+    		if(s.getDestination().equals(dest))
+    			return s;
+    	}
+    	return null;
+    }
 
     public Integer getId() {
         return id;

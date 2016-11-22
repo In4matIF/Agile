@@ -1,6 +1,5 @@
 package util;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -12,6 +11,11 @@ import java.util.Set;
 
 import model.*;
 
+/**
+ * Object to calculate the shortests path by Dijkstra
+ * @author Tom
+ *
+ */
 public class Dijkstra {
 	
 	public Set<Intersection> settledNodes;
@@ -25,7 +29,11 @@ public class Dijkstra {
 		plan = p;
 	}
         
-    public void execute(Intersection source) {
+    /**
+     * Apply Dijkstra from the Intersection specified
+     * @param source the Intersection to start from
+     */
+	public void execute(Intersection source) {
         settledNodes = new HashSet<Intersection>();
         unSettledNodes = new HashSet<Intersection>();
         distance = new HashMap<Intersection, Integer>();
