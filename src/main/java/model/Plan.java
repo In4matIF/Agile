@@ -78,7 +78,6 @@ public class Plan implements Observable{
                     );
 
                     origine.getSections().add(section);
-                    destination.getSections().add(section);
 
                     this.getSections().add(section);
                 }

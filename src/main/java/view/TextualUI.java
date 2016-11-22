@@ -1,4 +1,4 @@
-package view.ui;
+package view;
 
 import model.VisitorCrossingPoint;
 
@@ -8,7 +8,7 @@ import java.util.Observer;
 /**
  * Created by Olivice on 18/11/2016.
  */
-public class GraphicalUI implements Observer, VisitorCrossingPoint {
+public class TextualUI implements Observer, VisitorCrossingPoint{
 
     @Override
     public void update(Observable o, Object arg) {
