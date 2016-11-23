@@ -11,6 +11,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -44,10 +45,12 @@ public class Tour implements Observable{
             
             Warehouse warehouse = new Warehouse(
                     plan.getIntersections().get(Integer.parseInt(tElement.getAttribute("adresse"))),
-            		formatter.parse(tElement.getAttribute("heureDepart")).getTime()
+            		tElement.getAttribute("heureDepart")
             		);
-            
-            this.getCrossingPoints().put(warehouse.getIntersection().getId(),warehouse);
+
+            crossingPoints = new HashMap<>();
+            sections = new HashMap<>();
+            crossingPoints.put(warehouse.getIntersection().getId(),warehouse);
             
             NodeList tList = doc.getElementsByTagName("livraison");
 
@@ -63,8 +66,8 @@ public class Tour implements Observable{
                                 plan.getIntersections().get(Integer.parseInt(t2Element.getAttribute("adresse"))),
                                 Integer.parseInt(t2Element.getAttribute("duree"))
                             );
-                    
-                    this.getCrossingPoints().put(deliveryPoint.getIntersection().getId(),deliveryPoint);
+
+                    crossingPoints.put(deliveryPoint.getIntersection().getId(),deliveryPoint);
                 }
             }
             

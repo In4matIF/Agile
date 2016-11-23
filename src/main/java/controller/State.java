@@ -11,7 +11,7 @@ import java.io.File;
 public interface State {
 
     public void loadPlan(Window window, CommandList commandList, File file);
-    public void loadTour(Window window, CommandList commandList);
+    public void loadTour(Window window, CommandList commandList, File file);
     public void renitializePlan(Window window, CommandList commandList);
     public void renitializeTour(Window window, CommandList commandList);
     public void generateTourSheet(Window window, CommandList commandList);

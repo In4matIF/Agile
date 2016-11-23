@@ -35,6 +35,8 @@ public class Window {
 
     private final int SCENE_WIDTH = 1200;
     private final int SCENE_HEIGHT = 800;
+    private final int CANVAS_WIDTH = 750;
+    private final int CANVAS_HEIGHT = 650;
 
     private Stage primaryStage;
     private Controller controller;
@@ -67,7 +69,7 @@ public class Window {
     public void setController(Controller controller) {
         this.controller = controller;
     }
-    
+
     public void render(){
 
         GridPane grid = new GridPane();
@@ -116,7 +118,7 @@ public class Window {
 
 
         //PLAN
-        final Canvas planCanvas = new Canvas(350,350);
+        final Canvas planCanvas = new Canvas(CANVAS_WIDTH,CANVAS_HEIGHT);
         final GraphicsContext gc = planCanvas.getGraphicsContext2D();
         grid.add(planCanvas, 0, 0, 3, 1); //col1, row2, takes up 2 cols, takes up 10 rows
 
@@ -138,7 +140,7 @@ public class Window {
 
 
         //test purposes only
-        grid.setGridLinesVisible(true);
+        grid.setGridLinesVisible(false);
 
         //set stage
         Group root = new Group();
@@ -177,10 +179,10 @@ public class Window {
                 livrChooser.getExtensionFilters().add(extFilter);
                 File fileLivr = livrChooser.showOpenDialog(primaryStage);
                 livraisonText.setText(fileLivr.getName());
+                controller.loadTour(fileLivr);
                 //disp livraisons
-
                 try {
-                    renderLivraison();
+                    renderLivraison(filler1);
                 }
                 catch (Exception e) {
                     e.printStackTrace();
@@ -191,6 +193,7 @@ public class Window {
 
         suprimerPlanBtn.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent supPlanEvent) {
+                plan = new Plan();
                 gc.setFill(Color.TAN);
                 gc.fillRect(0,0, planCanvas.getWidth(), planCanvas.getHeight());
             }
@@ -214,21 +217,21 @@ public class Window {
     public void renderPlan(Canvas planCanvas, GraphicsContext gc) throws Exception {
         System.out.println("srsly a problem exists still");
 
-        gc.setFill(Color.LIGHTSKYBLUE);
+        gc.setFill(Color.GREY);
         gc.fillRect(0, 0, planCanvas.getWidth(), planCanvas.getHeight());
 
-        /*
+
         //TODO : convertir pour que ça fonctionne avec un canvas (circle ne doit pas pouvoir s'ajouter à un canva)
         // création d'une intersection
         plan.getIntersections().forEach(
                 (integer, intersection) -> {
-                    Circle circle = new Circle(
-                            intersection.getX(),
-                            intersection.getY(),
-                            6,
-                            Color.DARKBLUE
-                    );
-                    Tooltip t = new Tooltip("Intersection : "+intersection.getId());
+                    int x = intersection.getX();
+                    int y = intersection.getY();
+                    int radius = 6;
+                    gc.setStroke(Color.DARKBLUE);
+                    gc.fillOval(x-radius,y-radius,radius,radius);
+
+                    /*Tooltip t = new Tooltip("Intersection : "+intersection.getId());
                     circle.setOnMouseEntered(event -> {
                         Node node =(Node)event.getSource();
                         t.show( node,
@@ -236,7 +239,7 @@ public class Window {
                                 primaryStage.getY()+event.getSceneY()
                         );
                     });
-                    circle.setOnMouseExited(event -> t.hide());
+                    circle.setOnMouseExited(event -> t.hide());*/
                     //root.getChildren().add(circle);
                 }
         );
@@ -254,11 +257,18 @@ public class Window {
                     //root.getChildren().add(line);
                 }
         );
-        */
+
 
     }
 
-    public void renderLivraison() throws Exception {
-        System.out.println("a thing");
+    public void renderLivraison(TextField filler1) throws Exception {
+        filler1.setText("");
+        tour.getCrossingPoints().forEach(
+                (integer, crossingPoint) -> {
+                    //TODO fix retour à la ligne
+                    String deliverys = filler1.getText() + "Livraison : " + integer + "\r\n";
+                    filler1.setText(deliverys);
+                }
+        );
     }
 }

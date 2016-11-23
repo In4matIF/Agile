@@ -33,8 +33,8 @@ public class Controller {
         currentState.loadPlan(window,commandList,file);
     }
 
-    public void loadTour(){
-        currentState.loadTour(window,commandList);
+    public void loadTour(File file){
+        currentState.loadTour(window,commandList, file);
     }
 
     public void renitializePlan(){
