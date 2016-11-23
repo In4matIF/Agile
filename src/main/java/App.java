@@ -25,11 +25,7 @@ public class App extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Plan plan = new Plan();
-        Window window = new Window(primaryStage, plan);
-        Controller controller = new Controller(window);
-        window.setController(controller);
+        Window window = new Window(primaryStage);
         window.render();
-
     }
 }

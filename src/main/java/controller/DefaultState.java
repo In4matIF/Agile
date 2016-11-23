@@ -11,7 +11,7 @@ import java.io.File;
 public class DefaultState implements State{
 
     @Override
-    public void loadPlan(Window window, CommandList commandList, Plan plan, File file) {
+    public void loadPlan(Window window, CommandList commandList, File file) {
 
     }
 

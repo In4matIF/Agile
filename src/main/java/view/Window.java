@@ -19,6 +19,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import model.Intersection;
 import model.Plan;
+import model.Tour;
 
 import java.io.File;
 
@@ -28,24 +29,20 @@ import java.io.File;
 public class Window {
 
     private Stage primaryStage;
-    private Plan plan;
     private Controller controller;
-    private GraphicalUI gui;
+
+    public static Plan plan;
+    public static Tour tour;
 
     public Window() {
     }
 
-    public Window(Stage primaryStage, Plan plan) {
+    public Window(Stage primaryStage) {
         this.primaryStage = primaryStage;
-        this.gui = new GraphicalUI(primaryStage, controller, plan);
+        this.plan = new Plan();
+        this.tour = new Tour();
+        this.controller = new Controller(this);
     }
-
-    public void setController(Controller controller){
-        this.controller = controller;
-        gui.setController(controller);
-    }
-
-
 
     public Stage getPrimaryStage() {
         return primaryStage;
@@ -55,64 +52,70 @@ public class Window {
         this.primaryStage = primaryStage;
     }
 
-    public void render() throws Exception {
-        gui.renderButton();
-        /*
-            // définit la largeur et la hauteur de la fenêtre
-            // en pixels, le (0, 0) se situe en haut à gauche de la fenêtre
-            primaryStage.setWidth(1200);
-            primaryStage.setHeight(800);
-            // met un titre dans la fenêtre
-            primaryStage.setTitle("PLD Agile");
+    public Controller getController() {
+        return controller;
+    }
 
-            // la racine du sceneGraph est le root
-            Group root = new Group();
-            Scene scene = new Scene(root);
-            scene.setFill(Color.WHITESMOKE);
+    public void setController(Controller controller) {
+        this.controller = controller;
+    }
 
-            // création d'une intersection
-            plan.getIntersections().forEach(
+    public void renderPlan() throws Exception {
+        // définit la largeur et la hauteur de la fenêtre
+        // en pixels, le (0, 0) se situe en haut à gauche de la fenêtre
+        primaryStage.setWidth(1200);
+        primaryStage.setHeight(800);
+        // met un titre dans la fenêtre
+        primaryStage.setTitle("PLD Agile");
+
+        // la racine du sceneGraph est le root
+        Group root = new Group();
+        Scene scene = new Scene(root);
+        scene.setFill(Color.WHITESMOKE);
+
+        // création d'une intersection
+        plan.getIntersections().forEach(
                 (integer, intersection) -> {
                     Circle circle = new Circle(
                             intersection.getX(),
                             intersection.getY(),
                             6,
                             Color.DARKBLUE
-                        );
+                    );
                     Tooltip t = new Tooltip("Intersection : "+intersection.getId());
                     circle.setOnMouseEntered(event -> {
                         Node node =(Node)event.getSource();
                         t.show( node,
                                 primaryStage.getX()+event.getSceneX(),
                                 primaryStage.getY()+event.getSceneY()
-                            );
+                        );
                     });
                     circle.setOnMouseExited(event -> t.hide());
                     root.getChildren().add(circle);
                 }
-            );
+        );
 
-            plan.getSections().forEach(
+        plan.getSections().forEach(
                 section -> {
                     Line line = new Line(
                             section.getOrigin().getX(),
                             section.getOrigin().getY(),
                             section.getDestination().getX(),
                             section.getDestination().getY()
-                        );
+                    );
                     line.setStrokeWidth(3);
                     line.setStroke(Color.DARKBLUE);
                     root.getChildren().add(line);
                 }
-            );
+        );
 
-            // ajout de la scène sur l'estrade
-            primaryStage.setScene(scene);
-            // ouvrir le rideau
-            primaryStage.show();
+        // ajout de la scène sur l'estrade
+        primaryStage.setScene(scene);
+        // ouvrir le rideau
+        primaryStage.show();
     }
 
-    public void renderButton(){
+    public void render(){
         Group root = new Group();
         final TextField textField = new TextField();
         textField.setEditable(false);
@@ -125,9 +128,10 @@ public class Window {
                 fileChooser.getExtensionFilters().add(extFilter);
                 File file = fileChooser.showOpenDialog(primaryStage);
                 textField.setText(file.getName());
-                plan = new Plan(file);
+
+                controller.loadPlan(file);
                 try {
-                    render();
+                    renderPlan();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -138,7 +142,8 @@ public class Window {
                 .build();
         root.getChildren().add(vBox);
         primaryStage.setScene(new Scene(root, 500, 400));
-        primaryStage.show(); */
+        primaryStage.show();
+
     }
 
 }

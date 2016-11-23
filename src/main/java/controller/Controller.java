@@ -1,6 +1,5 @@
 package controller;
 
-import model.Plan;
 import view.Window;
 
 import java.io.File;
@@ -30,8 +29,8 @@ public class Controller {
         currentState = state;
     }
 
-    public void loadPlan(Plan plan, File file){
-        currentState.loadPlan(window,commandList, plan, file);
+    public void loadPlan(File file){
+        currentState.loadPlan(window,commandList,file);
     }
 
     public void loadTour(){

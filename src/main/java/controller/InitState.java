@@ -11,8 +11,8 @@ import java.io.File;
 public class InitState extends DefaultState{
 
     @Override
-    public void loadPlan(Window window, CommandList commandList, Plan plan, File file) {
-        commandList.addCommand(new LoadPlanCommand(plan, file));
+    public void loadPlan(Window window, CommandList commandList, File file) {
+        commandList.addCommand(new LoadPlanCommand(file));
         Controller.setCurrentState(Controller.planState);
     }
 }

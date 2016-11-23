@@ -10,7 +10,7 @@ import java.io.File;
  */
 public interface State {
 
-    public void loadPlan(Window window, CommandList commandList, Plan plan, File file);
+    public void loadPlan(Window window, CommandList commandList, File file);
     public void loadTour(Window window, CommandList commandList);
     public void renitializePlan(Window window, CommandList commandList);
     public void renitializeTour(Window window, CommandList commandList);

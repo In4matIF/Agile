@@ -1,6 +1,7 @@
 package controller;
 
 import model.Plan;
+import view.Window;
 
 import java.io.File;
 
@@ -9,17 +10,15 @@ import java.io.File;
  */
 public class LoadPlanCommand implements Command {
 
-    private Plan plan;
     private File file;
 
-    public LoadPlanCommand(Plan plan, File xmlFile) {
-        this.plan = plan;
+    public LoadPlanCommand( File xmlFile) {
         file = xmlFile;
     }
 
     @Override
     public boolean doCommand() {
-        plan = new Plan(file);
+        Window.plan = new Plan(file);
         return true;
     }
 }
