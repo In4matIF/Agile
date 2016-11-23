@@ -12,6 +12,6 @@ public class TSP1 extends TemplateTSP {
 
 	@Override
 	protected int bound(Integer sommetCourant, ArrayList<Integer> nonVus) {
-		return 0;
+		return (nonVus.size()*(coutMinimal+dureeMinimale))+coutMinimal;
 	}
 }

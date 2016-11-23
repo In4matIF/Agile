@@ -10,6 +10,8 @@ public abstract class TemplateTSP implements TSP {
 	private Integer[] meilleureSolution;
 	private int coutMeilleureSolution = 0;
 	private Boolean tempsLimiteAtteint;
+    protected int dureeMinimale = 0;
+    protected int coutMinimal = 0;
 	
 	public Boolean getTempsLimiteAtteint(){
 		return tempsLimiteAtteint;
@@ -18,14 +20,24 @@ public abstract class TemplateTSP implements TSP {
 	public void chercheSolution(int tpsLimite, Graph graph) {
 		tempsLimiteAtteint = false;
 		coutMeilleureSolution = Integer.MAX_VALUE;
+        dureeMinimale = Integer.MAX_VALUE;
+        coutMinimal = Integer.MAX_VALUE;
 		meilleureSolution = new Integer[graph.getCrossingPoints().size()];
 		ArrayList<Integer> nonVus = new ArrayList<Integer>();
 		graph.getCrossingPoints().forEach(
                 (integer, crossingPoint) -> {
                     if (integer != graph.getIdWarehouse())
                         nonVus.add(integer);
+                    if(crossingPoint.getDuration() < dureeMinimale)
+                        dureeMinimale = crossingPoint.getDuration();
                 }
 		);
+        graph.getPaths().forEach(
+                (path) -> {
+                    if(path.getLength() < coutMinimal)
+                        dureeMinimale = path.getLength();
+                }
+        );
 		ArrayList<Integer> vus = new ArrayList<Integer>(graph.getCrossingPoints().size());
 		vus.add(graph.getIdWarehouse());
 		branchAndBound(0, nonVus, vus, 0, graph, System.currentTimeMillis(), tpsLimite);
