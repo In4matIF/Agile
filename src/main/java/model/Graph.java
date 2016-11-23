@@ -16,6 +16,7 @@ public class Graph {
 
     private List<Path> paths;
     private Map<Integer, CrossingPoint> crossingPoints;
+    private int idWarehouse;
 
     public Graph() {
     	
@@ -84,5 +85,13 @@ public class Graph {
                 "paths=" + paths +
                 ", crossingPoints=" + crossingPoints +
                 '}';
+    }
+
+    public int getIdWarehouse() {
+        return idWarehouse;
+    }
+
+    public void setIdWarehouse(int idWarehouse) {
+        this.idWarehouse = idWarehouse;
     }
 }

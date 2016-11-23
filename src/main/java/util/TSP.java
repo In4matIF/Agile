@@ -1,5 +1,7 @@
 package util;
 
+import model.Graph;
+
 public interface TSP {
 		
 	/**
@@ -10,11 +12,9 @@ public interface TSP {
 	/**
 	 * Cherche un circuit de duree minimale passant par chaque sommet (compris entre 0 et nbSommets-1)
 	 * @param tpsLimite : limite (en millisecondes) sur le temps d'execution de chercheSolution
-	 * @param nbSommets : nombre de sommets du graphe
-	 * @param cout : cout[i][j] = duree pour aller de i a j, avec 0 <= i < nbSommets et 0 <= j < nbSommets
-	 * @param duree : duree[i] = duree pour visiter le sommet i, avec 0 <= i < nbSommets
+	 * @param graph : structure du graphe complet des points de livraisons
 	 */
-	public void chercheSolution(int tpsLimite, int nbSommets, int[][] cout, int[] duree);
+	public void chercheSolution(int tpsLimite, Graph graph);
 	
 	/**
 	 * @param i

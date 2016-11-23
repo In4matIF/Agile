@@ -12,7 +12,6 @@ public class DeliveryPoint extends CrossingPoint {
 
     private Time beginTime;
     private Time endTime;
-    private Integer duration;
 
     public DeliveryPoint() {
     }
@@ -21,12 +20,12 @@ public class DeliveryPoint extends CrossingPoint {
         super(intersection);
         this.beginTime = beginTime;
         this.endTime = endTime;
-        this.duration = duration;
+        this.setDuration(duration);
     }
     
     public DeliveryPoint(Intersection intersection, Integer duration) {
         super(intersection);
-        this.duration = duration;
+        this.setDuration(duration);
     }
 
     public Time getBeginTime() {
@@ -45,21 +44,13 @@ public class DeliveryPoint extends CrossingPoint {
         this.endTime = endTime;
     }
 
-    public Integer getDuration() {
-        return duration;
-    }
-
-    public void setDuration(Integer duration) {
-        this.duration = duration;
-    }
-
     @Override
     public String toString() {
         return "model.DeliveryPoint{" +
                 "intersection=" + this.getIntersection() +
                 "beginTime=" + beginTime +
                 ", endTime=" + endTime +
-                ", duration=" + duration +
+                ", duration=" + this.getDuration() +
                 '}';
     }
 }
