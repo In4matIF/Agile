@@ -50,7 +50,11 @@ public class Graph {
 						length += toAdd.getLength();
 					}
 					
-					paths.add(new Path(sections,length));
+					Path newPath = new Path(sections,length);
+					paths.add(newPath);
+					
+					// Add the generated path to the crossing point
+					origin.getValue().addPath(newPath, listinter.getLast().getId());
 				}
 			}
 		}

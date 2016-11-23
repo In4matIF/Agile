@@ -17,6 +17,11 @@ public abstract class CrossingPoint {
     public CrossingPoint(Intersection intersection) {
         this.intersection = intersection;
     }
+    
+    public void addPath(Path p, int i)
+    {
+    	paths.put(i, p);
+    }
 
     public Intersection getIntersection() {
         return intersection;
