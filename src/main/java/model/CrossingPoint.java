@@ -1,5 +1,6 @@
 package model;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -12,10 +13,12 @@ public abstract class CrossingPoint {
     private Integer duration;
 
     public CrossingPoint() {
+    	paths = new HashMap<Integer,Path>();
     }
 
     public CrossingPoint(Intersection intersection) {
         this.intersection = intersection;
+        paths = new HashMap<Integer,Path>();
     }
     
     public void addPath(Path p, int i)

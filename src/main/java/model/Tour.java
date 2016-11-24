@@ -22,6 +22,7 @@ public class Tour implements Observable{
     private Map<Integer, Section> sections;
     private Map<Integer, CrossingPoint> crossingPoints;
     private Integer duration;
+    private Integer idWarehouse;
 
     public Tour() {
     }
@@ -47,6 +48,7 @@ public class Tour implements Observable{
                     plan.getIntersections().get(Integer.parseInt(tElement.getAttribute("adresse"))),
             		tElement.getAttribute("heureDepart")
             		);
+            idWarehouse = warehouse.getIntersection().getId();
 
             crossingPoints = new HashMap<>();
             sections = new HashMap<>();
@@ -96,7 +98,15 @@ public class Tour implements Observable{
         return duration;
     }
 
-    public void setDuration(Integer duration) {
+    public Integer getIdWarehouse() {
+		return idWarehouse;
+	}
+
+	public void setIdWarehouse(Integer idWarehouse) {
+		this.idWarehouse = idWarehouse;
+	}
+
+	public void setDuration(Integer duration) {
         this.duration = duration;
     }
 

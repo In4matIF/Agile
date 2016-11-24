@@ -26,10 +26,13 @@ public abstract class TemplateTSP implements TSP {
 		ArrayList<Integer> nonVus = new ArrayList<Integer>();
 		graph.getCrossingPoints().forEach(
                 (integer, crossingPoint) -> {
-                    if (integer != graph.getIdWarehouse())
-                        nonVus.add(integer);
-                    if(crossingPoint.getDuration() < dureeMinimale)
-                        dureeMinimale = crossingPoint.getDuration();
+                    if(crossingPoint != null)
+                    {
+	                	if (integer != graph.getIdWarehouse())
+	                        nonVus.add(integer);
+	                    if(crossingPoint.getDuration() < dureeMinimale)
+	                        dureeMinimale = crossingPoint.getDuration();
+                    }
                 }
 		);
         graph.getPaths().forEach(
@@ -40,7 +43,7 @@ public abstract class TemplateTSP implements TSP {
         );
 		ArrayList<Integer> vus = new ArrayList<Integer>(graph.getCrossingPoints().size());
 		vus.add(graph.getIdWarehouse());
-		branchAndBound(0, nonVus, vus, 0, graph, System.currentTimeMillis(), tpsLimite);
+		branchAndBound(graph.getIdWarehouse(), nonVus, vus, 0, graph, System.currentTimeMillis(), tpsLimite);
 	}
 	
 	public Integer getMeilleureSolution(int i){

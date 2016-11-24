@@ -29,6 +29,9 @@ public class Graph {
      */
     public Graph(Plan p,Tour t) {
     	
+    	crossingPoints = t.getCrossingPoints();
+    	idWarehouse = t.getIdWarehouse();
+    	crossingPoints.get(idWarehouse).setDuration(0);
     	List<Path> paths = new ArrayList<Path>();
 		Dijkstra dijkstra = new Dijkstra(p);
 		
