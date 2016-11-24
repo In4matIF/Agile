@@ -1,9 +1,10 @@
 package model;
 
+import java.util.LinkedList;
 import java.util.List;
 
 /**
- * Objet représentant un chemin d'un CrossingPoint à un autre.
+ * Objet repré§¸entant un chemin d'un CrossingPoint ï¿½ un autre.
  * Contient la liste des sections composant le chemin
  */
 public class Path {
@@ -34,6 +35,15 @@ public class Path {
 	public void setLength(int length) {
 		this.length = length;
 	}
+	
+	public Intersection getOrigin(){
+		return sections.get(0).getOrigin();
+	}
+	
+	public Intersection getDestination(){
+		return sections.get(sections.size()-1).getDestination();
+	}
+	
 
 	@Override
     public String toString() {

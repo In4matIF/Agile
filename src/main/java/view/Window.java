@@ -185,7 +185,7 @@ public class Window {
                 controller.loadTour(fileLivr);
                 //disp livraisons
                 try {
-                    renderLivraison(filler1);
+                    renderLivraison(filler1, planCanvas, gc);
                 }
                 catch (Exception e) {
                     e.printStackTrace();
@@ -232,7 +232,8 @@ public class Window {
 
         //TODO : convertir pour que ﾃｧa fonctionne avec un canvas (circle ne doit pas pouvoir s'ajouter ﾃ� un canva)
         // crﾃｩation d'une intersection
-        gc.setFill(Color.BLACK);
+        gc.setFill(Color.DARKBLUE);
+        gc.setStroke(Color.DARKBLUE);
         gc.setLineWidth(3);
         plan.getIntersections().forEach(
                 (integer, intersection) -> {
@@ -270,14 +271,40 @@ public class Window {
 
     }
 
-    public void renderLivraison(TextField filler1) throws Exception {
+    public void renderLivraison(TextField filler1, Canvas planCanvas, GraphicsContext gc) throws Exception {
         filler1.setText("");
+        
+        gc.setFill(Color.DARKRED);
+        gc.setStroke(Color.DARKRED);
+        
+        float widthRatio = 0.95f;//(float)CANVAS_WIDTH/(float)SCENE_WIDTH;
+        float heightRatio = (float)CANVAS_HEIGHT/(float)SCENE_HEIGHT;
+        
+        
         tour.getCrossingPoints().forEach(
                 (integer, crossingPoint) -> {
                     //TODO fix retour ﾃ� la ligne
                     String deliverys = filler1.getText() + "Livraison : " + integer + "\r\n";
                     filler1.setText(deliverys);
+                    
+                    
+                    
+                    float x = crossingPoint.getIntersection().getX()*widthRatio;
+                    float y = crossingPoint.getIntersection().getY()*heightRatio;
+                    int radius = 8;
+                    
+                    gc.fillOval(x-radius,y-radius,2*radius,2*radius);
+                    
                 }
         );
+        
+        tour.getSections().forEach(
+                (id, section) -> {   
+                	System.out.println(id);
+                    gc.strokeLine(section.getOrigin().getX()*widthRatio, section.getOrigin().getY()*heightRatio, section.getDestination().getX()*widthRatio, section.getDestination().getY()*heightRatio);
+                    //root.getChildren().add(line);
+                }
+        );
+        
     }
 }

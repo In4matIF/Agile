@@ -14,7 +14,7 @@ public class PlanState extends DefaultState{
     public void loadTour(Window window, CommandList commandList, File file) {
         Window.tour = new Tour(file, Window.plan);
         //TODO : add TSP
-        boolean isOk = commandList.addCommand(new LoadTourCommand());
+        boolean isOk = commandList.addCommand(new LoadTourCommand(file));
         if(isOk){
             Controller.setCurrentState(Controller.tourState);
         }else{
