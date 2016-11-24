@@ -17,6 +17,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.VBoxBuilder;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.StrokeLineCap;
@@ -27,6 +28,8 @@ import model.Plan;
 import model.Tour;
 
 import java.io.File;
+
+import com.sun.prism.BasicStroke;
 
 /**
  * Created by Olivice on 18/11/2016.
@@ -135,7 +138,7 @@ public class Window {
         filler2.setPrefHeight(350);
         grid.add(filler2, 4, 0, 1, 1);
 
-        Button feuilleBtn = new Button("générer feuille de route");
+        Button feuilleBtn = new Button("gﾃｩnﾃｩrer feuille de route");
         grid.add(feuilleBtn, 4, 1);
 
 
@@ -217,19 +220,30 @@ public class Window {
     public void renderPlan(Canvas planCanvas, GraphicsContext gc) throws Exception {
         System.out.println("srsly a problem exists still");
 
+        
         gc.setFill(Color.GREY);
         gc.fillRect(0, 0, planCanvas.getWidth(), planCanvas.getHeight());
+        
+        float widthRatio = 0.95f;//(float)CANVAS_WIDTH/(float)SCENE_WIDTH;
+        float heightRatio = (float)CANVAS_HEIGHT/(float)SCENE_HEIGHT;
+        System.out.println(widthRatio);
+        System.out.println(heightRatio);
+        
 
-
-        //TODO : convertir pour que ça fonctionne avec un canvas (circle ne doit pas pouvoir s'ajouter à un canva)
-        // création d'une intersection
+        //TODO : convertir pour que ﾃｧa fonctionne avec un canvas (circle ne doit pas pouvoir s'ajouter ﾃ� un canva)
+        // crﾃｩation d'une intersection
+        gc.setFill(Color.BLACK);
+        gc.setLineWidth(3);
         plan.getIntersections().forEach(
                 (integer, intersection) -> {
-                    int x = intersection.getX();
-                    int y = intersection.getY();
+                    float x = intersection.getX()*widthRatio;
+                    float y = intersection.getY()*heightRatio;
                     int radius = 6;
-                    gc.setStroke(Color.DARKBLUE);
-                    gc.fillOval(x-radius,y-radius,radius,radius);
+                    
+                    
+                    gc.fillOval(x-radius,y-radius,2*radius,2*radius);
+                    
+                    
 
                     /*Tooltip t = new Tooltip("Intersection : "+intersection.getId());
                     circle.setOnMouseEntered(event -> {
@@ -243,17 +257,12 @@ public class Window {
                     //root.getChildren().add(circle);
                 }
         );
-
+        
+        
+        
         plan.getSections().forEach(
-                section -> {
-                    Line line = new Line(
-                            section.getOrigin().getX(),
-                            section.getOrigin().getY(),
-                            section.getDestination().getX(),
-                            section.getDestination().getY()
-                    );
-                    line.setStrokeWidth(3);
-                    line.setStroke(Color.DARKBLUE);
+                section -> {         
+                    gc.strokeLine(section.getOrigin().getX()*widthRatio, section.getOrigin().getY()*heightRatio, section.getDestination().getX()*widthRatio, section.getDestination().getY()*heightRatio);
                     //root.getChildren().add(line);
                 }
         );
@@ -265,7 +274,7 @@ public class Window {
         filler1.setText("");
         tour.getCrossingPoints().forEach(
                 (integer, crossingPoint) -> {
-                    //TODO fix retour à la ligne
+                    //TODO fix retour ﾃ� la ligne
                     String deliverys = filler1.getText() + "Livraison : " + integer + "\r\n";
                     filler1.setText(deliverys);
                 }
