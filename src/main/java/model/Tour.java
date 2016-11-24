@@ -15,7 +15,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by Olivice on 18/11/2016.
+ * Objet représentant les informations de la livraison
  */
 public class Tour implements Observable{
 
@@ -33,6 +33,11 @@ public class Tour implements Observable{
         this.duration = duration;
     }
     
+    /**
+     * Constructeur de l'objet à partir du fichier xml de livraison ainsi que du plan
+     * @param xmlFile le fichier de livraison
+     * @param plan l'objet plan créé en amont
+     */
     public Tour(File xmlFile, Plan plan){
         try {
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();

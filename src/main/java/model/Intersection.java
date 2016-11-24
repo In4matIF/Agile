@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Olivice on 18/11/2016.
+ * Objet représentant une intersection du plan
  */
 public class Intersection {
 

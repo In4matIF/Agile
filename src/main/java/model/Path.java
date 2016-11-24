@@ -3,7 +3,8 @@ package model;
 import java.util.List;
 
 /**
- * Created by Olivice on 18/11/2016.
+ * Objet représentant un chemin d'un CrossingPoint à un autre.
+ * Contient la liste des sections composant le chemin
  */
 public class Path {
 

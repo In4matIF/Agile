@@ -2,7 +2,8 @@ package model;
 
 
 /**
- * Created by Olivice on 18/11/2016.
+ * Tronçon reliant deux intersections
+ * Définis dans le xml du plan
  */
 public class Section {
 

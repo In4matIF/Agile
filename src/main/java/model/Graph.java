@@ -8,7 +8,7 @@ import java.util.Map;
 import util.Dijkstra;
 
 /**
- * Graph object
+ * Objet graphe pour le TSP
  * @author Tom
  *
  */
@@ -23,9 +23,10 @@ public class Graph {
     }
     
     /**
-     * Graph constructor based on a Plan and a model.Tour to generate the graph
-     * @param p the Plan object
-     * @param t the model.Tour object
+     * Constructeur de Graph à partir d'un Plan et d'un Tour
+     * Execute Dijkstra pour calculer le graphe
+     * @param p l'objet Plan
+     * @param t l'object Tour
      */
     public Graph(Plan p,Tour t) {
     	

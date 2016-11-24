@@ -12,9 +12,7 @@ import java.util.Set;
 import model.*;
 
 /**
- * Object to calculate the shortests path by Dijkstra
- * @author Tom
- *
+ * Objet permettant les calculs de plus court chemin avec Dijkstra
  */
 public class Dijkstra {
 	
@@ -30,8 +28,8 @@ public class Dijkstra {
 	}
         
     /**
-     * Apply Dijkstra from the Intersection specified
-     * @param source the Intersection to start from
+     * Applique Dijkstra à partir de l'intersection spécifiée
+     * @param source l'Intersection de départ
      */
 	public void execute(Intersection source) {
         settledNodes = new HashSet<Intersection>();
@@ -110,9 +108,11 @@ public class Dijkstra {
             }
     }
 
-    /*
-     * This method returns the path from the source to the selected target and
-     * NULL if no path exists
+    /**
+     * Méthode renvoyant la liste d'intersections correspondants au chemin le plus court
+     * entre l'Intersection de départ et l'intersection d'arrrivée spécifiée
+     * @param target l'intersection d'arrivée
+     * @return la liste des Intersections du chemin le plus court entre le départ et l'arrivée
      */
     public LinkedList<Intersection> getPath(Intersection target) {
             LinkedList<Intersection> path = new LinkedList<Intersection>();

@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by Olivice on 18/11/2016.
+ * Classe abstraite qui représente un point de passage du livreur (Warehouse ou DeliveryPoint)
  */
 public abstract class CrossingPoint {
 

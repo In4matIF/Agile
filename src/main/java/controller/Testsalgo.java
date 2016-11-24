@@ -5,6 +5,9 @@ import java.io.File;
 import model.*;
 import util.TSP1;
 
+/**
+ * Classe de test du calcul de la tournée de bout en bout (provisoire)
+ */
 public class Testsalgo {
 
 	public static void main(String[] args) {

@@ -6,7 +6,7 @@ import model.Intersection;
 import java.sql.Time;
 
 /**
- * Created by Olivice on 18/11/2016.
+ * Objet représentant un point de livraison pour le vendeur
  */
 public class DeliveryPoint extends CrossingPoint {
 

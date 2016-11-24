@@ -16,7 +16,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by Olivice on 18/11/2016.
+ * Objet représentant le plan de la ville
+ * Contient les intersections et les sections
  */
 public class Plan implements Observable{
 
