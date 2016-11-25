@@ -29,6 +29,8 @@ import model.Plan;
 import model.Tour;
 
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 
 import com.sun.prism.BasicStroke;
 
@@ -217,10 +219,23 @@ public class Window {
 
         feuilleBtn.setOnAction(new EventHandler<ActionEvent> () {
             public void handle(ActionEvent feiulleEvent) {
-                filler2.setText("TODO: implement this");
-            }
+            	File output = new File("FeuilleDeRoute.txt");
+                try {
+                    FileWriter fw = new FileWriter (output);
+                    {
+                        try {                            
+                        fw.write (filler2.getText());
+                        } catch (IOException e) {
+                        	System.out.println ("Erreur lors de la lecture des intersections : " + e.getMessage());
+                        	e.printStackTrace();
+                        }
+                    }
+                    fw.close();
+                } catch (IOException e) {
+                    System.out.println ("Erreur lors de la lecture : " + e.getMessage());
+                }
+           }
         });
-
 
     }
 
@@ -276,6 +291,7 @@ public class Window {
 
     public void renderLivraison(TextArea filler1, TextArea filler2, Canvas planCanvas, GraphicsContext gc) throws Exception {
         filler1.setText("");
+        filler2.setText("");
         
         gc.setStroke(Color.CYAN);
         
@@ -318,7 +334,7 @@ public class Window {
                 (id, section) -> {
                     gc.strokeLine(section.getOrigin().getX()*widthRatio, section.getOrigin().getY()*heightRatio, section.getDestination().getX()*widthRatio, section.getDestination().getY()*heightRatio);
                     //root.getChildren().add(line);
-                    String deliverys = filler2.getText() + "Rue : " + section.getStreet() + "\r\n";
+                    String deliverys = filler2.getText() + "Rue : " + section.getStreet() + " / Destination : "+ section.getDestination().getId()+ "\r\n";
                     filler2.setText(deliverys);
                 }
         );
