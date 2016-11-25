@@ -9,6 +9,9 @@ import org.junit.Test;
 import model.Intersection;
 import model.Section;
 
+/**
+ * Tests unitaires de JUnit sur la classe Section
+ */
 public class SectionTest {
 
 	private Section s;
