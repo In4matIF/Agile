@@ -10,9 +10,7 @@ import org.junit.Test;
 
 import model.Plan;
 
-/**
- * Classe de test du plan avec JUnit
- */
+
 public class PlanTest {
 
 	private File xmlPlan;
