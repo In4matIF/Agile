@@ -1,7 +1,7 @@
 package model;
 
 /**
- * Created by Olivice on 18/11/2016.
+ * Visiteur de l'objet CrossingPoint pour le design patter Visiteur
  */
 public interface VisitorCrossingPoint {
 }

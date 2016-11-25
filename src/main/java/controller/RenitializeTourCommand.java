@@ -1,7 +1,7 @@
 package controller;
 
 /**
- * Created by Olivice on 22/11/2016.
+ * Etat pour réinitialiser la livraison chargée
  */
 public class RenitializeTourCommand implements Command {
 

@@ -16,7 +16,7 @@ import util.TSP1;
 import view.Window;
 
 /**
- * Created by Olivice on 22/11/2016.
+ * Commande liée au chargement de la livraison
  */
 public class LoadTourCommand implements Command {
 
@@ -27,6 +27,9 @@ public class LoadTourCommand implements Command {
     	this.file = file;
     }
 
+    /**
+     * Applique les algorithmes de calcul de tournée
+     */
     @Override
     public boolean doCommand() {
 		Window.tour = new Tour(file, Window.plan);

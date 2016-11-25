@@ -1,7 +1,7 @@
 package controller;
 
 /**
- * Created by Olivice on 22/11/2016.
+ * Commande pour reinitialiser le plan chargé
  */
 public class RenitializePlanCommand implements Command {
 

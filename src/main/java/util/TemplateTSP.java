@@ -5,6 +5,9 @@ import java.util.Iterator;
 
 import model.Graph;
 
+/**
+ * Classe template du TSP implémentant l'algorithme
+ */
 public abstract class TemplateTSP implements TSP {
 	
 	private Integer[] meilleureSolution;

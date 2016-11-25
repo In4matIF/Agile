@@ -6,7 +6,7 @@ import view.Window;
 import java.io.File;
 
 /**
- * Created by Olivice on 22/11/2016.
+ * Commande liée au chargement du Plan
  */
 public class LoadPlanCommand implements Command {
 

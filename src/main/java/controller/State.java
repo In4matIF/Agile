@@ -6,7 +6,7 @@ import view.Window;
 import java.io.File;
 
 /**
- * Created by Olivice on 18/11/2016.
+ * Interface pour l'implémentation du design pattern State
  */
 public interface State {
 

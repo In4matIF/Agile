@@ -3,7 +3,7 @@ package controller;
 import view.Window;
 
 /**
- * Created by Olivice on 18/11/2016.
+ * Etat où la livraison est chargée et calculée
  */
 public class TourState extends DefaultState{
 

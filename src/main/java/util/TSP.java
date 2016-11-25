@@ -2,6 +2,9 @@ package util;
 
 import model.Graph;
 
+/**
+ * Interface pour le TSP
+ */
 public interface TSP {
 		
 	/**

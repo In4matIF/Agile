@@ -1,7 +1,7 @@
 package controller;
 
 /**
- * Created by Olivice on 18/11/2016.
+ * Interface pour le design pattern Command
  */
 public interface Command {
 

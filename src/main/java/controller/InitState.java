@@ -6,7 +6,7 @@ import view.Window;
 import java.io.File;
 
 /**
- * Created by Olivice on 18/11/2016.
+ * Plan initial de l'application. Actif au lancement de la fenêtre
  */
 public class InitState extends DefaultState{
 

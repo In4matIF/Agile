@@ -4,7 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * Created by Olivice on 18/11/2016.
+ * Liste des commandes effectuées dans la session actuelle
  */
 public class CommandList {
 
@@ -18,6 +18,11 @@ public class CommandList {
         this.commands = commands;
     }
 
+    /**
+     * Ajoute une commande à la liste
+     * @param command la commande à jouer
+     * @return true si la commande a été correctement rajoutée
+     */
     public boolean addCommand(Command command){
         boolean success = command.doCommand();
         if(success) commands.add(command);

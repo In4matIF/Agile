@@ -35,7 +35,7 @@ import java.io.IOException;
 import com.sun.prism.BasicStroke;
 
 /**
- * Created by Olivice on 18/11/2016.
+ * Classe d'interface graphique
  */
 public class Window {
 

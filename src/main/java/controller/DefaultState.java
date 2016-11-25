@@ -6,7 +6,7 @@ import view.Window;
 import java.io.File;
 
 /**
- * Created by Olivice on 18/11/2016.
+ * Objet State générique pour le design patter State
  */
 public class DefaultState implements State{
 

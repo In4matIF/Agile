@@ -6,7 +6,7 @@ import view.Window;
 import java.io.File;
 
 /**
- * Created by Olivice on 18/11/2016.
+ * Etat où le plan est chargé mais pas la livraison
  */
 public class PlanState extends DefaultState{
 

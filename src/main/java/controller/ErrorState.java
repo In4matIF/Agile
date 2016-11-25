@@ -3,7 +3,7 @@ package controller;
 import view.Window;
 
 /**
- * Created by Olivice on 18/11/2016.
+ * Etat d'erreur de l'application
  */
 public class ErrorState extends DefaultState{
 

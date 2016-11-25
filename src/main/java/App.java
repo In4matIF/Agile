@@ -5,7 +5,8 @@ import model.Plan;
 import view.Window;
 
 /**
- * Created by Olivice on 18/11/2016.
+ * Classe main du programme
+ * Lance l'UI
  */
 public class App extends Application {
 
@@ -23,6 +24,9 @@ public class App extends Application {
         super.stop();
     }
 
+    /**
+     * Ouvre la fenêtre principale
+     */
     @Override
     public void start(Stage primaryStage) throws Exception {
         Window window = new Window(primaryStage);

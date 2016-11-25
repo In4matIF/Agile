@@ -1,7 +1,7 @@
 package controller;
 
 /**
- * Created by Olivice on 22/11/2016.
+ * Commande liée à la génération d'une feuille de route
  */
 public class GenerateTourSheetCommand implements Command {
 
