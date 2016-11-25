@@ -11,6 +11,7 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.GridPane;
@@ -36,10 +37,14 @@ import com.sun.prism.BasicStroke;
  */
 public class Window {
 
-    private final int SCENE_WIDTH = 1200;
+    private final int SCENE_WIDTH = 1400;
     private final int SCENE_HEIGHT = 800;
     private final int CANVAS_WIDTH = 750;
     private final int CANVAS_HEIGHT = 650;
+    private final int TEXT_AREA_DELIVERY_WIDTH = 280;
+    private final int TEXT_AREA_DELIVERY_HEIGHT = 350;
+    private final int TEXT_AREA_SHEET_WIDTH = 280;
+    private final int TEXT_AREA_SHEET_HEIGHT = 350;
 
     private Stage primaryStage;
     private Controller controller;
@@ -131,14 +136,16 @@ public class Window {
         gc.fillRect(0,0,planCanvas.getWidth(), planCanvas.getHeight());
 
         //TODO in future iteration: make these do something
-        final TextField filler1 = new TextField("[livraison]");
-        filler1.setPrefHeight(350);
+        final TextArea filler1 = new TextArea("[livraison]");
+        filler1.setPrefHeight(TEXT_AREA_DELIVERY_HEIGHT);
+        filler1.setPrefWidth(TEXT_AREA_DELIVERY_WIDTH);
         grid.add(filler1, 3, 0, 1, 1);
-        final TextField filler2 = new TextField("[feuille de route]");
-        filler2.setPrefHeight(350);
+        final TextArea filler2 = new TextArea("[feuille de route]");
+        filler2.setPrefHeight(TEXT_AREA_SHEET_HEIGHT);
+        filler2.setPrefWidth(TEXT_AREA_SHEET_WIDTH);
         grid.add(filler2, 4, 0, 1, 1);
 
-        Button feuilleBtn = new Button("gﾃｩnﾃｩrer feuille de route");
+        Button feuilleBtn = new Button("generer feuille de route");
         grid.add(feuilleBtn, 4, 1);
 
 
@@ -226,11 +233,7 @@ public class Window {
         
         float widthRatio = 0.95f;//(float)CANVAS_WIDTH/(float)SCENE_WIDTH;
         float heightRatio = (float)CANVAS_HEIGHT/(float)SCENE_HEIGHT;
-        System.out.println(widthRatio);
-        System.out.println(heightRatio);
-        
 
-        //TODO : convertir pour que ﾃｧa fonctionne avec un canvas (circle ne doit pas pouvoir s'ajouter ﾃ� un canva)
         // crﾃｩation d'une intersection
         gc.setFill(Color.DARKBLUE);
         gc.setStroke(Color.DARKBLUE);
@@ -271,7 +274,7 @@ public class Window {
 
     }
 
-    public void renderLivraison(TextField filler1, Canvas planCanvas, GraphicsContext gc) throws Exception {
+    public void renderLivraison(TextArea filler1, Canvas planCanvas, GraphicsContext gc) throws Exception {
         filler1.setText("");
         
         gc.setFill(Color.DARKRED);
@@ -283,11 +286,8 @@ public class Window {
         
         tour.getCrossingPoints().forEach(
                 (integer, crossingPoint) -> {
-                    //TODO fix retour ﾃ� la ligne
                     String deliverys = filler1.getText() + "Livraison : " + integer + "\r\n";
                     filler1.setText(deliverys);
-                    
-                    
                     
                     float x = crossingPoint.getIntersection().getX()*widthRatio;
                     float y = crossingPoint.getIntersection().getY()*heightRatio;
@@ -299,8 +299,7 @@ public class Window {
         );
         
         tour.getSections().forEach(
-                (id, section) -> {   
-                	System.out.println(id);
+                (id, section) -> {
                     gc.strokeLine(section.getOrigin().getX()*widthRatio, section.getOrigin().getY()*heightRatio, section.getDestination().getX()*widthRatio, section.getDestination().getY()*heightRatio);
                     //root.getChildren().add(line);
                 }
