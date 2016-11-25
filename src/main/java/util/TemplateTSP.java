@@ -38,7 +38,7 @@ public abstract class TemplateTSP implements TSP {
         graph.getPaths().forEach(
                 (path) -> {
                     if(path.getLength() < coutMinimal)
-                        dureeMinimale = path.getLength();
+                        coutMinimal = path.getLength();
                 }
         );
 		ArrayList<Integer> vus = new ArrayList<Integer>(graph.getCrossingPoints().size());

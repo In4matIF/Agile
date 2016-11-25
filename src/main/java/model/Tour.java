@@ -1,4 +1,4 @@
-package model;
+	package model;
 
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
@@ -12,6 +12,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -23,6 +24,7 @@ public class Tour implements Observable{
     private Map<Integer, CrossingPoint> crossingPoints;
     private Integer duration;
     private Integer idWarehouse;
+    private List<Intersection> intersections;
 
     public Tour() {
     }
@@ -131,4 +133,14 @@ public class Tour implements Observable{
     public void removeListener(InvalidationListener listener) {
 
     }
+
+	public List<Intersection> getIntersections() {
+		return intersections;
+	}
+
+	public void setIntersections(List<Intersection> intersections) {
+		this.intersections = intersections;
+	}
+    
+    
 }

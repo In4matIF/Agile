@@ -11,10 +11,10 @@ import util.TSP1;
 public class Testsalgo {
 
 	public static void main(String[] args) {
-		File xmlPlan = new File("src/main/resources/xml/plan5x5.xml");
+		File xmlPlan = new File("src/main/resources/xml/plan20x20.xml");
 		Plan p = new Plan(xmlPlan);
 		
-		File xmlTour = new File("src/main/resources/xml/livraisons5x5-4.xml");
+		File xmlTour = new File("src/main/resources/xml/livraisons20x20-14.xml");
 		Tour t = new Tour(xmlTour,p);
 		
 		Graph g = new Graph(p,t);

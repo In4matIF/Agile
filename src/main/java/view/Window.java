@@ -282,39 +282,37 @@ public class Window {
         float widthRatio = 0.95f;//(float)CANVAS_WIDTH/(float)SCENE_WIDTH;
         float heightRatio = (float)CANVAS_HEIGHT/(float)SCENE_HEIGHT;
         
+        tour.getIntersections().forEach(
+        			intersection -> {
+        				String deliverys = filler1.getText() + "Livraison : " + intersection.getId() + "\r\n";
+                        filler1.setText(deliverys);
+        			}
+        		);
+        
+        
         tour.getCrossingPoints().forEach(
                 (integer, crossingPoint) -> {
-                    String deliverys = filler1.getText() + "Livraison : " + integer + "\r\n";
-                    filler1.setText(deliverys);
+                    
                     
 
                     float x = crossingPoint.getIntersection().getX()*widthRatio;
                     float y = crossingPoint.getIntersection().getY()*heightRatio;
                     int radius = 8;
-                    if (integer == tour.getIdWarehouse())
-                    {
-                    	gc.setFill(Color.CYAN);
-                    }
-                    if(tour.getIdWarehouse()==integer)
-                    {
-                    	gc.setFill(Color.GREEN);
-                    }
-                    else
-                    {
-                    gc.setFill(Color.DARKRED);
-                    }   
                     
-                    if(tour.getIdWarehouse()==integer)
+                    if(tour.getIdWarehouse()== integer)
                     {
+                    	System.out.println(integer);
                     	gc.setFill(Color.GREEN);
+                    }
+                    else if (integer == 190){
+                    	gc.setFill(Color.YELLOW);
                     }
                     else
                     {
-                    gc.setFill(Color.DARKRED);
+                    	gc.setFill(Color.DARKRED);
                     }   
                     
                     gc.fillOval(x-radius,y-radius,2*radius,2*radius);
-                    gc.setFill(Color.DARKRED);
                     
                 }
         );

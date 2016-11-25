@@ -6,7 +6,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import model.CrossingPoint;
 import model.Graph;
+import model.Intersection;
 import model.Path;
 import model.Section;
 import model.Tour;
@@ -31,31 +33,36 @@ public class LoadTourCommand implements Command {
 		k=0;
 		Graph g = new Graph(Window.plan, Window.tour);
 		TSP1 tsp = new TSP1();
-		tsp.chercheSolution(100, g);
+		tsp.chercheSolution(20000, g);
 		List<Path> paths = g.getPaths();
+		List<Intersection> intersections = new LinkedList();
 		Map<Integer, Section> sections = new HashMap<>();
 		for(int i=0;i<g.getCrossingPoints().size()-1;i++)
 		{
-			System.out.print(tsp.getMeilleureSolution(i)+" -> ");
+			//System.out.print(tsp.getMeilleureSolution(i)+" -> ");
 			Integer id = tsp.getMeilleureSolution(i);
 			Integer id2 = tsp.getMeilleureSolution(i+1);
-			System.out.println(id+" : " +id2);
+			//System.out.println(id+" : " +id2);
 			paths.forEach(
 					path->{
-						System.out.println(path.getOrigin().getId() + "->" + path.getDestination().getId());
+						//
 						
 						if(path.getOrigin().getId() == id && path.getDestination().getId() == id2) {
+							System.out.println(path.getOrigin().getId() + "->" + path.getDestination().getId());
 							for(int j = 0; j < path.getSections().size(); j++)
 							{
+								System.out.println(j+k);
 								sections.put(j+k, path.getSections().get(j));
 							}
 							k += path.getSections().size();
-							
 						}
 					});
+			intersections.add(Window.tour.getCrossingPoints().get(tsp.getMeilleureSolution(i)).getIntersection());
 		}
+		intersections.add(Window.tour.getCrossingPoints().get(tsp.getMeilleureSolution(g.getCrossingPoints().size()-1)).getIntersection());
+		//System.out.println(tsp.getMeilleureSolution(g.getCrossingPoints().size()-1));
 		
-		System.out.println(tsp.getMeilleureSolution(g.getCrossingPoints().size()-1));
+		Window.tour.setIntersections(intersections);
 		
 		
 		Window.tour.setSections(sections);
