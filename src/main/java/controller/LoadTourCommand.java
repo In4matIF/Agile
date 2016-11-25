@@ -33,25 +33,37 @@ public class LoadTourCommand implements Command {
 		k=0;
 		Graph g = new Graph(Window.plan, Window.tour);
 		TSP1 tsp = new TSP1();
-		tsp.chercheSolution(20000, g);
+		tsp.chercheSolution(60000, g);
 		List<Path> paths = g.getPaths();
 		List<Intersection> intersections = new LinkedList();
 		Map<Integer, Section> sections = new HashMap<>();
+		
+		paths.forEach(
+				path->{
+					System.out.println(path.getOrigin().getId() +" -> " + path.getDestination().getId());
+					if(path.getOrigin().getId() == g.getIdWarehouse() && (Integer)path.getDestination().getId() == tsp.getMeilleureSolution(1)){
+						System.out.println(path.getOrigin().getId() + "->" + path.getDestination().getId() + " **************************************");
+						for(int j = 0; j < path.getSections().size(); j++)
+						{
+							sections.put(j+k, path.getSections().get(j));
+						}
+						k += path.getSections().size();
+					}
+				});
+		
 		for(int i=0;i<g.getCrossingPoints().size()-1;i++)
 		{
 			//System.out.print(tsp.getMeilleureSolution(i)+" -> ");
 			Integer id = tsp.getMeilleureSolution(i);
 			Integer id2 = tsp.getMeilleureSolution(i+1);
-			//System.out.println(id+" : " +id2);
+			System.out.println(id+" : " +id2);
 			paths.forEach(
 					path->{
-						//
-						
-						if(path.getOrigin().getId() == id && path.getDestination().getId() == id2) {
-							System.out.println(path.getOrigin().getId() + "->" + path.getDestination().getId());
+						System.out.println(path.getOrigin().getId() +" -> " + path.getDestination().getId());
+						if((Integer)path.getOrigin().getId() == id && (Integer)path.getDestination().getId() == id2){
+							System.out.println(path.getOrigin().getId() + "->" + path.getDestination().getId() + " **************************************");
 							for(int j = 0; j < path.getSections().size(); j++)
 							{
-								System.out.println(j+k);
 								sections.put(j+k, path.getSections().get(j));
 							}
 							k += path.getSections().size();
@@ -59,6 +71,26 @@ public class LoadTourCommand implements Command {
 					});
 			intersections.add(Window.tour.getCrossingPoints().get(tsp.getMeilleureSolution(i)).getIntersection());
 		}
+		
+		//System.out.print(tsp.getMeilleureSolution(i)+" -> ");
+		Integer id = tsp.getMeilleureSolution(g.getCrossingPoints().size()-1);
+		
+		
+		
+		paths.forEach(
+				path->{
+					System.out.println(path.getOrigin().getId() +" -> " + path.getDestination().getId());
+					if((Integer)path.getOrigin().getId() == id && (Integer)path.getDestination().getId() == g.getIdWarehouse()){
+						System.out.println(path.getOrigin().getId() + "->" + path.getDestination().getId() + " **************************************");
+						for(int j = 0; j < path.getSections().size(); j++)
+						{
+							sections.put(j+k, path.getSections().get(j));
+						}
+						k += path.getSections().size();
+					}
+				});
+		
+		
 		intersections.add(Window.tour.getCrossingPoints().get(tsp.getMeilleureSolution(g.getCrossingPoints().size()-1)).getIntersection());
 		//System.out.println(tsp.getMeilleureSolution(g.getCrossingPoints().size()-1));
 		

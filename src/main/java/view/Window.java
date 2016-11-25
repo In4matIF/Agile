@@ -192,7 +192,7 @@ public class Window {
                 controller.loadTour(fileLivr);
                 //disp livraisons
                 try {
-                    renderLivraison(filler1, planCanvas, gc);
+                    renderLivraison(filler1, filler2, planCanvas, gc);
                 }
                 catch (Exception e) {
                     e.printStackTrace();
@@ -228,7 +228,7 @@ public class Window {
         System.out.println("srsly a problem exists still");
 
         
-        gc.setFill(Color.GREY);
+        gc.setFill(Color.BLACK);
         gc.fillRect(0, 0, planCanvas.getWidth(), planCanvas.getHeight());
         
         float widthRatio = 0.95f;//(float)CANVAS_WIDTH/(float)SCENE_WIDTH;
@@ -274,10 +274,10 @@ public class Window {
 
     }
 
-    public void renderLivraison(TextArea filler1, Canvas planCanvas, GraphicsContext gc) throws Exception {
+    public void renderLivraison(TextArea filler1, TextArea filler2, Canvas planCanvas, GraphicsContext gc) throws Exception {
         filler1.setText("");
         
-        gc.setStroke(Color.DARKRED);
+        gc.setStroke(Color.CYAN);
         
         float widthRatio = 0.95f;//(float)CANVAS_WIDTH/(float)SCENE_WIDTH;
         float heightRatio = (float)CANVAS_HEIGHT/(float)SCENE_HEIGHT;
@@ -304,12 +304,9 @@ public class Window {
                     	System.out.println(integer);
                     	gc.setFill(Color.GREEN);
                     }
-                    else if (integer == 190){
-                    	gc.setFill(Color.YELLOW);
-                    }
                     else
                     {
-                    	gc.setFill(Color.DARKRED);
+                    	gc.setFill(Color.WHITE);
                     }   
                     
                     gc.fillOval(x-radius,y-radius,2*radius,2*radius);
@@ -321,6 +318,9 @@ public class Window {
                 (id, section) -> {
                     gc.strokeLine(section.getOrigin().getX()*widthRatio, section.getOrigin().getY()*heightRatio, section.getDestination().getX()*widthRatio, section.getDestination().getY()*heightRatio);
                     //root.getChildren().add(line);
+                    String deliverys = filler2.getText() + "Rue : " + section.getStreet() + "\r\n";
+                    filler2.setText(deliverys);
+
                 }
         );
         
