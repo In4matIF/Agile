@@ -320,7 +320,6 @@ public class Window {
                     //root.getChildren().add(line);
                     String deliverys = filler2.getText() + "Rue : " + section.getStreet() + "\r\n";
                     filler2.setText(deliverys);
-
                 }
         );
         
