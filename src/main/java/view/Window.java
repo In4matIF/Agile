@@ -57,6 +57,11 @@ public class Window {
     public Window() {
     }
 
+/**
+ * Crée une nouvelle fenêtre
+ * @param primaryStage
+ * Le container principale de l'interface
+ */
     public Window(Stage primaryStage) {
         this.primaryStage = primaryStage;
         this.plan = new Plan();
@@ -64,22 +69,43 @@ public class Window {
         this.controller = new Controller(this);
     }
 
+/**
+ * Récupère le container PrimaryStage
+ * @return Le container principale de l'interface
+ */
     public Stage getPrimaryStage() {
         return primaryStage;
     }
 
+/**
+ * Change la valeur du container PrimaryStage
+ * @param primaryStage 
+ * Le nouveau container principale de l'interface
+ */
     public void setPrimaryStage(Stage primaryStage) {
         this.primaryStage = primaryStage;
     }
 
+/**
+ * Récupère le contrôleur de l'application (MVC)
+ * @return Le contrôleur de l'application (MVC)
+ */
     public Controller getController() {
         return controller;
     }
-
+	
+/**
+ * Change la valeur du contrôleur de l'application (MVC)
+ * @param controller 
+ * Le nouveau contrôleur de l'application (MVC)
+ */
     public void setController(Controller controller) {
         this.controller = controller;
     }
 
+/**
+ * Configure la gestion des panels dans l'interface graphique, ainsi que les actions liées aux boutons de l'interface
+ */
     public void render(){
 
         GridPane grid = new GridPane();
@@ -239,9 +265,14 @@ public class Window {
 
     }
 
+/**
+ * Gère l'affichage du plan en canvas dans l'interface graphique
+ * @param planCanvas 
+ * L'objet canvas contenant les formes géométrique à dessiner
+ * @param gc
+ * Objet appelé pour dessiner des formes dans un canvas
+ */
     public void renderPlan(Canvas planCanvas, GraphicsContext gc) throws Exception {
-        System.out.println("srsly a problem exists still");
-
         
         gc.setFill(Color.BLACK);
         gc.fillRect(0, 0, planCanvas.getWidth(), planCanvas.getHeight());
@@ -249,7 +280,7 @@ public class Window {
         float widthRatio = 0.95f;//(float)CANVAS_WIDTH/(float)SCENE_WIDTH;
         float heightRatio = (float)CANVAS_HEIGHT/(float)SCENE_HEIGHT;
 
-		// cr�ｾ�ｽｩation d'une intersection 	
+		// creation d'une intersection 	
         gc.setFill(Color.DARKBLUE);
         gc.setStroke(Color.DARKBLUE);
         gc.setLineWidth(3);
@@ -288,7 +319,18 @@ public class Window {
 
 
     }
-
+	
+/**
+ * Gère l'affichage du plan en canvas dans l'interface graphique
+  * @param filler1 
+ * Contient les informations sur les livraisons
+ * @param filler2
+ * Contient les informations de la feuille de route
+ * @param planCanvas 
+ * L'objet canvas contenant les formes géométrique à dessiner
+ * @param gc
+ * Objet appelé pour dessiner des formes dans un canvas
+ */
     public void renderLivraison(TextArea filler1, TextArea filler2, Canvas planCanvas, GraphicsContext gc) throws Exception {
         filler1.setText("");
         filler2.setText("");
