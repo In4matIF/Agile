@@ -23,6 +23,11 @@ public class Section {
         this.speed = speed;
         this.street = street;
     }
+    
+    public int getDurationSeconds()
+    {
+    	return (int) ((length/1000)/speed)*3600;
+    }
 
     public Intersection getOrigin() {
         return origin;

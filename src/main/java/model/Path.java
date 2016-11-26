@@ -10,14 +10,16 @@ import java.util.List;
 public class Path {
 
     private List<Section> sections;
-    private int length;
+    private int length; //in meters
+    private int duration; //in seconds
 
     public Path() {
     }
 
-    public Path(List<Section> sections, int length) {
+    public Path(List<Section> sections, int length, int duration) {
         this.sections = sections;
         this.length = length;
+        this.duration = duration;
     }
 
     public List<Section> getSections() {
@@ -30,6 +32,14 @@ public class Path {
 
     public int getLength() {
 		return length;
+	}
+
+	public int getDuration() {
+		return duration;
+	}
+
+	public void setDuration(int duration) {
+		this.duration = duration;
 	}
 
 	public void setLength(int length) {

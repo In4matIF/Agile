@@ -47,14 +47,16 @@ public class Graph {
 					LinkedList<Intersection> listinter = dijkstra.getPath(destination.getValue().getIntersection());
 					List<Section> sections = new ArrayList<Section>();
 					int length = 0;
+					int duration = 0;
 					for(int i=0 ; i<listinter.size()-1; i++)
 					{
 						Section toAdd = listinter.get(i).getSectionTo(listinter.get(i+1));
 						sections.add(toAdd);
 						length += toAdd.getLength();
+						duration += toAdd.getDurationSeconds();
 					}
 					
-					Path newPath = new Path(sections,length);
+					Path newPath = new Path(sections,length,duration);
 					paths.add(newPath);
 					
 					// Add the generated path to the crossing point

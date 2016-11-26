@@ -102,8 +102,7 @@ public class LoadTourCommand implements Command {
 		
 		Window.tour.setSections(sections);
 		
-		
-		System.out.println("Cout total : "+tsp.getCoutMeilleureSolution());
+		Window.tour.setDuration(tsp.getCoutMeilleureSolution());
 	
         return true;
     }
