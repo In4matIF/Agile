@@ -1,6 +1,8 @@
 package view;
 
 import controller.Controller;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -24,6 +26,7 @@ import javafx.scene.shape.Line;
 import javafx.scene.shape.StrokeLineCap;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import model.Intersection;
 import model.Plan;
 import model.Tour;
@@ -53,6 +56,9 @@ public class Window {
 
     public static Plan plan;
     public static Tour tour;
+    
+    static int noSectionToDraw=0;
+    static Color colorToDraw = Color.CYAN;
 
     public Window() {
     }
@@ -151,6 +157,9 @@ public class Window {
         Button suprimerLivraisonBtn = new Button("X");
         suprimerLivraisonBtn.setMaxWidth(20);
         grid.add(suprimerLivraisonBtn, 2,  2);
+        
+        Button playTour = new Button("Play");
+        grid.add(playTour, 3, 1);
 
 
         //PLAN
@@ -261,6 +270,19 @@ public class Window {
                     System.out.println ("Erreur lors de la lecture : " + e.getMessage());
                 }
            }
+        });
+        
+        playTour.setOnAction(new EventHandler<ActionEvent>() {
+            //@Override
+            public void handle(ActionEvent arg0) {
+                try {
+                    drawTour(gc);
+                }
+                catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
         });
 
     }
@@ -382,5 +404,33 @@ public class Window {
         );
         
         
+    }
+    
+    /**
+     * Dessine la livraison section par section
+     * @param gc Objet appelé pour dessiner des formes dans un canvas
+     */
+    public void drawTour(GraphicsContext gc)
+    {
+    	noSectionToDraw=0;
+    	if(colorToDraw == Color.CYAN)
+    		colorToDraw=Color.GREENYELLOW;
+    	else
+    		colorToDraw=Color.CYAN;
+    	gc.setStroke(colorToDraw);
+        
+        float widthRatio = 0.95f;//(float)CANVAS_WIDTH/(float)SCENE_WIDTH;
+        float heightRatio = (float)CANVAS_HEIGHT/(float)SCENE_HEIGHT;
+        
+        Timeline drawSections = new Timeline(new KeyFrame(Duration.seconds(0.25), new EventHandler<ActionEvent>() {
+
+            @Override
+            public void handle(ActionEvent event) {
+            	gc.strokeLine(tour.getSections().get(noSectionToDraw).getOrigin().getX()*widthRatio, tour.getSections().get(noSectionToDraw).getOrigin().getY()*heightRatio, tour.getSections().get(noSectionToDraw).getDestination().getX()*widthRatio, tour.getSections().get(noSectionToDraw).getDestination().getY()*heightRatio);
+                noSectionToDraw++;
+            }
+        }));
+        drawSections.setCycleCount(tour.getSections().size());
+        drawSections.play();
     }
 }
