@@ -239,7 +239,7 @@ public class Window {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}*/
-				planChooser.setInitialDirectory(new File("src\\main\\resources\\xml"));
+				//planChooser.setInitialDirectory(new File("src\\main\\resources\\xml"));
 				planChooser.getExtensionFilters().add(extFilter);
 				File filePlan = planChooser.showOpenDialog(primaryStage);
 				planText.setText(filePlan.getName());
@@ -259,7 +259,7 @@ public class Window {
 				FileChooser livrChooser = new FileChooser();
 				FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("XML Files (*.xml)", "*.xml");
 				livrChooser.getExtensionFilters().add(extFilter);
-				livrChooser.setInitialDirectory(new File("src\\main\\resources\\xml"));
+				//livrChooser.setInitialDirectory(new File("src\\main\\resources\\xml"));
 				File fileLivr = livrChooser.showOpenDialog(primaryStage);
 				livraisonText.setText(fileLivr.getName());
 				controller.loadTour(fileLivr);

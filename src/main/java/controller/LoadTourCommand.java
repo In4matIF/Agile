@@ -102,7 +102,7 @@ public class LoadTourCommand implements Command {
 		
 		Window.tour.setSections(sections);
 		
-		Window.tour.setDuration(tsp.getCoutMeilleureSolution());
+		Window.tour.setDuration(tsp.getMeilleureSolution(0));
 	
         return true;
     }
