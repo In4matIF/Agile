@@ -193,10 +193,13 @@ public class Window {
 		final ScrollPane deliveryPaneScroll = new ScrollPane();
 		deliveryPaneScroll.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
 		deliveryPaneScroll.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+		deliveryPaneScroll.setPrefWidth(TEXT_AREA_DELIVERY_WIDTH);
+		deliveryPaneScroll.setFitToHeight(true);
 		final FlowPane deliveryPane = new FlowPane();
 		deliveryPane.setVgap(5);
 		grid.add(deliveryPaneScroll,3,0,1,1);
-    	deliveryPane.setPrefHeight(planCanvas.getHeight());
+    	deliveryPane.setPrefHeight(TEXT_AREA_DELIVERY_HEIGHT);
+    	deliveryPane.setPrefWidth(TEXT_AREA_DELIVERY_WIDTH);
 		/*final TextArea filler1 = new TextArea("[livraison]");
 		filler1.setPrefHeight(TEXT_AREA_DELIVERY_HEIGHT);
 		filler1.setPrefWidth(TEXT_AREA_DELIVERY_WIDTH);
@@ -251,7 +254,7 @@ public class Window {
 				controller.loadTour(fileLivr);
 				// disp livraisons
 				try {
-					renderLivraison(deliveryPane, filler2, planCanvas, gc);
+					renderLivraison(deliveryPane, filler2, planCanvas);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -349,14 +352,14 @@ public class Window {
 	/**
 	 * Gﾃｨre l'affichage du plan en canvas dans l'interface graphique
 	 * 
-	 * @param filler1
+	 * @param deliveryPane
 	 *            Contient les informations sur les livraisons
 	 * @param filler2
 	 *            Contient les informations de la feuille de route
 	 * @param planCanvas
 	 *            L'objet canvas contenant les formes géométrique à dessiner
 	 */
-	public void renderLivraison(FlowPane deliveryPane, TextArea filler2, Canvas planCanvas, GraphicsContext gc)
+	public void renderLivraison(FlowPane deliveryPane, TextArea filler2, Group planCanvas)
 			throws Exception {
 		filler2.setText("");
 
@@ -377,8 +380,6 @@ public class Window {
 			stack.getChildren().add(temp);
 			stack.getChildren().add(text);
 			deliveryPane.getChildren().add(stack);
-			//String deliverys = filler1.getText() + "Livraison : " + intersection.getId() + "\r\n";
-			//filler1.setText(deliverys);
 		});
 
 		tour.getCrossingPoints().forEach((integer, crossingPoint) -> {
