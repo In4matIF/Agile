@@ -289,7 +289,7 @@ public class Window {
 
 		feuilleBtn.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent feiulleEvent) {
-				File output = new File("FeuilleDeRoute.txt");
+				/*File output = new File("FeuilleDeRoute.txt");
 				try {
 					FileWriter fw = new FileWriter(output);
 					{
@@ -303,7 +303,8 @@ public class Window {
 					fw.close();
 				} catch (IOException e) {
 					System.out.println("Erreur lors de la lecture : " + e.getMessage());
-				}
+				}*/
+				controller.generateTourSheet();
 			}
 		});
 

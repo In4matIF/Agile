@@ -19,6 +19,7 @@ public class TourState extends DefaultState{
 
     @Override
     public void generateTourSheet(Window window, CommandList commandList) {
+    	commandList.addCommand(new GenerateTourSheetCommand());
         Controller.setCurrentState(Controller.tourState);
     }
 }

@@ -38,7 +38,7 @@ public class LoadTourCommand implements Command {
 		TSP1 tsp = new TSP1();
 		tsp.chercheSolution(60000, g);
 		List<Path> paths = g.getPaths();
-		List<Intersection> intersections = new LinkedList<Intersection>();
+		List<Intersection> intersections = new LinkedList();
 		Map<Integer, Section> sections = new HashMap<>();
 		
 		paths.forEach(
@@ -54,7 +54,7 @@ public class LoadTourCommand implements Command {
 					}
 				});
 		
-		for(int i=1;i<g.getCrossingPoints().size()-1;i++)
+		for(int i=0;i<g.getCrossingPoints().size()-1;i++)
 		{
 			//System.out.print(tsp.getMeilleureSolution(i)+" -> ");
 			Integer id = tsp.getMeilleureSolution(i);
@@ -102,7 +102,7 @@ public class LoadTourCommand implements Command {
 		
 		Window.tour.setSections(sections);
 		
-		Window.tour.setDuration((int)tsp.getCoutMeilleureSolution());
+		Window.tour.setDuration(tsp.getCoutMeilleureSolution());
 	
         return true;
     }
