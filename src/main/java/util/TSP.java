@@ -17,7 +17,7 @@ public interface TSP {
 	 * @param tpsLimite : limite (en millisecondes) sur le temps d'execution de chercheSolution
 	 * @param graph : structure du graphe complet des points de livraisons
 	 */
-	public void chercheSolution(int tpsLimite, Graph graph);
+	public void chercheSolution(long tpsLimite, Graph graph);
 	
 	/**
 	 * @param i
@@ -28,5 +28,5 @@ public interface TSP {
 	/** 
 	 * @return la duree de la solution calculee par chercheSolution
 	 */
-	public int getCoutMeilleureSolution();
+	public long getCoutMeilleureSolution();
 }

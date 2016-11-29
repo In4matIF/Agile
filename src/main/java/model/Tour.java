@@ -71,8 +71,25 @@ public class Tour implements Observable{
 
                     Element t2Element = (Element) tNode;
 
+                    long beginTime = 0;
+                    long endTime = Long.MAX_VALUE;
+
+                    if(t2Element.hasAttribute("debutPlage") && t2Element.hasAttribute("finPlage")) {
+                        String[] strTime = (t2Element.getAttribute("debutPlage")).split(":");
+                        beginTime = Integer.parseInt(strTime[0]) * 3600
+                                + Integer.parseInt(strTime[1]) * 60
+                                + Integer.parseInt(strTime[2]);
+
+                        strTime = (t2Element.getAttribute("finPlage")).split(":");
+                        endTime = Integer.parseInt(strTime[0]) * 3600
+                                + Integer.parseInt(strTime[1]) * 60
+                                + Integer.parseInt(strTime[2]);
+                    }
+
                     DeliveryPoint deliveryPoint = new DeliveryPoint(
                                 plan.getIntersections().get(Integer.parseInt(t2Element.getAttribute("adresse"))),
+                                beginTime,
+                                endTime,
                                 Integer.parseInt(t2Element.getAttribute("duree"))
                             );
 

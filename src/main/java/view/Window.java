@@ -39,6 +39,9 @@ import javafx.scene.control.ScrollPane;
 import model.Intersection;
 import model.Plan;
 import model.Tour;
+import javafx.event.EventHandler;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 
 
 import java.io.File;
@@ -80,7 +83,7 @@ public class Window {
 	public static Tour tour;
 
 	static int noSectionToDraw = 0;
-	private Color colorToDraw = PLAN_INTERSECTION_COLOR;
+	private Color colorToDraw = TOUR_VISITED_SECTION_COLOR;
 
 	public Window() {
 	}
@@ -306,6 +309,24 @@ public class Window {
 			}
 
 		});
+		
+		scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent event) {
+            	if(event.getCode() == KeyCode.RIGHT)
+                {
+                	event.consume();
+                	drawNextStep(planCanvas);
+                }
+                else if(event.getCode() == KeyCode.LEFT)
+                {
+                	event.consume();
+                	drawPreviousStep(planCanvas);
+                }
+            }
+        });
+		
+		
 
 	}
 
@@ -448,5 +469,48 @@ public class Window {
 		}));
 		drawSections.setCycleCount(tour.getSections().size());
 		drawSections.play();
+	}
+	
+	public void drawNextStep(Group planCanvas) {	
+		float xOrigin = tour.getSections().get(noSectionToDraw).getOrigin().getX() * WIDTH_RATIO;
+		float yOrigin = tour.getSections().get(noSectionToDraw).getOrigin().getY() * HEIGHT_RATIO;
+		float xDestination = tour.getSections().get(noSectionToDraw).getDestination().getX() * WIDTH_RATIO;
+		float yDestination = tour.getSections().get(noSectionToDraw).getDestination().getY() * HEIGHT_RATIO;
+		Line line = new Line(xOrigin, yOrigin, xDestination, yDestination);
+		line.setStrokeWidth(3);
+		line.setStroke(colorToDraw);
+		planCanvas.getChildren().add(line);
+		noSectionToDraw++;
+		if(noSectionToDraw >= tour.getSections().size())
+		{
+			noSectionToDraw=0;
+			if(colorToDraw == TOUR_PATH_COLOR)
+				colorToDraw = TOUR_VISITED_SECTION_COLOR;
+			else
+				colorToDraw = TOUR_PATH_COLOR;
+		}
+	}
+	
+	public void drawPreviousStep(Group planCanvas) {	
+		if(noSectionToDraw == 0)
+		{
+			noSectionToDraw=tour.getSections().size();
+			if(colorToDraw == TOUR_PATH_COLOR)
+				colorToDraw = TOUR_VISITED_SECTION_COLOR;
+			else
+				colorToDraw = TOUR_PATH_COLOR;
+		}
+		float xOrigin = tour.getSections().get(noSectionToDraw-1).getOrigin().getX() * WIDTH_RATIO;
+		float yOrigin = tour.getSections().get(noSectionToDraw-1).getOrigin().getY() * HEIGHT_RATIO;
+		float xDestination = tour.getSections().get(noSectionToDraw-1).getDestination().getX() * WIDTH_RATIO;
+		float yDestination = tour.getSections().get(noSectionToDraw-1).getDestination().getY() * HEIGHT_RATIO;
+		Line line = new Line(xOrigin, yOrigin, xDestination, yDestination);
+		line.setStrokeWidth(3);
+		if(colorToDraw == TOUR_PATH_COLOR)
+			line.setStroke(TOUR_VISITED_SECTION_COLOR);
+		else
+			line.setStroke(TOUR_PATH_COLOR);
+		planCanvas.getChildren().add(line);
+		noSectionToDraw--;
 	}
 }
