@@ -59,7 +59,7 @@ public class LoadTourCommand implements Command {
 			//System.out.print(tsp.getMeilleureSolution(i)+" -> ");
 			Integer id = tsp.getMeilleureSolution(i);
 			Integer id2 = tsp.getMeilleureSolution(i+1);
-			System.out.println(id+" : " +id2);
+			//System.out.println(id+" : " +id2);
 			paths.forEach(
 					path->{
 						//System.out.println(path.getOrigin().getId() +" -> " + path.getDestination().getId());

@@ -380,7 +380,7 @@ public class Window {
 			}
 		);
 
-		filler1.setText(filler1.getText() + "\r\n Total duration : " + (int) tour.getDuration()/1000 + "km \r\n");
+		filler1.setText(filler1.getText() + "\r\n Total duration : " + (int) tour.getDuration()/60 + "mn \r\n");
 
 	}
 
