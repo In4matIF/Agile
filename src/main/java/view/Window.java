@@ -259,6 +259,7 @@ public class Window {
 				FileChooser livrChooser = new FileChooser();
 				FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("XML Files (*.xml)", "*.xml");
 				livrChooser.getExtensionFilters().add(extFilter);
+				livrChooser.setInitialDirectory(new File("src\\main\\resources\\xml"));
 				File fileLivr = livrChooser.showOpenDialog(primaryStage);
 				livraisonText.setText(fileLivr.getName());
 				controller.loadTour(fileLivr);
