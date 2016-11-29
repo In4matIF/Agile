@@ -33,6 +33,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 import javafx.scene.control.ScrollPane;
 import model.Intersection;
@@ -189,7 +190,8 @@ public class Window {
 		grid.add(planCanvas, 0, 0, 3, 1); // col1, row2, takes up 2 cols, takes
 											// up 10 rows
 
-		// TODO in future iteration: make these do something
+		// Delivery Panel
+		List<HBox> deliveryHB = new ArrayList<HBox>() ;
 		final ScrollPane deliveryPaneScroll = new ScrollPane();
 		deliveryPaneScroll.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
 		deliveryPaneScroll.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
@@ -198,12 +200,9 @@ public class Window {
 		final FlowPane deliveryPane = new FlowPane();
 		deliveryPane.setVgap(5);
 		grid.add(deliveryPaneScroll,3,0,1,1);
+		deliveryPaneScroll.setContent(deliveryPane);
     	deliveryPane.setPrefHeight(TEXT_AREA_DELIVERY_HEIGHT);
     	deliveryPane.setPrefWidth(TEXT_AREA_DELIVERY_WIDTH);
-		/*final TextArea filler1 = new TextArea("[livraison]");
-		filler1.setPrefHeight(TEXT_AREA_DELIVERY_HEIGHT);
-		filler1.setPrefWidth(TEXT_AREA_DELIVERY_WIDTH);
-		grid.add(filler1, 3, 0, 1, 1);*/
 		final TextArea filler2 = new TextArea("[feuille de route]");
 		filler2.setPrefHeight(TEXT_AREA_SHEET_HEIGHT);
 		filler2.setPrefWidth(TEXT_AREA_SHEET_WIDTH);
@@ -254,7 +253,7 @@ public class Window {
 				controller.loadTour(fileLivr);
 				// disp livraisons
 				try {
-					renderLivraison(deliveryPane, filler2, planCanvas);
+					renderLivraison(deliveryPane, filler2, planCanvas, deliveryHB);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -359,12 +358,13 @@ public class Window {
 	 * @param planCanvas
 	 *            L'objet canvas contenant les formes géométrique à dessiner
 	 */
-	public void renderLivraison(FlowPane deliveryPane, TextArea filler2, Group planCanvas)
+	public void renderLivraison(FlowPane deliveryPane, TextArea filler2, Group planCanvas, List<HBox> deliveryHB)
 			throws Exception {
 		filler2.setText("");
 
-		List<Rectangle> deliveryRectangles = new ArrayList<Rectangle>() ;
 		tour.getIntersections().forEach(intersection -> {
+			HBox tempHB = new HBox();
+			deliveryHB.add(tempHB);
 			Rectangle temp = new Rectangle(400,100);
 			temp.setFill(new LinearGradient(0,0,0,1, true, CycleMethod.NO_CYCLE,
 			        new Stop[]{
@@ -374,12 +374,13 @@ public class Window {
 			    temp.setStroke(Color.web("#D0E6FA"));
 			    temp.setArcHeight(3.5);
 			    temp.setArcWidth(3.5);
-			deliveryRectangles.add(temp);
 			Text text = new Text(new String("Livraison : " + intersection.getId()+ "\r\n"));
 			StackPane stack = new StackPane();
 			stack.getChildren().add(temp);
-			stack.getChildren().add(text);
+			stack.getChildren().add(tempHB);
+			tempHB.getChildren().add(text);
 			deliveryPane.getChildren().add(stack);
+			System.out.println(intersection.getId());
 		});
 
 		tour.getCrossingPoints().forEach((integer, crossingPoint) -> {
