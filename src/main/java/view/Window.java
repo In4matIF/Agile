@@ -232,6 +232,14 @@ public class Window {
 			public void handle(ActionEvent arg0) {
 				FileChooser planChooser = new FileChooser();
 				FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("XML Files (*.xml)", "*.xml");
+				/*File f = new File("xml");
+				try {
+					System.out.println(f.getCanonicalPath());
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}*/
+				planChooser.setInitialDirectory(new File("src\\main\\resources\\xml"));
 				planChooser.getExtensionFilters().add(extFilter);
 				File filePlan = planChooser.showOpenDialog(primaryStage);
 				planText.setText(filePlan.getName());
