@@ -6,12 +6,12 @@ import java.util.Iterator;
 import model.Graph;
 
 /**
- * Classe template du TSP implémentant l'algorithme
+ * Classe template du TSP implï¿½mentant l'algorithme
  */
 public abstract class TemplateTSP implements TSP {
 	
 	private Integer[] meilleureSolution;
-	private int coutMeilleureSolution = 0;
+	private long coutMeilleureSolution = 0;
 	private Boolean tempsLimiteAtteint;
     protected int dureeMinimale = 0;
     protected int coutMinimal = 0;
@@ -20,9 +20,9 @@ public abstract class TemplateTSP implements TSP {
 		return tempsLimiteAtteint;
 	}
 
-	public void chercheSolution(int tpsLimite, Graph graph) {
+	public void chercheSolution(long tpsLimite, Graph graph) {
 		tempsLimiteAtteint = false;
-		coutMeilleureSolution = Integer.MAX_VALUE;
+		coutMeilleureSolution = Long.MAX_VALUE;
         dureeMinimale = Integer.MAX_VALUE;
         coutMinimal = Integer.MAX_VALUE;
 		meilleureSolution = new Integer[graph.getCrossingPoints().size()];
@@ -57,7 +57,7 @@ public abstract class TemplateTSP implements TSP {
 		return meilleureSolution[i];
 	}
 	
-	public int getCoutMeilleureSolution(){
+	public long getCoutMeilleureSolution(){
 		return coutMeilleureSolution;
 	}
 	
@@ -88,7 +88,7 @@ public abstract class TemplateTSP implements TSP {
 	 * @param tpsDebut : moment ou la resolution a commence
 	 * @param tpsLimite : limite de temps pour la resolution
 	 */	
-	 void branchAndBound(int sommetCrt, ArrayList<Integer> nonVus, ArrayList<Integer> vus, int coutVus, Graph graph, long tpsDebut, int tpsLimite){
+	 void branchAndBound(int sommetCrt, ArrayList<Integer> nonVus, ArrayList<Integer> vus, long coutVus, Graph graph, long tpsDebut, long tpsLimite){
          if (System.currentTimeMillis() - tpsDebut > tpsLimite){
 			 tempsLimiteAtteint = true;
 			 return;
