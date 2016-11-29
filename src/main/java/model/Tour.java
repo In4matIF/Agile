@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Objet représentant les informations de la livraison
+ * Objet reprï¿½sentant les informations de la livraison
  */
 public class Tour implements Observable{
 
@@ -36,9 +36,9 @@ public class Tour implements Observable{
     }
     
     /**
-     * Constructeur de l'objet à partir du fichier xml de livraison ainsi que du plan
+     * Constructeur de l'objet ï¿½ partir du fichier xml de livraison ainsi que du plan
      * @param xmlFile le fichier de livraison
-     * @param plan l'objet plan créé en amont
+     * @param plan l'objet plan crï¿½ï¿½ en amont
      */
     public Tour(File xmlFile, Plan plan){
         try {
@@ -117,6 +117,18 @@ public class Tour implements Observable{
         this.duration = duration;
     }
 
+    public List<Intersection> getIntersections() {
+        return intersections;
+    }
+
+    public void setIntersections(List<Intersection> intersections) {
+        this.intersections = intersections;
+    }
+
+    public void deleteDelivery(int deliveryId){
+        crossingPoints.remove(deliveryId);
+    }
+
     @Override
     public String toString() {
         return "model.Tour{" +
@@ -133,14 +145,5 @@ public class Tour implements Observable{
     public void removeListener(InvalidationListener listener) {
 
     }
-
-	public List<Intersection> getIntersections() {
-		return intersections;
-	}
-
-	public void setIntersections(List<Intersection> intersections) {
-		this.intersections = intersections;
-	}
-    
     
 }
