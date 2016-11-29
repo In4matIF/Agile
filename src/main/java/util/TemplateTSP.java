@@ -40,8 +40,10 @@ public abstract class TemplateTSP implements TSP {
 		);
         graph.getPaths().forEach(
                 (path) -> {
-                    if(path.getLength() < coutMinimal)
-                        coutMinimal = path.getLength();
+                    //if(path.getLength() < coutMinimal)
+                	if(path.getDuration() < coutMinimal)
+                        //coutMinimal = path.getLength();
+                    	coutMinimal = path.getDuration();
                 }
         );
 		ArrayList<Integer> vus = new ArrayList<Integer>(graph.getCrossingPoints().size());
@@ -92,7 +94,8 @@ public abstract class TemplateTSP implements TSP {
 			 return;
 		 }
 	    if (nonVus.size() == 0){ // tous les sommets ont ete visites
-            coutVus += graph.getCrossingPoints().get(sommetCrt).getPaths().get(graph.getIdWarehouse()).getLength(); // on ajoute le dernier cout retour vers l'ntrepot
+            //coutVus += graph.getCrossingPoints().get(sommetCrt).getPaths().get(graph.getIdWarehouse()).getLength(); // on ajoute le dernier cout retour vers l'ntrepot
+            coutVus += graph.getCrossingPoints().get(sommetCrt).getPaths().get(graph.getIdWarehouse()).getDuration(); // on ajoute le dernier cout retour vers l'ntrepot
 	    	if (coutVus < coutMeilleureSolution){ // on a trouve une solution meilleure que meilleureSolution
 	    		vus.toArray(meilleureSolution);
 	    		coutMeilleureSolution = coutVus;
@@ -105,7 +108,8 @@ public abstract class TemplateTSP implements TSP {
 	        	nonVus.remove(prochainSommet);
 	        	branchAndBound(
                         prochainSommet, nonVus, vus,
-                        coutVus + graph.getCrossingPoints().get(sommetCrt).getPaths().get(prochainSommet).getLength() //cout pour aller au prochain sommet
+                        //coutVus + graph.getCrossingPoints().get(sommetCrt).getPaths().get(prochainSommet).getLength() //cout pour aller au prochain sommet
+                        coutVus + graph.getCrossingPoints().get(sommetCrt).getPaths().get(prochainSommet).getDuration() //cout pour aller au prochain sommet
                                 + graph.getCrossingPoints().get(prochainSommet).getDuration(), //duree du prochain sommet
                         graph, tpsDebut, tpsLimite);
 	        	vus.remove(prochainSommet);

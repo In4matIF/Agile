@@ -43,9 +43,9 @@ public class LoadTourCommand implements Command {
 		
 		paths.forEach(
 				path->{
-					System.out.println(path.getOrigin().getId() +" -> " + path.getDestination().getId());
+					//System.out.println(path.getOrigin().getId() +" -> " + path.getDestination().getId());
 					if(path.getOrigin().getId() == g.getIdWarehouse() && (Integer)path.getDestination().getId() == tsp.getMeilleureSolution(1)){
-						System.out.println(path.getOrigin().getId() + "->" + path.getDestination().getId() + " **************************************");
+						//System.out.println(path.getOrigin().getId() + "->" + path.getDestination().getId() + " **************************************");
 						for(int j = 0; j < path.getSections().size(); j++)
 						{
 							sections.put(j+k, path.getSections().get(j));
@@ -62,9 +62,9 @@ public class LoadTourCommand implements Command {
 			System.out.println(id+" : " +id2);
 			paths.forEach(
 					path->{
-						System.out.println(path.getOrigin().getId() +" -> " + path.getDestination().getId());
+						//System.out.println(path.getOrigin().getId() +" -> " + path.getDestination().getId());
 						if((Integer)path.getOrigin().getId() == id && (Integer)path.getDestination().getId() == id2){
-							System.out.println(path.getOrigin().getId() + "->" + path.getDestination().getId() + " **************************************");
+							//System.out.println(path.getOrigin().getId() + "->" + path.getDestination().getId() + " **************************************");
 							for(int j = 0; j < path.getSections().size(); j++)
 							{
 								sections.put(j+k, path.getSections().get(j));
@@ -82,9 +82,9 @@ public class LoadTourCommand implements Command {
 		
 		paths.forEach(
 				path->{
-					System.out.println(path.getOrigin().getId() +" -> " + path.getDestination().getId());
+					//System.out.println(path.getOrigin().getId() +" -> " + path.getDestination().getId());
 					if((Integer)path.getOrigin().getId() == id && (Integer)path.getDestination().getId() == g.getIdWarehouse()){
-						System.out.println(path.getOrigin().getId() + "->" + path.getDestination().getId() + " **************************************");
+						//System.out.println(path.getOrigin().getId() + "->" + path.getDestination().getId() + " **************************************");
 						for(int j = 0; j < path.getSections().size(); j++)
 						{
 							sections.put(j+k, path.getSections().get(j));

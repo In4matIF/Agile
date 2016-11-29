@@ -26,7 +26,7 @@ public class Section {
     
     public int getDurationSeconds()
     {
-    	return (int) ((length/1000)/speed)*3600;
+    	return (int)((((float)(length))/((float)(speed)))*3.6f);
     }
 
     public Intersection getOrigin() {
