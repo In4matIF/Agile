@@ -23,6 +23,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.StrokeLineCap;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -51,6 +52,16 @@ public class Window {
 	private final int TEXT_AREA_SHEET_WIDTH = 280;
 	private final int TEXT_AREA_SHEET_HEIGHT = 350;
 
+	private final float WIDTH_RATIO = 0.95f;// (float)CANVAS_WIDTH/(float)SCENE_WIDTH;
+	private final float HEIGHT_RATIO = (float) CANVAS_HEIGHT / (float) SCENE_HEIGHT;
+
+	private final Color PLAN_INTERSECTION_COLOR = Color.AQUA;
+	private final Color PLAN_SECTION_COLOR = Color.AQUA;
+	private final Color TOUR_DELIVERY_COLOR = Color.MEDIUMPURPLE;
+	private final Color TOUR_WHAREHOUSE_COLOR = Color.DARKGREEN;
+	private final Color TOUR_PATH_COLOR = Color.RED;
+	private final Color TOUR_VISITED_SECTION_COLOR = Color.YELLOW;
+
 	private Stage primaryStage;
 	private Controller controller;
 
@@ -58,7 +69,7 @@ public class Window {
 	public static Tour tour;
 
 	static int noSectionToDraw = 0;
-	static Color colorToDraw = Color.CYAN;
+	private Color colorToDraw = PLAN_INTERSECTION_COLOR;
 
 	public Window() {
 	}
@@ -126,18 +137,6 @@ public class Window {
 		grid.setPadding(new Insets(10.0));
 		grid.setAlignment(Pos.CENTER);
 
-		// attempt to fix col3 size issue, currently failing
-		/*
-		 * ColumnConstraints col1 = new ColumnConstraints();
-		 * col1.setPercentWidth(25); ColumnConstraints col2 = new
-		 * ColumnConstraints(); col2.setPercentWidth(25); ColumnConstraints col3
-		 * = new ColumnConstraints(); col3.setPercentWidth(10);
-		 * ColumnConstraints col4 = new ColumnConstraints();
-		 * col4.setPercentWidth(20); ColumnConstraints col5 = new
-		 * ColumnConstraints(); col5.setPercentWidth(20);
-		 * grid.getColumnConstraints().addAll(col1, col2, col3, col4, col5);
-		 */
-
 		// PLAN
 		final TextField planText = new TextField("fichier");
 		planText.setEditable(false);
@@ -165,15 +164,20 @@ public class Window {
 		Button playTour = new Button("Play");
 		grid.add(playTour, 3, 1);
 
-		// PLAN
-		final Canvas planCanvas = new Canvas(CANVAS_WIDTH, CANVAS_HEIGHT);
-		final GraphicsContext gc = planCanvas.getGraphicsContext2D();
+		// PLAN GROUP
+		Group planCanvas = new Group();
+		planCanvas.setAutoSizeChildren(true);
+		planCanvas.minHeight(CANVAS_HEIGHT);
+		planCanvas.maxHeight(CANVAS_HEIGHT);
+		planCanvas.minWidth(CANVAS_WIDTH);
+		planCanvas.maxWidth(CANVAS_WIDTH);
+		// PLAN AREA RECTANGLE
+		Rectangle rectangle = new Rectangle(CANVAS_WIDTH,CANVAS_HEIGHT);
+		rectangle.setFill(Color.TRANSPARENT);
+		rectangle.setStroke(Color.BLACK);
+		planCanvas.getChildren().add(rectangle);
 		grid.add(planCanvas, 0, 0, 3, 1); // col1, row2, takes up 2 cols, takes
 											// up 10 rows
-
-		// check gc is working / size of canvas
-		gc.setFill(Color.TAN);
-		gc.fillRect(0, 0, planCanvas.getWidth(), planCanvas.getHeight());
 
 		// TODO in future iteration: make these do something
 		final TextArea filler1 = new TextArea("[livraison]");
@@ -211,7 +215,7 @@ public class Window {
 				planText.setText(filePlan.getName());
 				controller.loadPlan(filePlan);
 				try {
-					renderPlan(planCanvas, gc);
+					renderPlan(planCanvas);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -230,7 +234,7 @@ public class Window {
 				controller.loadTour(fileLivr);
 				// disp livraisons
 				try {
-					renderLivraison(filler1, filler2, planCanvas, gc);
+					renderLivraison(filler1, filler2, planCanvas);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -241,8 +245,8 @@ public class Window {
 		suprimerPlanBtn.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent supPlanEvent) {
 				plan = new Plan();
-				gc.setFill(Color.TAN);
-				gc.fillRect(0, 0, planCanvas.getWidth(), planCanvas.getHeight());
+				//gc.setFill(Color.TAN);
+				//gc.fillRect(0, 0, planCanvas.getWidth(), planCanvas.getHeight());
 			}
 		});
 
@@ -276,7 +280,7 @@ public class Window {
 			// @Override
 			public void handle(ActionEvent arg0) {
 				try {
-					drawTour(gc);
+					drawTour(planCanvas);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -291,43 +295,36 @@ public class Window {
 	 * 
 	 * @param planCanvas
 	 *            L'objet canvas contenant les formes géométrique à dessiner
-	 * @param gc
-	 *            Objet appelé pour dessiner des formes dans un canvas
 	 */
-	public void renderPlan(Canvas planCanvas, GraphicsContext gc) throws Exception {
+	public void renderPlan(Group planCanvas) throws Exception {
 
-		gc.setFill(Color.BLACK);
-		gc.fillRect(0, 0, planCanvas.getWidth(), planCanvas.getHeight());
-
-		float widthRatio = 0.95f;// (float)CANVAS_WIDTH/(float)SCENE_WIDTH;
-		float heightRatio = (float) CANVAS_HEIGHT / (float) SCENE_HEIGHT;
-
-		// creation d'une intersection
-		gc.setFill(Color.DARKBLUE);
-		gc.setStroke(Color.DARKBLUE);
-		gc.setLineWidth(3);
 		plan.getIntersections().forEach((integer, intersection) -> {
-			float x = intersection.getX() * widthRatio;
-			float y = intersection.getY() * heightRatio;
-			int radius = 6;
+			float x = intersection.getX() * WIDTH_RATIO;
+			float y = intersection.getY() * HEIGHT_RATIO;
 
-			gc.fillOval(x - radius, y - radius, 2 * radius, 2 * radius);
+			Circle circle = new Circle(x, y, 6, PLAN_INTERSECTION_COLOR);
 
-			/*
-			 * Tooltip t = new Tooltip("Intersection : "+intersection.getId());
-			 * circle.setOnMouseEntered(event -> { Node node
-			 * =(Node)event.getSource(); t.show( node,
-			 * primaryStage.getX()+event.getSceneX(),
-			 * primaryStage.getY()+event.getSceneY() ); });
-			 * circle.setOnMouseExited(event -> t.hide());
-			 */
-			// root.getChildren().add(circle);
+			Tooltip t = new Tooltip("Intersection : "+intersection.getId());
+			circle.setOnMouseEntered(
+				event -> {
+					Node node =(Node)event.getSource(); t.show( node,
+			 		primaryStage.getX()+event.getSceneX(),
+			 		primaryStage.getY()+event.getSceneY() );
+				}
+			);
+			circle.setOnMouseExited(event -> t.hide());
+			planCanvas.getChildren().add(circle);
 		});
 
 		plan.getSections().forEach(section -> {
-			gc.strokeLine(section.getOrigin().getX() * widthRatio, section.getOrigin().getY() * heightRatio,
-					section.getDestination().getX() * widthRatio, section.getDestination().getY() * heightRatio);
-			// root.getChildren().add(line);
+			float xOrigin = section.getOrigin().getX() * WIDTH_RATIO;
+			float yOrigin = section.getOrigin().getY() * HEIGHT_RATIO;
+			float xDestination = section.getDestination().getX() * WIDTH_RATIO;
+			float yDestination = section.getDestination().getY() * HEIGHT_RATIO;
+			Line line = new Line(xOrigin, yOrigin, xDestination, yDestination);
+			line.setStrokeWidth(3);
+			line.setStroke(PLAN_SECTION_COLOR);
+			planCanvas.getChildren().add(line);
 		});
 
 	}
@@ -341,18 +338,11 @@ public class Window {
 	 *            Contient les informations de la feuille de route
 	 * @param planCanvas
 	 *            L'objet canvas contenant les formes géométrique à dessiner
-	 * @param gc
-	 *            Objet appelé pour dessiner des formes dans un canvas
 	 */
-	public void renderLivraison(TextArea filler1, TextArea filler2, Canvas planCanvas, GraphicsContext gc)
+	public void renderLivraison(TextArea filler1, TextArea filler2, Group planCanvas)
 			throws Exception {
 		filler1.setText("");
 		filler2.setText("");
-
-		gc.setStroke(Color.CYAN);
-
-		float widthRatio = 0.95f;// (float)CANVAS_WIDTH/(float)SCENE_WIDTH;
-		float heightRatio = (float) CANVAS_HEIGHT / (float) SCENE_HEIGHT;
 
 		tour.getIntersections().forEach(intersection -> {
 			String deliverys = filler1.getText() + "Livraison : " + intersection.getId() + "\r\n";
@@ -361,29 +351,34 @@ public class Window {
 
 		tour.getCrossingPoints().forEach((integer, crossingPoint) -> {
 
-			float x = crossingPoint.getIntersection().getX() * widthRatio;
-			float y = crossingPoint.getIntersection().getY() * heightRatio;
-			int radius = 8;
+			float x = crossingPoint.getIntersection().getX() * WIDTH_RATIO;
+			float y = crossingPoint.getIntersection().getY() * HEIGHT_RATIO;
+			Circle circle = new Circle(x, y, 6);
 
 			if (tour.getIdWarehouse() == integer) {
-				System.out.println(integer);
-				gc.setFill(Color.GREEN);
+				circle.setFill(TOUR_WHAREHOUSE_COLOR);
 			} else {
-				gc.setFill(Color.WHITE);
+				circle.setFill(TOUR_DELIVERY_COLOR);
 			}
-
-			gc.fillOval(x - radius, y - radius, 2 * radius, 2 * radius);
+			planCanvas.getChildren().add(circle);
 
 		});
 
-		tour.getSections().forEach((id, section) -> {
-			gc.strokeLine(section.getOrigin().getX() * widthRatio, section.getOrigin().getY() * heightRatio,
-					section.getDestination().getX() * widthRatio, section.getDestination().getY() * heightRatio);
-			// root.getChildren().add(line);
-			String deliverys = filler2.getText() + "Rue : " + section.getStreet() + " / Destination : "
-					+ section.getDestination().getId() + "\r\n";
-			filler2.setText(deliverys);
-		});
+		tour.getSections().forEach(
+			(id, section) -> {
+				float xOrigin = section.getOrigin().getX() * WIDTH_RATIO;
+				float yOrigin = section.getOrigin().getY() * HEIGHT_RATIO;
+				float xDestination = section.getDestination().getX() * WIDTH_RATIO;
+				float yDestination = section.getDestination().getY() * HEIGHT_RATIO;
+				Line line = new Line(xOrigin, yOrigin, xDestination, yDestination);
+				line.setStrokeWidth(3);
+				line.setStroke(TOUR_PATH_COLOR);
+				planCanvas.getChildren().add(line);
+				String deliverys = filler2.getText() + "Rue : " + section.getStreet() + " / Destination : "
+						+ section.getDestination().getId() + "\r\n";
+				filler2.setText(deliverys);
+			}
+		);
 
 		filler1.setText(filler1.getText() + "\r\n Total duration : " + (int) tour.getDuration()/1000 + "km \r\n");
 
@@ -391,29 +386,29 @@ public class Window {
 
 	/**
 	 * Dessine la livraison section par section
-	 * 
-	 * @param gc
-	 *            Objet appelé pour dessiner des formes dans un canvas
+	 *
 	 */
-	public void drawTour(GraphicsContext gc) {
+	public void drawTour(Group planCanvas) {
 		noSectionToDraw = 0;
-		if (colorToDraw == Color.CYAN)
-			colorToDraw = Color.GREENYELLOW;
+		if (colorToDraw == PLAN_INTERSECTION_COLOR)
+			colorToDraw = TOUR_VISITED_SECTION_COLOR;
 		else
-			colorToDraw = Color.CYAN;
-		gc.setStroke(colorToDraw);
+			colorToDraw = PLAN_INTERSECTION_COLOR;
 
-		float widthRatio = 0.95f;// (float)CANVAS_WIDTH/(float)SCENE_WIDTH;
-		float heightRatio = (float) CANVAS_HEIGHT / (float) SCENE_HEIGHT;
+
 
 		Timeline drawSections = new Timeline(new KeyFrame(Duration.seconds(0.25), new EventHandler<ActionEvent>() {
 
 			@Override
 			public void handle(ActionEvent event) {
-				gc.strokeLine(tour.getSections().get(noSectionToDraw).getOrigin().getX() * widthRatio,
-						tour.getSections().get(noSectionToDraw).getOrigin().getY() * heightRatio,
-						tour.getSections().get(noSectionToDraw).getDestination().getX() * widthRatio,
-						tour.getSections().get(noSectionToDraw).getDestination().getY() * heightRatio);
+				float xOrigin = tour.getSections().get(noSectionToDraw).getOrigin().getX() * WIDTH_RATIO;
+				float yOrigin = tour.getSections().get(noSectionToDraw).getOrigin().getY() * HEIGHT_RATIO;
+				float xDestination = tour.getSections().get(noSectionToDraw).getDestination().getX() * WIDTH_RATIO;
+				float yDestination = tour.getSections().get(noSectionToDraw).getDestination().getY() * HEIGHT_RATIO;
+				Line line = new Line(xOrigin, yOrigin, xDestination, yDestination);
+				line.setStrokeWidth(3);
+				line.setStroke(colorToDraw);
+				planCanvas.getChildren().add(line);
 				noSectionToDraw++;
 			}
 		}));
