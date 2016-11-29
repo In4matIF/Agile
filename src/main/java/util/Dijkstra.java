@@ -64,7 +64,8 @@ public class Dijkstra {
             for (Section edge : plan.getSections()) {
                     if (edge.getOrigin().equals(node)
                                     && edge.getDestination().equals(target)) {
-                            return edge.getLength();
+                            //return edge.getLength();
+                    		return edge.getDurationSeconds();
                     }
             }
             throw new RuntimeException("Should not happen");
