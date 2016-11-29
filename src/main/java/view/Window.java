@@ -21,19 +21,30 @@ import javafx.scene.layout.VBox;
 import javafx.scene.layout.VBoxBuilder;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
+import javafx.scene.paint.LinearGradient;
+import javafx.scene.paint.CycleMethod;
+import javafx.scene.paint.Stop;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.StrokeLineCap;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.text.Text;
+import javafx.scene.control.ScrollPane;
 import model.Intersection;
 import model.Plan;
 import model.Tour;
 
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.sun.prism.BasicStroke;
 
@@ -64,7 +75,7 @@ public class Window {
 	}
 
 	/**
-	 * Crée une nouvelle fenêtre
+	 * Crﾃｩe une nouvelle fenﾃｪtre
 	 * 
 	 * @param primaryStage
 	 *            Le container principale de l'interface
@@ -77,7 +88,7 @@ public class Window {
 	}
 
 	/**
-	 * Récupère le container PrimaryStage
+	 * Rﾃｩcupﾃｨre le container PrimaryStage
 	 * 
 	 * @return Le container principale de l'interface
 	 */
@@ -96,19 +107,19 @@ public class Window {
 	}
 
 	/**
-	 * Récupère le contrôleur de l'application (MVC)
+	 * Rﾃｩcupﾃｨre le contrﾃｴleur de l'application (MVC)
 	 * 
-	 * @return Le contrôleur de l'application (MVC)
+	 * @return Le contrﾃｴleur de l'application (MVC)
 	 */
 	public Controller getController() {
 		return controller;
 	}
 
 	/**
-	 * Change la valeur du contrôleur de l'application (MVC)
+	 * Change la valeur du contrﾃｴleur de l'application (MVC)
 	 * 
 	 * @param controller
-	 *            Le nouveau contrôleur de l'application (MVC)
+	 *            Le nouveau contrﾃｴleur de l'application (MVC)
 	 */
 	public void setController(Controller controller) {
 		this.controller = controller;
@@ -116,7 +127,7 @@ public class Window {
 
 	/**
 	 * Configure la gestion des panels dans l'interface graphique, ainsi que les
-	 * actions liées aux boutons de l'interface
+	 * actions liﾃｩes aux boutons de l'interface
 	 */
 	public void render() {
 
@@ -176,10 +187,17 @@ public class Window {
 		gc.fillRect(0, 0, planCanvas.getWidth(), planCanvas.getHeight());
 
 		// TODO in future iteration: make these do something
-		final TextArea filler1 = new TextArea("[livraison]");
+		final ScrollPane deliveryPaneScroll = new ScrollPane();
+		deliveryPaneScroll.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+		deliveryPaneScroll.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+		final FlowPane deliveryPane = new FlowPane();
+		deliveryPane.setVgap(5);
+		grid.add(deliveryPaneScroll,3,0,1,1);
+    	deliveryPane.setPrefHeight(planCanvas.getHeight());
+		/*final TextArea filler1 = new TextArea("[livraison]");
 		filler1.setPrefHeight(TEXT_AREA_DELIVERY_HEIGHT);
 		filler1.setPrefWidth(TEXT_AREA_DELIVERY_WIDTH);
-		grid.add(filler1, 3, 0, 1, 1);
+		grid.add(filler1, 3, 0, 1, 1);*/
 		final TextArea filler2 = new TextArea("[feuille de route]");
 		filler2.setPrefHeight(TEXT_AREA_SHEET_HEIGHT);
 		filler2.setPrefWidth(TEXT_AREA_SHEET_WIDTH);
@@ -230,7 +248,7 @@ public class Window {
 				controller.loadTour(fileLivr);
 				// disp livraisons
 				try {
-					renderLivraison(filler1, filler2, planCanvas, gc);
+					renderLivraison(deliveryPane, filler2, planCanvas, gc);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -248,7 +266,7 @@ public class Window {
 
 		suprimerLivraisonBtn.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent supLivrEvent) {
-				filler1.setText("TODO: implement this");
+				
 			}
 		});
 
@@ -287,12 +305,12 @@ public class Window {
 	}
 
 	/**
-	 * Gère l'affichage du plan en canvas dans l'interface graphique
+	 * Gﾃｨre l'affichage du plan en canvas dans l'interface graphique
 	 * 
 	 * @param planCanvas
-	 *            L'objet canvas contenant les formes géométrique à dessiner
+	 *            L'objet canvas contenant les formes gﾃｩomﾃｩtrique ﾃ� dessiner
 	 * @param gc
-	 *            Objet appelé pour dessiner des formes dans un canvas
+	 *            Objet appelﾃｩ pour dessiner des formes dans un canvas
 	 */
 	public void renderPlan(Canvas planCanvas, GraphicsContext gc) throws Exception {
 
@@ -333,20 +351,19 @@ public class Window {
 	}
 
 	/**
-	 * Gère l'affichage du plan en canvas dans l'interface graphique
+	 * Gﾃｨre l'affichage du plan en canvas dans l'interface graphique
 	 * 
 	 * @param filler1
 	 *            Contient les informations sur les livraisons
 	 * @param filler2
 	 *            Contient les informations de la feuille de route
 	 * @param planCanvas
-	 *            L'objet canvas contenant les formes géométrique à dessiner
+	 *            L'objet canvas contenant les formes gﾃｩomﾃｩtrique ﾃ� dessiner
 	 * @param gc
-	 *            Objet appelé pour dessiner des formes dans un canvas
+	 *            Objet appelﾃｩ pour dessiner des formes dans un canvas
 	 */
-	public void renderLivraison(TextArea filler1, TextArea filler2, Canvas planCanvas, GraphicsContext gc)
+	public void renderLivraison(FlowPane deliveryPane, TextArea filler2, Canvas planCanvas, GraphicsContext gc)
 			throws Exception {
-		filler1.setText("");
 		filler2.setText("");
 
 		gc.setStroke(Color.CYAN);
@@ -354,9 +371,25 @@ public class Window {
 		float widthRatio = 0.95f;// (float)CANVAS_WIDTH/(float)SCENE_WIDTH;
 		float heightRatio = (float) CANVAS_HEIGHT / (float) SCENE_HEIGHT;
 
+		List<Rectangle> deliveryRectangles = new ArrayList<Rectangle>() ;
 		tour.getIntersections().forEach(intersection -> {
-			String deliverys = filler1.getText() + "Livraison : " + intersection.getId() + "\r\n";
-			filler1.setText(deliverys);
+			Rectangle temp = new Rectangle(400,100);
+			temp.setFill(new LinearGradient(0,0,0,1, true, CycleMethod.NO_CYCLE,
+			        new Stop[]{
+			        new Stop(0,Color.web("#4977A3")),
+			        new Stop(0.5, Color.web("#B0C6DA")),
+			        new Stop(1,Color.web("#9CB6CF")),}));
+			    temp.setStroke(Color.web("#D0E6FA"));
+			    temp.setArcHeight(3.5);
+			    temp.setArcWidth(3.5);
+			deliveryRectangles.add(temp);
+			Text text = new Text(new String("Livraison : " + intersection.getId()+ "\r\n"));
+			StackPane stack = new StackPane();
+			stack.getChildren().add(temp);
+			stack.getChildren().add(text);
+			deliveryPane.getChildren().add(stack);
+			//String deliverys = filler1.getText() + "Livraison : " + intersection.getId() + "\r\n";
+			//filler1.setText(deliverys);
 		});
 
 		tour.getCrossingPoints().forEach((integer, crossingPoint) -> {
@@ -385,7 +418,7 @@ public class Window {
 			filler2.setText(deliverys);
 		});
 
-		filler1.setText(filler1.getText() + "\r\n Total duration : " + (int) tour.getDuration()/1000 + "km \r\n");
+		//filler1.setText(filler1.getText() + "\r\n Total duration : " + (int) tour.getDuration()/1000 + "km \r\n");
 
 	}
 
@@ -393,7 +426,7 @@ public class Window {
 	 * Dessine la livraison section par section
 	 * 
 	 * @param gc
-	 *            Objet appelé pour dessiner des formes dans un canvas
+	 *            Objet appelﾃｩ pour dessiner des formes dans un canvas
 	 */
 	public void drawTour(GraphicsContext gc) {
 		noSectionToDraw = 0;
