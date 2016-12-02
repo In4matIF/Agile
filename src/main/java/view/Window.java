@@ -36,6 +36,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 import javafx.scene.control.ScrollPane;
+import model.DeliveryPoint;
 import model.Intersection;
 import model.Plan;
 import model.Tour;
@@ -61,7 +62,7 @@ public class Window {
 	private final int SCENE_HEIGHT = 800;
 	private final int CANVAS_WIDTH = 750;
 	private final int CANVAS_HEIGHT = 650;
-	private final int TEXT_AREA_DELIVERY_WIDTH = 280;
+	private final int TEXT_AREA_DELIVERY_WIDTH = 380;
 	private final int TEXT_AREA_DELIVERY_HEIGHT = 350;
 	private final int TEXT_AREA_SHEET_WIDTH = 280;
 	private final int TEXT_AREA_SHEET_HEIGHT = 350;
@@ -393,7 +394,9 @@ public class Window {
 			throws Exception {
 		filler2.setText("");
 
-		tour.getIntersections().forEach(intersection -> {
+		tour.getCrossingPoints().forEach((id,deliveryPoint) -> {
+			if(id!=tour.getIdWarehouse())
+			{
 			HBox tempHB = new HBox();
 			deliveryHB.add(tempHB);
 			Rectangle temp = new Rectangle(400,100);
@@ -405,13 +408,31 @@ public class Window {
 			    temp.setStroke(Color.web("#D0E6FA"));
 			    temp.setArcHeight(3.5);
 			    temp.setArcWidth(3.5);
-			Text text = new Text(new String("Livraison : " + intersection.getId()+ "\r\n"));
+			Text text = new Text(new String("Adresse : " + deliveryPoint.getIntersection().getId() + "\r\n durée : " + deliveryPoint.getDuration()+ "\r\n arrivée : " + deliveryPoint.getBeginTime()+ "\r\n départ : " + deliveryPoint.getEndTime()));
+			Text textAttente = new Text(new String ("0"));
 			StackPane stack = new StackPane();
 			stack.getChildren().add(temp);
 			stack.getChildren().add(tempHB);
 			tempHB.getChildren().add(text);
+			StackPane circleStack = new StackPane();
+			Circle circleAttente = new Circle(10,Color.TRANSPARENT);
+			if(0<10)
+			{
+				circleAttente.setStroke(Color.RED);
+			}
+			else if(0<30)
+			{
+				circleAttente.setStroke(Color.ORANGE);
+			}
+			else
+			{
+				circleAttente.setStroke(Color.GREEN);
+			}
+			tempHB.getChildren().add(circleStack);
+			circleStack.getChildren().add(circleAttente); 
+			circleStack.getChildren().add(textAttente);
 			deliveryPane.getChildren().add(stack);
-			System.out.println(intersection.getId());
+			}
 		});
 
 		tour.getCrossingPoints().forEach((integer, crossingPoint) -> {
