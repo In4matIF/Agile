@@ -54,7 +54,7 @@ public class LoadTourCommand implements Command {
 					}
 				});
 		
-		for(int i=0;i<g.getCrossingPoints().size()-1;i++)
+		for(int i=1;i<g.getCrossingPoints().size()-1;i++)
 		{
 			//System.out.print(tsp.getMeilleureSolution(i)+" -> ");
 			Integer id = tsp.getMeilleureSolution(i);
