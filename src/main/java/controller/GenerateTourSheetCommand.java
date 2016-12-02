@@ -32,33 +32,38 @@ public class GenerateTourSheetCommand implements Command {
     	    double angle1 = Math.atan2(x1, y1);
     	    double angle2 = Math.atan2(x2, y2);
     	    
-    	    int dotProduct = x1*x2 + y1*y2;    	    
+    	    int dotProduct = x1*x2 + y1*y2;
     	    double deltaA = Math.toDegrees(angle1 - angle2);
     	    
-    	    
+    	    tourMessage += "Degre : "+deltaA+" / ProduitScalaire : "+dotProduct+"\r\n" ;
     	    if(deltaA < -45)
     	    {
-    	    	tourMessage += "Tournez a gauche vers la rue "+ sections.get(i).getStreet() + "\r\n";
+    	    	tourMessage += "Tournez a gauche vers la rue "+ sections.get(i).getStreet() + "\r\n\n";
     	    }
     	    
     	    else if(deltaA < -20)
     	    {
-    	    	tourMessage += "Tournez legerement à gauche vers la rue "+ sections.get(i).getStreet() + "\r\n";
+    	    	tourMessage += "Tournez legerement à gauche vers la rue "+ sections.get(i).getStreet() + "\r\n\n";
+    	    }
+    	    
+    	    else if(deltaA == 180)
+    	    {
+    	    	tourMessage += "Faites demi tour vers la rue "+ sections.get(i).getStreet() + "\r\n\n";
     	    }
     	    
     	    else if(deltaA > 45)
     	    {
-    	    	tourMessage += "Tournez a droite vers la rue "+ sections.get(i).getStreet() + "\r\n";
+    	    	tourMessage += "Tournez a droite vers la rue "+ sections.get(i).getStreet() + "\r\n\n";
     	    }
     	    
     	    else if(deltaA > 20)
     	    {
-    	    	tourMessage += "Tournez legerement à droite vers la rue "+ sections.get(i).getStreet() + "\r\n";
+    	    	tourMessage += "Tournez legerement à droite vers la rue "+ sections.get(i).getStreet() + "\r\n\n";
     	    }
-    	    
+
     	    else
     	    {
-    	    	tourMessage += "Continuez tour droit vers la rue "+ sections.get(i).getStreet() + "\r\n";
+    	    	tourMessage += "Continuez tour droit vers la rue "+ sections.get(i).getStreet() + "\r\n\n";
     	    }
     	}
     	
