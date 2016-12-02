@@ -24,32 +24,34 @@ public class GenerateTourSheetCommand implements Command {
     	tourMessage += "Prenez la rue "+ sections.get(0).getStreet() + "\r\n";
     	for(int i = 1; i < sections.size(); i++)
     	{
-    	    float x1 = sections.get(i-1).getDestination().getX() - sections.get(i-1).getOrigin().getX();
-    	    float y1 = sections.get(i-1).getDestination().getY() - sections.get(i-1).getOrigin().getY();
-    	    float x2 = sections.get(i).getDestination().getX() - sections.get(i).getOrigin().getX();
-    	    float y2 = sections.get(i).getDestination().getY() - sections.get(i).getOrigin().getY();
+    	    int x1 = sections.get(i-1).getDestination().getX() - sections.get(i-1).getOrigin().getX();
+    	    int y1 = sections.get(i-1).getDestination().getY() - sections.get(i-1).getOrigin().getY();
+    	    int x2 = sections.get(i).getDestination().getX() - sections.get(i).getOrigin().getX();
+    	    int y2 = sections.get(i).getDestination().getY() - sections.get(i).getOrigin().getY();
     	    
     	    double angle1 = Math.atan2(x1, y1);
     	    double angle2 = Math.atan2(x2, y2);
     	    
-    	    double deltaA = angle1 - angle2;
+    	    int dotProduct = x1*x2 + y1*y2;    	    
+    	    double deltaA = Math.toDegrees(angle1 - angle2);
     	    
-    	    if(deltaA < Math.toRadians(-45))
+    	    
+    	    if(deltaA < -45)
     	    {
     	    	tourMessage += "Tournez a gauche vers la rue "+ sections.get(i).getStreet() + "\r\n";
     	    }
     	    
-    	    else if(deltaA < Math.toRadians(-20))
+    	    else if(deltaA < -20)
     	    {
     	    	tourMessage += "Tournez legerement à gauche vers la rue "+ sections.get(i).getStreet() + "\r\n";
     	    }
     	    
-    	    else if(deltaA > Math.toRadians(45))
+    	    else if(deltaA > 45)
     	    {
     	    	tourMessage += "Tournez a droite vers la rue "+ sections.get(i).getStreet() + "\r\n";
     	    }
     	    
-    	    else if(deltaA > Math.toRadians(20))
+    	    else if(deltaA > 20)
     	    {
     	    	tourMessage += "Tournez legerement à droite vers la rue "+ sections.get(i).getStreet() + "\r\n";
     	    }
