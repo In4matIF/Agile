@@ -13,6 +13,7 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
@@ -43,6 +44,7 @@ import model.Tour;
 import javafx.event.EventHandler;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 
 
 import java.io.File;
@@ -63,7 +65,7 @@ public class Window {
 	private final int CANVAS_WIDTH = 750;
 	private final int CANVAS_HEIGHT = 650;
 	private final int TEXT_AREA_DELIVERY_WIDTH = 380;
-	private final int TEXT_AREA_DELIVERY_HEIGHT = 350;
+	private final int TEXT_AREA_DELIVERY_HEIGHT = 650;
 	private final int TEXT_AREA_SHEET_WIDTH = 280;
 	private final int TEXT_AREA_SHEET_HEIGHT = 350;
 
@@ -192,10 +194,14 @@ public class Window {
 		rectangle.setStroke(Color.BLACK);
 		planCanvas.getChildren().add(rectangle);
 		grid.add(planCanvas, 0, 0, 3, 1); // col1, row2, takes up 2 cols, takes
-											// up 10 rows
+											// up 1 row
+
+		//Delivery - titles
+		Text title = new Text(new String("adresse   arrive -- depart   duree"));
 
 		// Delivery Panel
-		List<HBox> deliveryHB = new ArrayList<HBox>() ;
+		GridPane deliveryLegendPane = new GridPane();
+		List<GridPane> deliveryGP = new ArrayList<GridPane>() ;
 		final ScrollPane deliveryPaneScroll = new ScrollPane();
 		deliveryPaneScroll.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
 		deliveryPaneScroll.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
@@ -203,8 +209,12 @@ public class Window {
 		deliveryPaneScroll.setFitToHeight(true);
 		final FlowPane deliveryPane = new FlowPane();
 		deliveryPane.setVgap(5);
-		grid.add(deliveryPaneScroll,3,0,1,1);
+		grid.add(deliveryLegendPane,3,0,1,1);
+		deliveryLegendPane.add(title,0,0);
+		deliveryLegendPane.add(deliveryPaneScroll,0,1);
 		deliveryPaneScroll.setContent(deliveryPane);
+    	deliveryLegendPane.setPrefHeight(TEXT_AREA_DELIVERY_HEIGHT);
+    	deliveryLegendPane.setPrefWidth(TEXT_AREA_DELIVERY_WIDTH);
     	deliveryPane.setPrefHeight(TEXT_AREA_DELIVERY_HEIGHT);
     	deliveryPane.setPrefWidth(TEXT_AREA_DELIVERY_WIDTH);
 		final TextArea filler2 = new TextArea("[feuille de route]");
@@ -266,7 +276,7 @@ public class Window {
 				controller.loadTour(fileLivr);
 				// disp livraisons
 				try {
-					renderLivraison(deliveryPane, filler2, planCanvas, deliveryHB);
+					renderLivraison(deliveryPane, filler2, planCanvas, deliveryGP);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -390,15 +400,20 @@ public class Window {
 	 * @param planCanvas
 	 *            L'objet canvas contenant les formes géométrique à dessiner
 	 */
-	public void renderLivraison(FlowPane deliveryPane, TextArea filler2, Group planCanvas, List<HBox> deliveryHB)
+	public void renderLivraison(FlowPane deliveryPane, TextArea filler2, Group planCanvas, List<GridPane> deliveryGP)
 			throws Exception {
 		filler2.setText("");
 
 		tour.getCrossingPoints().forEach((id,deliveryPoint) -> {
 			if(id!=tour.getIdWarehouse())
 			{
-			HBox tempHB = new HBox();
-			deliveryHB.add(tempHB);
+			VBox deliveryVB = new VBox();
+			GridPane tmpGP = new GridPane();
+			tmpGP.setHgap(10.0);
+			tmpGP.setVgap(10.0);
+			tmpGP.setPadding(new Insets(10.0));
+			tmpGP.setAlignment(Pos.CENTER);
+			deliveryGP.add(tmpGP);
 			Rectangle temp = new Rectangle(400,100);
 			temp.setFill(new LinearGradient(0,0,0,1, true, CycleMethod.NO_CYCLE,
 			        new Stop[]{
@@ -410,12 +425,25 @@ public class Window {
 			    temp.setArcWidth(3.5);
 			Text text = new Text(new String("Adresse : " + deliveryPoint.getIntersection().getId() + "\r\n durée : " + deliveryPoint.getDuration()+ "\r\n arrivée : " + deliveryPoint.getBeginTime()+ "\r\n départ : " + deliveryPoint.getEndTime()));
 			Text textAttente = new Text(new String ("0"));
+			Circle adresse = new Circle(20,Color.TRANSPARENT);
+			adresse.setStroke(Color.WHITE);
+			Text arriveH = new Text(new String("h"));
+			Text arriveM = new Text(new String("m"));
+			Text fillerDash = new Text(new String("--"));
+			Text departH = new Text(new String("h"));
+			Text departM = new Text(new String("m"));
+			tmpGP.add(adresse, 0,0);
+			tmpGP.add(arriveH, 1, 0);
+			tmpGP.add(arriveM, 2, 0);
+			tmpGP.add(fillerDash, 3, 0);
+			tmpGP.add(departH, 4, 0);
+			tmpGP.add(departM, 5, 0);
 			StackPane stack = new StackPane();
+			deliveryVB.getChildren().add(stack);
 			stack.getChildren().add(temp);
-			stack.getChildren().add(tempHB);
-			tempHB.getChildren().add(text);
+			stack.getChildren().add(tmpGP);
 			StackPane circleStack = new StackPane();
-			Circle circleAttente = new Circle(10,Color.TRANSPARENT);
+			Circle circleAttente = new Circle(20,Color.TRANSPARENT);
 			if(0<10)
 			{
 				circleAttente.setStroke(Color.RED);
@@ -428,13 +456,49 @@ public class Window {
 			{
 				circleAttente.setStroke(Color.GREEN);
 			}
-			tempHB.getChildren().add(circleStack);
+			//tempHB.getChildren().add(circleStack);
+			tmpGP.add(circleStack, 6, 0);
 			circleStack.getChildren().add(circleAttente); 
 			circleStack.getChildren().add(textAttente);
 			deliveryPane.getChildren().add(stack);
+			
+			Rectangle clickable = new Rectangle(400,100);
+			clickable.setFill(Color.TRANSPARENT);
+			clickable.setStroke(Color.BLACK);
+			
+			clickable.setOnMouseClicked(new EventHandler<MouseEvent>()
+	        {
+	            @Override
+	            public void handle(MouseEvent t) {
+	            	StackPane stackDetails = new StackPane();
+	            	Rectangle othercolor = new Rectangle(400,300);
+	            	othercolor.setFill(Color.BEIGE);
+	            	GridPane gridDetails = new GridPane();
+	            	Button supprimer = new Button("Supprimer");
+	            	Button modifier = new Button("Modifier");
+	            	Label adresseLabel =  new Label("Adresse : ");
+	            	Label arriveeLabel =  new Label("Arrivée : ");
+	            	Label debutLivraisonLabel =  new Label("début livraison : ");
+	            	Label departLabel =  new Label("Départ : ");
+	            	Label attenteLabel =  new Label("Attente : ");
+	            	gridDetails.add(supprimer,0,0,3,1);
+	            	gridDetails.add(modifier, 4,0,3,1);
+	            	gridDetails.add(adresseLabel,0,1,3,1);
+	            	gridDetails.add(arriveeLabel,0,2,3,1);
+	            	gridDetails.add(debutLivraisonLabel,0,3,3,1);
+	            	gridDetails.add(departLabel,0,4,3,1);
+	            	gridDetails.add(attenteLabel,0,5,3,1);
+	            	stackDetails.getChildren().add(gridDetails);
+	            	stackDetails.getChildren().add(othercolor);
+	            	deliveryVB.getChildren().add(stackDetails);
+	            }
+	        });
+			stack.getChildren().add(clickable);
 			}
 		});
 
+
+		
 		tour.getCrossingPoints().forEach((integer, crossingPoint) -> {
 
 			float x = crossingPoint.getIntersection().getX() * WIDTH_RATIO;
