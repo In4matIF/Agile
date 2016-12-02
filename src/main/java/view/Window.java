@@ -178,8 +178,44 @@ public class Window {
 		suprimerLivraisonBtn.setMaxWidth(20);
 		grid.add(suprimerLivraisonBtn, 2, 2);
 
-		Button playTour = new Button("Play");
-		grid.add(playTour, 3, 1);
+		//INFOS LORS DU PARCOURS
+		GridPane infosPos = new GridPane();
+		infosPos.setHgap(30.0);
+		infosPos.setVgap(2.0);
+		infosPos.setPadding(new Insets(2.0));
+		infosPos.setAlignment(Pos.CENTER_LEFT);
+		grid.add(infosPos, 3, 1);
+		
+		Label stepDisplay1 = new Label("Etape");
+		infosPos.add(stepDisplay1, 0, 0);
+		
+		Label stepDisplay2 = new Label("0/0");
+		infosPos.add(stepDisplay2, 1, 0);
+		
+		Label nextStreet1 = new Label("Prochaine rue ");
+		infosPos.add(nextStreet1, 0, 1);
+		
+		Label nextStreet2 = new Label();
+		infosPos.add(nextStreet2, 1, 1);
+		
+		GridPane infosTime = new GridPane();
+		infosTime.setHgap(30.0);
+		infosTime.setVgap(2.0);
+		infosTime.setPadding(new Insets(2.0));
+		infosTime.setAlignment(Pos.CENTER_LEFT);
+		grid.add(infosTime, 3, 2);
+		
+		Label timePast1 = new Label("Temps Passé");
+		infosTime.add(timePast1, 0, 0);
+		
+		Label timePast2 = new Label("0mn");
+		infosTime.add(timePast2, 1, 0);
+		
+		Label timeLeft1 = new Label("Temps Restant");
+		infosTime.add(timeLeft1, 0, 1);
+		
+		Label timeLeft2 = new Label("0mn");
+		infosTime.add(timeLeft2, 1, 1);
 
 		// PLAN GROUP
 		Group planCanvas = new Group();
@@ -274,6 +310,7 @@ public class Window {
 				File fileLivr = livrChooser.showOpenDialog(primaryStage);
 				livraisonText.setText(fileLivr.getName());
 				controller.loadTour(fileLivr);
+				stepDisplay2.setText("0/"+tour.getSections().size());
 				// disp livraisons
 				try {
 					renderLivraison(deliveryPane, filler2, planCanvas, deliveryGP);
@@ -318,18 +355,6 @@ public class Window {
 				controller.generateTourSheet();
 			}
 		});
-
-		playTour.setOnAction(new EventHandler<ActionEvent>() {
-			// @Override
-			public void handle(ActionEvent arg0) {
-				try {
-					drawTour(planCanvas);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-
-		});
 		
 		scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
@@ -338,11 +363,15 @@ public class Window {
                 {
                 	event.consume();
                 	drawNextStep(planCanvas);
+                	stepDisplay2.setText(noSectionToDraw+"/"+tour.getSections().size());
+                	nextStreet2.setText(tour.getSections().get(noSectionToDraw).getStreet());
                 }
                 else if(event.getCode() == KeyCode.LEFT)
                 {
                 	event.consume();
                 	drawPreviousStep(planCanvas);
+                	stepDisplay2.setText(noSectionToDraw+"/"+tour.getSections().size());
+                	nextStreet2.setText(tour.getSections().get(noSectionToDraw).getStreet());
                 }
             }
         });
