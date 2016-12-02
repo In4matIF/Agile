@@ -368,9 +368,6 @@ public class Window {
                 }
             }
         });
-		
-		
-
 	}
 
 	/**
@@ -381,24 +378,6 @@ public class Window {
 	 */
 	public void renderPlan(Group planCanvas) throws Exception {
 
-		plan.getIntersections().forEach((integer, intersection) -> {
-			float x = intersection.getX() * WIDTH_RATIO;
-			float y = intersection.getY() * HEIGHT_RATIO;
-
-			Circle circle = new Circle(x, y, 6, PLAN_INTERSECTION_COLOR);
-
-			Tooltip t = new Tooltip("Intersection : "+intersection.getId());
-			circle.setOnMouseEntered(
-				event -> {
-					Node node =(Node)event.getSource(); t.show( node,
-			 		primaryStage.getX()+event.getSceneX(),
-			 		primaryStage.getY()+event.getSceneY() );
-				}
-			);
-			circle.setOnMouseExited(event -> t.hide());
-			planCanvas.getChildren().add(circle);
-		});
-
 		plan.getSections().forEach(section -> {
 			float xOrigin = section.getOrigin().getX() * WIDTH_RATIO;
 			float yOrigin = section.getOrigin().getY() * HEIGHT_RATIO;
@@ -408,6 +387,24 @@ public class Window {
 			line.setStrokeWidth(3);
 			line.setStroke(PLAN_SECTION_COLOR);
 			planCanvas.getChildren().add(line);
+		});
+
+		plan.getIntersections().forEach((integer, intersection) -> {
+			float x = intersection.getX() * WIDTH_RATIO;
+			float y = intersection.getY() * HEIGHT_RATIO;
+
+			Circle circle = new Circle(x, y, 6, PLAN_INTERSECTION_COLOR);
+
+			Tooltip t = new Tooltip("Intersection : "+intersection.getId());
+			circle.setOnMouseEntered(
+					event -> {
+						Node node =(Node)event.getSource(); t.show( node,
+								primaryStage.getX()+event.getSceneX(),
+								primaryStage.getY()+event.getSceneY() );
+					}
+			);
+			circle.setOnMouseExited(event -> t.hide());
+			planCanvas.getChildren().add(circle);
 		});
 
 	}
@@ -468,7 +465,6 @@ public class Window {
 		});
 
 		tour.getCrossingPoints().forEach((integer, crossingPoint) -> {
-
 			float x = crossingPoint.getIntersection().getX() * WIDTH_RATIO;
 			float y = crossingPoint.getIntersection().getY() * HEIGHT_RATIO;
 			Circle circle = new Circle(x, y, 6);
