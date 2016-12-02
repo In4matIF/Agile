@@ -3,6 +3,7 @@ package util;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import model.DeliveryPoint;
 import model.Graph;
 
 /**
@@ -89,9 +90,12 @@ public abstract class TemplateTSP implements TSP {
 	 * @param tpsLimite : limite de temps pour la resolution
 	 */	
 	 void branchAndBound(int sommetCrt, ArrayList<Integer> nonVus, ArrayList<Integer> vus, long coutVus, Graph graph, long tpsDebut, long tpsLimite){
-         if (System.currentTimeMillis() - tpsDebut > tpsLimite){
+		 if (System.currentTimeMillis() - tpsDebut > tpsLimite){
 			 tempsLimiteAtteint = true;
 			 return;
+		 }
+		 if(coutVus < graph.getCrossingPoints().get(sommetCrt).getBeginTime()) {
+			 coutVus = graph.getCrossingPoints().get(sommetCrt).getBeginTime();
 		 }
 	    if (nonVus.size() == 0){ // tous les sommets ont ete visites
             //coutVus += graph.getCrossingPoints().get(sommetCrt).getPaths().get(graph.getIdWarehouse()).getLength(); // on ajoute le dernier cout retour vers l'ntrepot
@@ -100,7 +104,7 @@ public abstract class TemplateTSP implements TSP {
 	    		vus.toArray(meilleureSolution);
 	    		coutMeilleureSolution = coutVus;
 	    	}
-	    } else if (coutVus + bound(sommetCrt, nonVus) < coutMeilleureSolution){
+	    } else if (coutVus + bound(sommetCrt, nonVus) < coutMeilleureSolution && coutVus < graph.getCrossingPoints().get(sommetCrt).getEndTime()){
 	        Iterator<Integer> it = iterator(sommetCrt, nonVus);
 	        while (it.hasNext()){
 	        	Integer prochainSommet = it.next();

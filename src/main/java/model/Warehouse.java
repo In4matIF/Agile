@@ -3,7 +3,7 @@ package model;
 import java.sql.Time;
 
 /**
- * Objet représentant l'entrepôt de départ de la livraison
+ * Objet reprï¿½sentant l'entrepï¿½t de dï¿½part de la livraison
  */
 public class Warehouse extends CrossingPoint{
 
@@ -11,6 +11,14 @@ public class Warehouse extends CrossingPoint{
 
     public Warehouse() {
     }
+
+    public long getBeginTime() { return 0; }
+
+    public void setBeginTime(long beginTime) {}
+
+    public long getEndTime() { return Long.MAX_VALUE; }
+
+    public void setEndTime(long endTime) {}
 
     public Warehouse(Intersection intersection, String departureTime) {
         super(intersection);

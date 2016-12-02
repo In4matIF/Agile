@@ -10,8 +10,8 @@ import java.sql.Time;
  */
 public class DeliveryPoint extends CrossingPoint {
 
-    private long beginTime;
-    private long endTime;
+    //private long beginTime;
+    //private long endTime;
 
     public DeliveryPoint() {
     }
