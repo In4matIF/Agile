@@ -110,7 +110,7 @@ public class GenerateTourSheetCommand implements Command {
     	    
     	    tourMessage += "Degres : "+deltaA+"\r\n";
     	    
-    	    if(deltaA < 350 && deltaA > 180)
+    	    if(deltaA < 345 && deltaA > 180)
     	    {
     	    	if (listG.size() == 1)
     	    	{
@@ -139,7 +139,7 @@ public class GenerateTourSheetCommand implements Command {
     	    	tourMessage += "Faites demi tour vers la rue "+ sections.get(i).getStreet() + "\r\n\n";
     	    }
     	    
-    	    else if(deltaA > 10 )
+    	    else if(deltaA > 15 )
     	    {
     	    	if (listD.size() == 1)
     	    	{
