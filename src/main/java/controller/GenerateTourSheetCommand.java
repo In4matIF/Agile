@@ -3,16 +3,21 @@ package controller;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.Collator;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import javafx.util.Pair;
 import model.Intersection;
 import model.Section;
 import view.Window;
 
 /**
- * Commande liée à la génération d'une feuille de route
+ * Commande lié¦¥ ï¿½ la gé§­é§»ation d'une feuille de route
  */
 public class GenerateTourSheetCommand implements Command {
 
@@ -28,11 +33,28 @@ public class GenerateTourSheetCommand implements Command {
     	for(int i = 1; i < sections.size(); i++)
     	{
     		List<Section> listSections = sections.get(i).getOrigin().getSections();
-    		List<Section> listDroite = new LinkedList<>();
-    		List<Section> listGauche = new LinkedList<>();
     		
-			listDroite.clear();
-			listGauche.clear();
+    		Section sectionToRemove = null;
+    		for (int j = 0; j < listSections.size(); j ++)
+    		{
+    			if(listSections.get(j).getDestination() == sections.get(i-1).getOrigin())
+    			{
+    				sectionToRemove = listSections.get(j);
+    				break;
+    			}
+    		}
+    		listSections.remove(sectionToRemove);
+    		
+    		LinkedList<Section> listG = new LinkedList<>(); 
+    		LinkedList<Section> listD = new LinkedList<>(); 
+    		LinkedList<Pair<Double, Section>> listA = new LinkedList<>();
+    		
+    		int indexG = 0;
+    		int indexD = 0;
+    		
+    		
+			listD.clear();
+			listG.clear();
     		
     		for (int j = 0; j < listSections.size(); j++)
     		{
@@ -47,18 +69,33 @@ public class GenerateTourSheetCommand implements Command {
 	    	    double angle1 = Math.atan2(x1, y1);
 	    	    double angle2 = Math.atan2(x2, y2);    	    	    
 	    	    double deltaA = Math.toDegrees(angle1 - angle2);
+	    	    if (deltaA < 0)
+	    	    	deltaA += 360;
 	    	    
-	    	    if(deltaA > 0 && deltaA != 180)
-	    	    {
-	    	    	listDroite.add(listSections.get(j));
-	    	    }
-	    	    else if(deltaA < 0)
-	    	    {
-	    	    	listGauche.add(listSections.get(j));
-	    	    }
+	    	    listA.add(new Pair<Double, Section>(deltaA, listSections.get(j)));	    	    
 			
     		}
     		
+    	    Collections.sort(listA, new Comparator<Pair<Double, Section>>() {
+    	    	@Override
+    	    	public int compare(Pair<Double, Section> pair1, Pair<Double, Section> pair2) {
+    	    		if (Math.abs(pair1.getKey()) > Math.abs(pair2.getKey()))
+    	    			return 1;
+    	    		else 
+    	    			return -1;
+    	    	}
+   	     	});
+    		
+    	    listA.forEach(
+    	    		pair-> {
+    	    			if(pair.getKey() > 180)
+    	    				listG.addLast(pair.getValue());
+    	    			else if (pair.getKey() < 180)
+    	    				listD.push(pair.getValue());   	    				
+    	    			
+    	    		}
+    	    );
+    	    
     	    int x1 = sections.get(i-1).getDestination().getX() - sections.get(i-1).getOrigin().getX();
     	    int y1 = sections.get(i-1).getDestination().getY() - sections.get(i-1).getOrigin().getY();
     	    int x2 = sections.get(i).getDestination().getX() - sections.get(i).getOrigin().getX();
@@ -67,34 +104,32 @@ public class GenerateTourSheetCommand implements Command {
     	    double angle1 = Math.atan2(x1, y1);
     	    double angle2 = Math.atan2(x2, y2);
     	    
-    	    int dotProduct = x1*x2 + y1*y2;
     	    double deltaA = Math.toDegrees(angle1 - angle2);
+    	    if (deltaA < 0)
+    	    	deltaA += 360;
     	    
-    	    if(deltaA < 0)
+    	    tourMessage += "Degres : "+deltaA+"\r\n";
+    	    
+    	    if(deltaA < 350 && deltaA > 180)
     	    {
-    	    	if (listGauche.size() == 1)
+    	    	if (listG.size() == 1)
     	    	{
-    	    		if(deltaA < -20)
+    	    		if(deltaA > 290)
     	    			tourMessage += "Tournez a legerement gauche vers la rue "+ sections.get(i).getStreet() + "\r\n\n";
     	    		else
     	    			tourMessage += "Tournez a gauche vers la rue "+ sections.get(i).getStreet() + "\r\n\n";
     	    	}    	    		
     	    	else
     	    	{
-    	    		if(listGauche.get(0).getDestination().getId() ==  sections.get(i).getDestination().getId())
+    	    		if(listG.get(0) ==  sections.get(i))
     	    		{
     	    			tourMessage += "Prenez la 1ere a gauche vers la rue "+ sections.get(i).getStreet() + "\r\n\n";
     	    		}
     	    		else
     	    		{
-    	    			for(int k = 0; k < listGauche.size(); k++)
-    	    			{
-    	    				if(listGauche.get(k).getDestination().getId() == sections.get(i).getDestination().getId())
-    	    				{
-    	    					tourMessage += "Prenez la "+k+"eme a gauche vers la rue "+ sections.get(i).getStreet() + "\r\n\n";
-    	    					break;
-    	    				}
-    	    			}
+    	    			for(int k = 1; k < listG.size(); k++)
+    	    				if(listG.get(k) == sections.get(i))
+    	    					tourMessage += "Prenez la "+(k+1)+"eme a gauche vers la rue "+ sections.get(i).getStreet() + "\r\n\n";
     	    		}
     	    	}
     	    }
@@ -104,31 +139,26 @@ public class GenerateTourSheetCommand implements Command {
     	    	tourMessage += "Faites demi tour vers la rue "+ sections.get(i).getStreet() + "\r\n\n";
     	    }
     	    
-    	    else if(deltaA > 0 )
+    	    else if(deltaA > 10 )
     	    {
-    	    	if (listDroite.size() == 1)
+    	    	if (listD.size() == 1)
     	    	{
-    	    		if(deltaA > 20)
+    	    		if(deltaA < 20)
     	    			tourMessage += "Tournez a legerement droite vers la rue "+ sections.get(i).getStreet() + "\r\n\n";
     	    		else
     	    			tourMessage += "Tournez a droite vers la rue "+ sections.get(i).getStreet() + "\r\n\n";
     	    	}    	    		
     	    	else
     	    	{
-    	    		if(listDroite.get(0).getDestination().getId() ==  sections.get(i).getDestination().getId())
+    	    		if(listD.get(0) ==  sections.get(i))
     	    		{
     	    			tourMessage += "Prenez la 1ere a droite vers la rue "+ sections.get(i).getStreet() + "\r\n\n";
     	    		}
     	    		else
     	    		{
-    	    			for(int k = 0; k < listDroite.size(); k++)
-    	    			{
-    	    				if(listDroite.get(k).getDestination().getId() == sections.get(i).getDestination().getId())
-    	    				{
-    	    					tourMessage += "Prenez la "+k+"eme a droite vers la rue "+ sections.get(i).getStreet() + "\r\n\n";
-    	    					break;
-    	    				}
-    	    			}
+    	    			for(int k = 1; k < listD.size(); k++)
+    	    				if(listD.get(k) == sections.get(i))
+    	    					tourMessage += "Prenez la "+(k+1)+"eme a droite vers la rue "+ sections.get(i).getStreet() + "\r\n\n";
     	    		}
     	    	}
     	    }
