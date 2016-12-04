@@ -1,9 +1,10 @@
 package controller;
 
+import model.DeliveryPoint;
 import view.Window;
 
 /**
- * Etat où la livraison est chargée et calculée
+ * Etat oï¿½ la livraison est chargï¿½e et calculï¿½e
  */
 public class TourState extends DefaultState{
 
@@ -21,5 +22,11 @@ public class TourState extends DefaultState{
     public void generateTourSheet(Window window, CommandList commandList) {
     	commandList.addCommand(new GenerateTourSheetCommand());
         Controller.setCurrentState(Controller.tourState);
+    }
+    
+    public void deleteDeliveryPoint(Window window, CommandList commandList, DeliveryPoint toDelete)
+    {
+    	commandList.addCommand(new DeleteDeliveryPointCommand(toDelete));
+    	Controller.setCurrentState(Controller.tourState);
     }
 }

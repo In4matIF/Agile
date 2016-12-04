@@ -4,6 +4,8 @@ import view.Window;
 
 import java.io.File;
 
+import model.DeliveryPoint;
+
 /**
  * Classe pour la StateMachine de l'application
  */
@@ -47,5 +49,9 @@ public class Controller {
 
     public void generateTourSheet(){
         currentState.generateTourSheet(window,commandList);
+    }
+    
+    public void deleteDeliveryPoint(DeliveryPoint toDelete){
+    	currentState.deleteDeliveryPoint(window, commandList, toDelete);
     }
 }
