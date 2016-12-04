@@ -25,6 +25,7 @@ public class Tour implements Observable{
     private Integer duration;
     private Integer idWarehouse;
     private List<Intersection> intersections;
+    private List<CrossingPoint> ordainedCrossingPoints;
 
     public Tour() {
     }
@@ -148,6 +149,14 @@ public class Tour implements Observable{
     public void setIntersections(List<Intersection> intersections) {
         this.intersections = intersections;
     }
+    
+    public List<CrossingPoint> getOrdainedCrossingPoints() {
+		return ordainedCrossingPoints;
+	}
+
+	public void setOrdainedCrossingPoints(List<CrossingPoint> ordainedCrossingPoints) {
+		this.ordainedCrossingPoints = ordainedCrossingPoints;
+	}
 
     public void deleteDelivery(int deliveryId){
         crossingPoints.remove(deliveryId);

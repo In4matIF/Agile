@@ -40,6 +40,7 @@ public class LoadTourCommand implements Command {
 		List<Path> paths = g.getPaths();
 		List<Intersection> intersections = new LinkedList();
 		Map<Integer, Section> sections = new HashMap<>();
+		List<CrossingPoint> ordainedCrossingPoints = new LinkedList<CrossingPoint>();
 		
 		paths.forEach(
 				path->{
@@ -53,6 +54,8 @@ public class LoadTourCommand implements Command {
 						k += path.getSections().size();
 					}
 				});
+		
+		ordainedCrossingPoints.add(Window.tour.getCrossingPoints().get(tsp.getMeilleureSolution(0)));
 		
 		for(int i=1;i<g.getCrossingPoints().size()-1;i++)
 		{
@@ -73,10 +76,12 @@ public class LoadTourCommand implements Command {
 						}
 					});
 			intersections.add(Window.tour.getCrossingPoints().get(tsp.getMeilleureSolution(i)).getIntersection());
+			ordainedCrossingPoints.add(Window.tour.getCrossingPoints().get(tsp.getMeilleureSolution(i)));
 		}
 		
 		//System.out.print(tsp.getMeilleureSolution(i)+" -> ");
 		Integer id = tsp.getMeilleureSolution(g.getCrossingPoints().size()-1);
+		ordainedCrossingPoints.add(Window.tour.getCrossingPoints().get(tsp.getMeilleureSolution(g.getCrossingPoints().size()-1)));
 		
 		
 		
@@ -103,6 +108,8 @@ public class LoadTourCommand implements Command {
 		Window.tour.setSections(sections);
 		
 		Window.tour.setDuration((int)tsp.getCoutMeilleureSolution());
+		
+		Window.tour.setOrdainedCrossingPoints(ordainedCrossingPoints);
 	
         return true;
     }
