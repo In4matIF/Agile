@@ -17,7 +17,7 @@ import model.Section;
 import view.Window;
 
 /**
- * Commande li馥 � la g駭駻ation d'une feuille de route
+ * Commande li鬥･ �ｿｽ la g鬧ｭ鬧ｻation d'une feuille de route
  */
 public class GenerateTourSheetCommand implements Command {
 
@@ -35,14 +35,14 @@ public class GenerateTourSheetCommand implements Command {
     		List<Section> listSections = sections.get(i).getOrigin().getSections();
     		
     		Section sectionToRemove = null;
-    		for (int j = 0; j < listSections.size(); j ++)
+    		/*for (int j = 0; j < listSections.size(); j ++)
     		{
     			if(listSections.get(j).getDestination() == sections.get(i-1).getOrigin())
     			{
     				sectionToRemove = listSections.get(j);
     				break;
     			}
-    		}
+    		}*/
     		listSections.remove(sectionToRemove);
     		
     		LinkedList<Section> listG = new LinkedList<>(); 
@@ -72,7 +72,7 @@ public class GenerateTourSheetCommand implements Command {
 	    	    if (deltaA < 0)
 	    	    	deltaA += 360;
 	    	    
-	    	    listA.add(new Pair<Double, Section>(deltaA, listSections.get(j)));	    	    
+	    	    listA.add(new Pair<Double, Section>(deltaA, listSections.get(j)));
 			
     		}
     		
@@ -90,7 +90,7 @@ public class GenerateTourSheetCommand implements Command {
     	    		pair-> {
     	    			if(pair.getKey() > 180)
     	    				listG.addLast(pair.getValue());
-    	    			else if (pair.getKey() < 180)
+    	    			else if (pair.getKey() < 180 && pair.getKey() != 0)
     	    				listD.push(pair.getValue());   	    				
     	    			
     	    		}
@@ -139,7 +139,7 @@ public class GenerateTourSheetCommand implements Command {
     	    	tourMessage += "Faites demi tour vers la rue "+ sections.get(i).getStreet() + "\r\n\n";
     	    }
     	    
-    	    else if(deltaA > 15 )
+    	    else if(deltaA > 15 && deltaA < 180 )
     	    {
     	    	if (listD.size() == 1)
     	    	{
