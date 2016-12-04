@@ -388,6 +388,17 @@ public class Window {
 	 */
 	public void renderPlan(Group planCanvas) throws Exception {
 
+		plan.getSections().forEach(section -> {
+			float xOrigin = section.getOrigin().getX() * WIDTH_RATIO;
+			float yOrigin = section.getOrigin().getY() * HEIGHT_RATIO;
+			float xDestination = section.getDestination().getX() * WIDTH_RATIO;
+			float yDestination = section.getDestination().getY() * HEIGHT_RATIO;
+			Line line = new Line(xOrigin, yOrigin, xDestination, yDestination);
+			line.setStrokeWidth(3);
+			line.setStroke(PLAN_SECTION_COLOR);
+			planCanvas.getChildren().add(line);
+		});
+
 		plan.getIntersections().forEach((integer, intersection) -> {
 			float x = intersection.getX() * WIDTH_RATIO;
 			float y = intersection.getY() * HEIGHT_RATIO;
@@ -404,17 +415,6 @@ public class Window {
 			);
 			circle.setOnMouseExited(event -> t.hide());
 			planCanvas.getChildren().add(circle);
-		});
-
-		plan.getSections().forEach(section -> {
-			float xOrigin = section.getOrigin().getX() * WIDTH_RATIO;
-			float yOrigin = section.getOrigin().getY() * HEIGHT_RATIO;
-			float xDestination = section.getDestination().getX() * WIDTH_RATIO;
-			float yDestination = section.getDestination().getY() * HEIGHT_RATIO;
-			Line line = new Line(xOrigin, yOrigin, xDestination, yDestination);
-			line.setStrokeWidth(3);
-			line.setStroke(PLAN_SECTION_COLOR);
-			planCanvas.getChildren().add(line);
 		});
 
 	}
@@ -526,7 +526,21 @@ public class Window {
 			}
 		});
 
-
+		tour.getSections().forEach(
+				(section) -> {
+					float xOrigin = section.getOrigin().getX() * WIDTH_RATIO;
+					float yOrigin = section.getOrigin().getY() * HEIGHT_RATIO;
+					float xDestination = section.getDestination().getX() * WIDTH_RATIO;
+					float yDestination = section.getDestination().getY() * HEIGHT_RATIO;
+					Line line = new Line(xOrigin, yOrigin, xDestination, yDestination);
+					line.setStrokeWidth(3);
+					line.setStroke(TOUR_PATH_COLOR);
+					planCanvas.getChildren().add(line);
+					String deliverys = filler2.getText() + "Rue : " + section.getStreet() + " / Destination : "
+							+ section.getDestination().getId() + "\r\n";
+					filler2.setText(deliverys);
+				}
+		);
 		
 		tour.getCrossingPoints().forEach((integer, crossingPoint) -> {
 
@@ -542,22 +556,6 @@ public class Window {
 			planCanvas.getChildren().add(circle);
 
 		});
-
-		tour.getSections().forEach(
-			(section) -> {
-				float xOrigin = section.getOrigin().getX() * WIDTH_RATIO;
-				float yOrigin = section.getOrigin().getY() * HEIGHT_RATIO;
-				float xDestination = section.getDestination().getX() * WIDTH_RATIO;
-				float yDestination = section.getDestination().getY() * HEIGHT_RATIO;
-				Line line = new Line(xOrigin, yOrigin, xDestination, yDestination);
-				line.setStrokeWidth(3);
-				line.setStroke(TOUR_PATH_COLOR);
-				planCanvas.getChildren().add(line);
-				String deliverys = filler2.getText() + "Rue : " + section.getStreet() + " / Destination : "
-						+ section.getDestination().getId() + "\r\n";
-				filler2.setText(deliverys);
-			}
-		);
 
 		//filler1.setText(filler1.getText() + "\r\n Total duration : " + (int) tour.getDuration()/1000 + "km \r\n");
 
