@@ -12,6 +12,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -20,7 +21,7 @@ import java.util.Map;
  */
 public class Tour implements Observable{
 
-    private Map<Integer, Section> sections;
+    private List<Section> sections;
     private Map<Integer, CrossingPoint> crossingPoints;
     private Integer duration;
     private Integer idWarehouse;
@@ -30,7 +31,7 @@ public class Tour implements Observable{
     public Tour() {
     }
 
-    public Tour(Map<Integer, Section> sections, Map<Integer, CrossingPoint> crossingPoints, Integer duration) {
+    public Tour(List<Section> sections, Map<Integer, CrossingPoint> crossingPoints, Integer duration) {
         this.sections = sections;
         this.crossingPoints = crossingPoints;
         this.duration = duration;
@@ -66,7 +67,7 @@ public class Tour implements Observable{
             idWarehouse = warehouse.getIntersection().getId();
 
             crossingPoints = new HashMap<>();
-            sections = new HashMap<>();
+            sections = new LinkedList<Section>();
             crossingPoints.put(warehouse.getIntersection().getId(),warehouse);
             
             NodeList tList = doc.getElementsByTagName("livraison");
@@ -110,11 +111,11 @@ public class Tour implements Observable{
         }
     }
 
-    public Map<Integer, Section> getSections() {
+    public List<Section> getSections() {
         return sections;
     }
 
-    public void setSections(Map<Integer, Section> sections) {
+    public void setSections(List<Section> sections) {
         this.sections = sections;
     }
 

@@ -544,7 +544,7 @@ public class Window {
 		});
 
 		tour.getSections().forEach(
-			(id, section) -> {
+			(section) -> {
 				float xOrigin = section.getOrigin().getX() * WIDTH_RATIO;
 				float yOrigin = section.getOrigin().getY() * HEIGHT_RATIO;
 				float xDestination = section.getDestination().getX() * WIDTH_RATIO;

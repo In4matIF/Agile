@@ -27,7 +27,7 @@ public class GenerateTourSheetCommand implements Command {
     @Override
     public boolean doCommand() {
     	String tourMessage = "";
-    	Map<Integer, Section> sections = Window.tour.getSections();
+    	List<Section> sections = Window.tour.getSections();
     	tourMessage += "Prenez la rue "+ sections.get(0).getStreet() + "\r\n";
     	
     	for(int i = 1; i < sections.size(); i++)

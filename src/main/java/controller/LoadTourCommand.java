@@ -33,13 +33,12 @@ public class LoadTourCommand implements Command {
     @Override
     public boolean doCommand() {
 		Window.tour = new Tour(file, Window.plan);
-		k=0;
 		Graph g = new Graph(Window.plan, Window.tour);
 		TSP1 tsp = new TSP1();
 		tsp.chercheSolution(60000, g);
 		List<Path> paths = g.getPaths();
-		List<Intersection> intersections = new LinkedList();
-		Map<Integer, Section> sections = new HashMap<>();
+		List<Intersection> intersections = new LinkedList<Intersection>();
+		List<Section> sections = new LinkedList<Section>();
 		List<CrossingPoint> ordainedCrossingPoints = new LinkedList<CrossingPoint>();
 		
 		paths.forEach(
@@ -49,9 +48,8 @@ public class LoadTourCommand implements Command {
 						//System.out.println(path.getOrigin().getId() + "->" + path.getDestination().getId() + " **************************************");
 						for(int j = 0; j < path.getSections().size(); j++)
 						{
-							sections.put(j+k, path.getSections().get(j));
+							sections.add(path.getSections().get(j));
 						}
-						k += path.getSections().size();
 					}
 				});
 		
@@ -70,9 +68,8 @@ public class LoadTourCommand implements Command {
 							//System.out.println(path.getOrigin().getId() + "->" + path.getDestination().getId() + " **************************************");
 							for(int j = 0; j < path.getSections().size(); j++)
 							{
-								sections.put(j+k, path.getSections().get(j));
+								sections.add(path.getSections().get(j));
 							}
-							k += path.getSections().size();
 						}
 					});
 			intersections.add(Window.tour.getCrossingPoints().get(tsp.getMeilleureSolution(i)).getIntersection());
@@ -92,9 +89,8 @@ public class LoadTourCommand implements Command {
 						//System.out.println(path.getOrigin().getId() + "->" + path.getDestination().getId() + " **************************************");
 						for(int j = 0; j < path.getSections().size(); j++)
 						{
-							sections.put(j+k, path.getSections().get(j));
+							sections.add(path.getSections().get(j));
 						}
-						k += path.getSections().size();
 					}
 				});
 		
