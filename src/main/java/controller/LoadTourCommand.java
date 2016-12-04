@@ -16,7 +16,7 @@ import util.TSP1;
 import view.Window;
 
 /**
- * Commande liï¿½e au chargement de la livraison
+ * Commande liée au chargement de la livraison
  */
 public class LoadTourCommand implements Command {
 
@@ -28,7 +28,7 @@ public class LoadTourCommand implements Command {
     }
 
     /**
-     * Applique les algorithmes de calcul de tournï¿½e
+     * Applique les algorithmes de calcul de tournée
      */
     @Override
     public boolean doCommand() {
@@ -102,7 +102,7 @@ public class LoadTourCommand implements Command {
 		
 		Window.tour.setSections(sections);
 		
-		Window.tour.setDuration(tsp.getMeilleureSolution(0));
+		Window.tour.setDuration(tsp.getCoutMeilleureSolution());
 	
         return true;
     }
