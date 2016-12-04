@@ -50,10 +50,17 @@ public class Tour implements Observable{
             doc.getDocumentElement().normalize();
             
             Element tElement = (Element) (doc.getElementsByTagName("entrepot").item(0));
-            
+
+            long departure = 0;
+
+            String[] strTime = (tElement.getAttribute("heureDepart")).split(":");
+            departure = Integer.parseInt(strTime[0]) * 3600
+                    + Integer.parseInt(strTime[1]) * 60
+                    + Integer.parseInt(strTime[2]);
+
             Warehouse warehouse = new Warehouse(
                     plan.getIntersections().get(Integer.parseInt(tElement.getAttribute("adresse"))),
-            		tElement.getAttribute("heureDepart")
+            		departure
             		);
             idWarehouse = warehouse.getIntersection().getId();
 
@@ -75,7 +82,7 @@ public class Tour implements Observable{
                     long endTime = Long.MAX_VALUE;
 
                     if(t2Element.hasAttribute("debutPlage") && t2Element.hasAttribute("finPlage")) {
-                        String[] strTime = (t2Element.getAttribute("debutPlage")).split(":");
+                        strTime = (t2Element.getAttribute("debutPlage")).split(":");
                         beginTime = Integer.parseInt(strTime[0]) * 3600
                                 + Integer.parseInt(strTime[1]) * 60
                                 + Integer.parseInt(strTime[2]);

@@ -10,8 +10,9 @@ import java.sql.Time;
  */
 public class DeliveryPoint extends CrossingPoint {
 
-    //private long beginTime;
-    //private long endTime;
+    private long waitTime;
+    private long arrival;
+    private long departure;
 
     public DeliveryPoint() {
     }
@@ -52,5 +53,29 @@ public class DeliveryPoint extends CrossingPoint {
                 ", endTime=" + endTime +
                 ", duration=" + this.getDuration() +
                 '}';
+    }
+
+    public long getWaitTime() {
+        return waitTime;
+    }
+
+    public void setWaitTime(long waitTime) {
+        this.waitTime = waitTime;
+    }
+
+    public long getArrival() {
+        return arrival;
+    }
+
+    public void setArrival(long arrival) {
+        this.arrival = arrival;
+    }
+
+    public long getDeparture() {
+        return departure;
+    }
+
+    public void setDeparture(long departure) {
+        this.departure = departure;
     }
 }

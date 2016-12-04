@@ -1,0 +1,10 @@
+Date waitingTime = new Date(((DeliveryPoint) deliveryPoint).getWaitTime()*1000);
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss", Locale.ENGLISH);
+        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+        String formattedWaitingTime = sdf.format(waitingTime);
+        Text text = new Text(new String(
+            "Adresse : " + deliveryPoint.getIntersection().getId() +
+                "\r\n durée : " + deliveryPoint.getDuration() +
+                "\r\n arrivée : " + deliveryPoint.getBeginTime() +
+                "\r\n départ : " + deliveryPoint.getEndTime() +
+                "\r\n temps d'attente : " + formattedWaitingTime));

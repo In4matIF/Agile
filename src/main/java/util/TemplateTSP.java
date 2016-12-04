@@ -3,8 +3,10 @@ package util;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import model.CrossingPoint;
 import model.DeliveryPoint;
 import model.Graph;
+import model.Warehouse;
 
 /**
  * Classe template du TSP impl�mentant l'algorithme
@@ -49,7 +51,22 @@ public abstract class TemplateTSP implements TSP {
         );
 		ArrayList<Integer> vus = new ArrayList<Integer>(graph.getCrossingPoints().size());
 		vus.add(graph.getIdWarehouse());
-		branchAndBound(graph.getIdWarehouse(), nonVus, vus, 0, graph, System.currentTimeMillis(), tpsLimite);
+		Warehouse warehouse = (Warehouse)(graph.getCrossingPoints().get(graph.getIdWarehouse()));
+		branchAndBound(graph.getIdWarehouse(), nonVus, vus, warehouse.getDepartureTime(), graph, System.currentTimeMillis(), tpsLimite);
+
+		long crtTime = warehouse.getDepartureTime();
+		for(int i = 1; i < meilleureSolution.length; i ++){
+			DeliveryPoint crtPoint = (DeliveryPoint) (graph.getCrossingPoints().get(meilleureSolution[i]));
+			crtTime += graph.getCrossingPoints().get(meilleureSolution[i-1]).getPaths().get(meilleureSolution[i]).getDuration();
+			if(crtTime < crtPoint.getBeginTime()){
+				crtPoint.setWaitTime(crtPoint.getBeginTime() - crtTime);
+			}else{
+				crtPoint.setWaitTime(0);
+			}
+			crtPoint.setArrival(crtTime);
+			crtTime += crtPoint.getDuration();
+			crtPoint.setDeparture(crtTime);
+		}
 	}
 	
 	public Integer getMeilleureSolution(int i){
@@ -97,6 +114,7 @@ public abstract class TemplateTSP implements TSP {
 		 if(coutVus < graph.getCrossingPoints().get(sommetCrt).getBeginTime()) {
 			 coutVus = graph.getCrossingPoints().get(sommetCrt).getBeginTime();
 		 }
+		 coutVus += graph.getCrossingPoints().get(sommetCrt).getDuration();
 	    if (nonVus.size() == 0){ // tous les sommets ont ete visites
             //coutVus += graph.getCrossingPoints().get(sommetCrt).getPaths().get(graph.getIdWarehouse()).getLength(); // on ajoute le dernier cout retour vers l'ntrepot
             coutVus += graph.getCrossingPoints().get(sommetCrt).getPaths().get(graph.getIdWarehouse()).getDuration(); // on ajoute le dernier cout retour vers l'ntrepot
@@ -113,8 +131,7 @@ public abstract class TemplateTSP implements TSP {
 	        	branchAndBound(
                         prochainSommet, nonVus, vus,
                         //coutVus + graph.getCrossingPoints().get(sommetCrt).getPaths().get(prochainSommet).getLength() //cout pour aller au prochain sommet
-                        coutVus + graph.getCrossingPoints().get(sommetCrt).getPaths().get(prochainSommet).getDuration() //cout pour aller au prochain sommet
-                                + graph.getCrossingPoints().get(prochainSommet).getDuration(), //duree du prochain sommet
+                        coutVus + graph.getCrossingPoints().get(sommetCrt).getPaths().get(prochainSommet).getDuration(), //cout pour aller au prochain sommet
                         graph, tpsDebut, tpsLimite);
 	        	vus.remove(prochainSommet);
 	        	nonVus.add(prochainSommet);
