@@ -6,17 +6,17 @@ import model.Intersection;
 import java.sql.Time;
 
 /**
- * Objet représentant un point de livraison pour le vendeur
+ * Objet reprï¿½sentant un point de livraison pour le vendeur
  */
 public class DeliveryPoint extends CrossingPoint {
 
-    private Time beginTime;
-    private Time endTime;
+    //private long beginTime;
+    //private long endTime;
 
     public DeliveryPoint() {
     }
 
-    public DeliveryPoint(Intersection intersection, Time beginTime, Time endTime, Integer duration) {
+    public DeliveryPoint(Intersection intersection, long beginTime, long endTime, Integer duration) {
         super(intersection);
         this.beginTime = beginTime;
         this.endTime = endTime;
@@ -28,19 +28,19 @@ public class DeliveryPoint extends CrossingPoint {
         this.setDuration(duration);
     }
 
-    public Time getBeginTime() {
+    public long getBeginTime() {
         return beginTime;
     }
 
-    public void setBeginTime(Time beginTime) {
+    public void setBeginTime(long beginTime) {
         this.beginTime = beginTime;
     }
 
-    public Time getEndTime() {
+    public long getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(Time endTime) {
+    public void setEndTime(long endTime) {
         this.endTime = endTime;
     }
 
