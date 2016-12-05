@@ -1,12 +1,13 @@
 package controller;
 
+import model.DeliveryPoint;
 import model.Plan;
 import view.Window;
 
 import java.io.File;
 
 /**
- * Objet State générique pour le design patter State
+ * Objet State gï¿½nï¿½rique pour le design patter State
  */
 public class DefaultState implements State{
 
@@ -33,5 +34,8 @@ public class DefaultState implements State{
     @Override
     public void generateTourSheet(Window window, CommandList commandList) {
 
+    }
+    
+    public void deleteDeliveryPoint(Window window, CommandList commandList, DeliveryPoint toDelete){
     }
 }
