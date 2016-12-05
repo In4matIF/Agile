@@ -489,7 +489,7 @@ public class Window {
 			tmpGP.add(circleStack, 6, 0);
 			circleStack.getChildren().add(circleAttente); 
 			circleStack.getChildren().add(textAttente);
-			deliveryPane.getChildren().add(stack);
+			deliveryPane.getChildren().add(deliveryVB);
 			
 			Rectangle clickable = new Rectangle(400,100);
 			clickable.setFill(Color.TRANSPARENT);
@@ -501,8 +501,19 @@ public class Window {
 	            public void handle(MouseEvent t) {
 	            	StackPane stackDetails = new StackPane();
 	            	Rectangle othercolor = new Rectangle(400,300);
-	            	othercolor.setFill(Color.BEIGE);
+	            	othercolor.setFill(new LinearGradient(0,0,0,1, true, CycleMethod.NO_CYCLE,
+	    			        new Stop[]{
+	    			        new Stop(0,Color.web("#4977A3")),
+	    			        new Stop(0.5, Color.web("#B0C6DA")),
+	    			        new Stop(1,Color.web("#9CB6CF")),}));
+	    			    othercolor.setStroke(Color.web("#D0E6FA"));
+	    			    othercolor.setArcHeight(3.5);
+	    			    othercolor.setArcWidth(3.5);
 	            	GridPane gridDetails = new GridPane();
+	            	gridDetails.setHgap(10.0);
+	            	gridDetails.setVgap(10.0);
+	            	gridDetails.setPadding(new Insets(10.0));
+	            	gridDetails.setAlignment(Pos.CENTER);
 	            	Button supprimer = new Button("Supprimer");
 	            	Button modifier = new Button("Modifier");
 	            	Label adresseLabel =  new Label("Adresse : ");
@@ -517,9 +528,10 @@ public class Window {
 	            	gridDetails.add(debutLivraisonLabel,0,3,3,1);
 	            	gridDetails.add(departLabel,0,4,3,1);
 	            	gridDetails.add(attenteLabel,0,5,3,1);
-	            	stackDetails.getChildren().add(gridDetails);
 	            	stackDetails.getChildren().add(othercolor);
+	            	stackDetails.getChildren().add(gridDetails);
 	            	deliveryVB.getChildren().add(stackDetails);
+	            	System.out.println("test " + id);
 	            }
 	        });
 			stack.getChildren().add(clickable);
