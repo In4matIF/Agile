@@ -54,4 +54,8 @@ public class Controller {
     public void deleteDeliveryPoint(DeliveryPoint toDelete){
     	currentState.deleteDeliveryPoint(window, commandList, toDelete);
     }
+    
+    public void undo(){
+    	currentState.undo(commandList);
+    }
 }

@@ -21,4 +21,8 @@ public class LoadPlanCommand implements Command {
         Window.plan = new Plan(file);
         return true;
     }
+    
+    public boolean undoCommand() {
+    	return true;
+    }
 }

@@ -36,6 +36,11 @@ public class DefaultState implements State{
 
     }
     
+    @Override
     public void deleteDeliveryPoint(Window window, CommandList commandList, DeliveryPoint toDelete){
+    }
+    
+    public void undo(CommandList commandList){
+    	commandList.undoCommand();
     }
 }

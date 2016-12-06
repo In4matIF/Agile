@@ -17,5 +17,6 @@ public interface State {
     public void renitializeTour(Window window, CommandList commandList);
     public void generateTourSheet(Window window, CommandList commandList);
     public void deleteDeliveryPoint(Window window, CommandList commandList, DeliveryPoint toDelete);
+    public void undo(CommandList commandList);
 
 }

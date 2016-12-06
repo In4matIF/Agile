@@ -1,6 +1,7 @@
 package controller;
 
 import java.util.LinkedList;
+import java.util.List;
 
 import model.*;
 import util.Dijkstra;
@@ -9,6 +10,7 @@ import view.Window;
 public class DeleteDeliveryPointCommand implements Command {
 
 	DeliveryPoint toDelete;
+	Tour tourTemp;
 	
 	public DeleteDeliveryPointCommand(DeliveryPoint toDelete) {
 		this.toDelete = toDelete;
@@ -16,6 +18,7 @@ public class DeleteDeliveryPointCommand implements Command {
 
 	@Override
 	public boolean doCommand() {
+		tourTemp = Window.tour;
 		int index = Window.tour.getOrdainedCrossingPoints().indexOf(toDelete);
 		
 		//Remove the old path from the Tour
@@ -39,6 +42,12 @@ public class DeleteDeliveryPointCommand implements Command {
 			Window.tour.getSections().add(startPath+i,intersectionsToAdd.get(i).getSectionTo(intersectionsToAdd.get(i+1)));
 		}
 		
+		return true;
+	}
+	
+	@Override
+	public boolean undoCommand() {
+		Window.tour = tourTemp;
 		return true;
 	}
 

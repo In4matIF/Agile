@@ -190,4 +190,8 @@ public class GenerateTourSheetCommand implements Command {
 	
         return true;
     }
+    
+    public boolean undoCommand() {
+    	return true;
+    }
 }

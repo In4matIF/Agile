@@ -12,4 +12,8 @@ public class RenitializeTourCommand implements Command {
     public boolean doCommand() {
         return true;
     }
+    
+    public boolean undoCommand() {
+    	return true;
+    }
 }

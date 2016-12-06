@@ -8,13 +8,13 @@ import java.util.List;
  */
 public class CommandList {
 
-    List<Command> commands;
+    LinkedList<Command> commands;
 
     public CommandList() {
         commands = new LinkedList<>();
     }
 
-    public CommandList(List<Command> commands) {
+    public CommandList(LinkedList<Command> commands) {
         this.commands = commands;
     }
 
@@ -27,6 +27,14 @@ public class CommandList {
         boolean success = command.doCommand();
         if(success) commands.add(command);
         return success;
+    }
+    
+    public boolean undoCommand(){
+    	if (commands.size() == 0)
+    		return false;
+    	else
+    		return commands.pop().undoCommand();
+    		
     }
 
 }

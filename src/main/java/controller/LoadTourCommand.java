@@ -109,4 +109,8 @@ public class LoadTourCommand implements Command {
 	
         return true;
     }
+    
+    public boolean undoCommand() {
+    	return true;
+    }
 }

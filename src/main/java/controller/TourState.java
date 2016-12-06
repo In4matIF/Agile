@@ -29,4 +29,5 @@ public class TourState extends DefaultState{
     	commandList.addCommand(new DeleteDeliveryPointCommand(toDelete));
     	Controller.setCurrentState(Controller.tourState);
     }
+    
 }
