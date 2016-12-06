@@ -22,7 +22,7 @@ public abstract class TemplateTSP implements TSP {
     protected boolean foundSolution = false;
     private boolean isPossible = true;
 
-	private ArrayList<Pair> obviousIssues;
+	private ArrayList<Pair> obviousIssues = new ArrayList<Pair>();
 
 	public ArrayList<Pair> getObviousIssues() {
 		return obviousIssues;
