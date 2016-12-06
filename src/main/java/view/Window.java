@@ -327,7 +327,7 @@ public class Window {
 
 		suprimerPlanBtn.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent supPlanEvent) {
-				plan = new Plan();
+				//plan = new Plan();
 				controller.deleteDeliveryPoint((DeliveryPoint)tour.getCrossingPoints().get(203));
 				try {
 					renderLivraison(deliveryPane, filler2, planCanvas, deliveryGP,OpenState);

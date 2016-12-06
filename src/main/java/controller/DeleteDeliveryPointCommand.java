@@ -9,16 +9,22 @@ import view.Window;
 
 public class DeleteDeliveryPointCommand implements Command {
 
+	
 	DeliveryPoint toDelete;
-	Tour tourTemp;
+	List<CrossingPoint> listCP;
+	List<Section> listSections;
 	
 	public DeleteDeliveryPointCommand(DeliveryPoint toDelete) {
 		this.toDelete = toDelete;
+		listCP = new LinkedList<>();
+		listSections = new LinkedList<>();
 	}
 
 	@Override
 	public boolean doCommand() {
-		tourTemp = Window.tour;
+		listCP.addAll(Window.tour.getOrdainedCrossingPoints());
+		listSections.addAll(Window.tour.getSections());
+		
 		int index = Window.tour.getOrdainedCrossingPoints().indexOf(toDelete);
 		
 		//Remove the old path from the Tour
@@ -47,8 +53,12 @@ public class DeleteDeliveryPointCommand implements Command {
 	
 	@Override
 	public boolean undoCommand() {
-		Window.tour = tourTemp;
+		Window.tour.setOrdainedCrossingPoints(listCP);
+		Window.tour.setSections(listSections);
 		return true;
 	}
 
+	public boolean isDoable() {
+		return true;
+	}
 }

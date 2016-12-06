@@ -25,15 +25,17 @@ public class CommandList {
      */
     public boolean addCommand(Command command){
         boolean success = command.doCommand();
-        if(success) commands.add(command);
+        if(success) commands.push(command);
         return success;
     }
     
     public boolean undoCommand(){
     	if (commands.size() == 0)
     		return false;
-    	else
+    	else if (commands.getFirst().isDoable())
     		return commands.pop().undoCommand();
+    	else
+    		return false;
     		
     }
 
