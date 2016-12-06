@@ -16,12 +16,35 @@ import model.*;
  */
 public class Dijkstra {
 	
+	/**
+	 * Noeuds visités dans l'algorithme
+	 */
 	public Set<Intersection> settledNodes;
+	
+	/**
+	 * Noeuds non visités
+	 */
 	public Set<Intersection> unSettledNodes;
+	
+	/**
+	 * Map associant les intersections avec leur prédécesseurs dans le graphe
+	 */
 	public Map<Intersection, Intersection> predecessors;
+	
+	/**
+	 * Map associant les Intersections avec leur distance les séparant de l'origine
+	 */
 	public Map<Intersection, Integer> distance;
+	
+	/**
+	 * Plan sur lequel baser le calcul de Dijkstra
+	 */
 	public Plan plan;
 
+	/**
+	 * Constructeur de l'objet à partir d'un Plan
+	 * @param p le plan sur lequel appliquer Dijkstra
+	 */
 	public Dijkstra(Plan p)
 	{
 		plan = p;
@@ -36,8 +59,10 @@ public class Dijkstra {
         unSettledNodes = new HashSet<Intersection>();
         distance = new HashMap<Intersection, Integer>();
         predecessors = new HashMap<Intersection, Intersection>();
+        
         distance.put(source, 0);
         unSettledNodes.add(source);
+        
         while (unSettledNodes.size() > 0) {
         		Intersection node = getMinimum(unSettledNodes);
                 settledNodes.add(node);
@@ -46,6 +71,10 @@ public class Dijkstra {
         }
     }
     
+	/**
+	 * 
+	 * @param node
+	 */
     private void findMinimalDistances(Intersection node) {
         List<Intersection> adjacentNodes = getNeighbors(node);
         for (Intersection target : adjacentNodes) {
@@ -82,24 +111,39 @@ public class Dijkstra {
             return neighbors;
     }
 
-    private Intersection getMinimum(Set<Intersection> Intersectiones) {
+    /**
+     * Renvoie l'intersection la plus proche de l'origine  parmis les intersections passées en paramètre
+     * @param intersections la collection d'intersection
+     * @return l'intersection la plus proche parmis la collection
+     */
+    private Intersection getMinimum(Set<Intersection> intersections) {
             Intersection minimum = null;
-            for (Intersection Intersection : Intersectiones) {
+            for (Intersection inter : intersections) {
                     if (minimum == null) {
-                            minimum = Intersection;
+                            minimum = inter;
                     } else {
-                            if (getShortestDistance(Intersection) < getShortestDistance(minimum)) {
-                                    minimum = Intersection;
+                            if (getShortestDistance(inter) < getShortestDistance(minimum)) {
+                                    minimum = inter;
                             }
                     }
             }
             return minimum;
     }
 
+    /**
+     * Renvoie vrai si l'intersection en paramètre est contenue dans la liste des noeuds visités
+     * @param Intersection l'intersection à vérifier
+     * @return true si l'intersection est contenue dans setttledNodes, false sinon
+     */
     private boolean isSettled(Intersection Intersection) {
             return settledNodes.contains(Intersection);
     }
 
+    /**
+     * Renvoie la distance la plus courte depuis l'origine vers l'intersection passé en paramètre
+     * @param destination l'intersection de destination
+     * @return la distance à l'intersection depuis l'origine (ou Integer.MAX_VALUE si pas de chemin existant)
+     */
     private int getShortestDistance(Intersection destination) {
             Integer d = distance.get(destination);
             if (d == null) {
