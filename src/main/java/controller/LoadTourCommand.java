@@ -36,6 +36,8 @@ public class LoadTourCommand implements Command {
 		Graph g = new Graph(Window.plan, Window.tour);
 		TSP1 tsp = new TSP1();
 		tsp.chercheSolution(60000, g);
+		if(!tsp.getFoundSolution())
+			return false;
 		List<Path> paths = g.getPaths();
 		List<Intersection> intersections = new LinkedList<Intersection>();
 		List<Section> sections = new LinkedList<Section>();

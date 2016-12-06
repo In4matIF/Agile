@@ -18,10 +18,13 @@ public abstract class TemplateTSP implements TSP {
 	private Boolean tempsLimiteAtteint;
     protected int dureeMinimale = 0;
     protected int coutMinimal = 0;
+    protected boolean foundSolution = false;
 	
 	public Boolean getTempsLimiteAtteint(){
 		return tempsLimiteAtteint;
 	}
+
+	public boolean getFoundSolution() { return foundSolution; }
 
 	public void chercheSolution(long tpsLimite, Graph graph) {
 		tempsLimiteAtteint = false;
@@ -54,18 +57,20 @@ public abstract class TemplateTSP implements TSP {
 		Warehouse warehouse = (Warehouse)(graph.getCrossingPoints().get(graph.getIdWarehouse()));
 		branchAndBound(graph.getIdWarehouse(), nonVus, vus, warehouse.getDepartureTime(), graph, System.currentTimeMillis(), tpsLimite);
 
-		long crtTime = warehouse.getDepartureTime();
-		for(int i = 1; i < meilleureSolution.length; i ++){
-			DeliveryPoint crtPoint = (DeliveryPoint) (graph.getCrossingPoints().get(meilleureSolution[i]));
-			crtTime += graph.getCrossingPoints().get(meilleureSolution[i-1]).getPaths().get(meilleureSolution[i]).getDuration();
-			if(crtTime < crtPoint.getBeginTime()){
-				crtPoint.setWaitTime(crtPoint.getBeginTime() - crtTime);
-			}else{
-				crtPoint.setWaitTime(0);
+		if(foundSolution){
+			long crtTime = warehouse.getDepartureTime();
+			for(int i = 1; i < meilleureSolution.length; i ++){
+				DeliveryPoint crtPoint = (DeliveryPoint) (graph.getCrossingPoints().get(meilleureSolution[i]));
+				crtTime += graph.getCrossingPoints().get(meilleureSolution[i-1]).getPaths().get(meilleureSolution[i]).getDuration();
+				if(crtTime < crtPoint.getBeginTime()){
+					crtPoint.setWaitTime(crtPoint.getBeginTime() - crtTime);
+				}else{
+					crtPoint.setWaitTime(0);
+				}
+				crtPoint.setArrival(crtTime);
+				crtTime += crtPoint.getWaitTime() + crtPoint.getDuration();
+				crtPoint.setDeparture(crtTime);
 			}
-			crtPoint.setArrival(crtTime);
-			crtTime += crtPoint.getWaitTime() + crtPoint.getDuration();
-			crtPoint.setDeparture(crtTime);
 		}
 	}
 	
@@ -120,6 +125,7 @@ public abstract class TemplateTSP implements TSP {
 	    	if (coutVus < coutMeilleureSolution){ // on a trouve une solution meilleure que meilleureSolution
 	    		vus.toArray(meilleureSolution);
 	    		coutMeilleureSolution = coutVus;
+	    		foundSolution = true;
 	    	}
 	    } else if (coutVus + bound(sommetCrt, nonVus) < coutMeilleureSolution && coutVus < graph.getCrossingPoints().get(sommetCrt).getEndTime()){
 	        Iterator<Integer> it = iterator(sommetCrt, nonVus);
