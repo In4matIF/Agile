@@ -178,9 +178,9 @@ public class Window {
 		Button livraisonBtn = new Button("charger livraison");
 		grid.add(livraisonBtn, 1, 2);
 
-		Button suprimerLivraisonBtn = new Button("X");
-		suprimerLivraisonBtn.setMaxWidth(20);
-		grid.add(suprimerLivraisonBtn, 2, 2);
+		Button supprimerLivraisonBtn = new Button("X");
+		supprimerLivraisonBtn.setMaxWidth(20);
+		grid.add(supprimerLivraisonBtn, 2, 2);
 
 		//INFOS LORS DU PARCOURS
 		GridPane infosPos = new GridPane();
@@ -328,14 +328,20 @@ public class Window {
 		suprimerPlanBtn.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent supPlanEvent) {
 				plan = new Plan();
+				controller.deleteDeliveryPoint((DeliveryPoint)tour.getCrossingPoints().get(203));
+				try {
+					renderLivraison(deliveryPane, filler2, planCanvas, deliveryGP,OpenState);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 				//gc.setFill(Color.TAN);
 				//gc.fillRect(0, 0, planCanvas.getWidth(), planCanvas.getHeight());
 			}
 		});
 
-		suprimerLivraisonBtn.setOnAction(new EventHandler<ActionEvent>() {
+		supprimerLivraisonBtn.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent supLivrEvent) {
-				
+				controller.undo();
 			}
 		});
 
