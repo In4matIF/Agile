@@ -23,7 +23,7 @@ public class Graph {
     }
     
     /**
-     * Constructeur de Graph à partir d'un Plan et d'un Tour
+     * Constructeur de Graph ï¿½ partir d'un Plan et d'un Tour
      * Execute Dijkstra pour calculer le graphe
      * @param p l'objet Plan
      * @param t l'object Tour
@@ -103,5 +103,23 @@ public class Graph {
 
     public void setIdWarehouse(int idWarehouse) {
         this.idWarehouse = idWarehouse;
+    }
+
+    public void releaseBeginConstraint(int targetId, int secondId){
+        CrossingPoint targetCrossingPoint = this.getCrossingPoints().get(targetId);
+        CrossingPoint secondCrossingPoint = this.getCrossingPoints().get(secondId);
+        targetCrossingPoint.setBeginTime(secondCrossingPoint.getEndTime()
+                        - targetCrossingPoint.getPaths().get(secondId).getDuration()
+                        - targetCrossingPoint.getDuration()
+        );
+    }
+
+    public void releaseEndConstraint(int targetId, int secondId){
+        CrossingPoint targetCrossingPoint = this.getCrossingPoints().get(targetId);
+        CrossingPoint secondCrossingPoint = this.getCrossingPoints().get(secondId);
+        targetCrossingPoint.setEndTime(secondCrossingPoint.getBeginTime()
+                + secondCrossingPoint.getDuration()
+                + secondCrossingPoint.getPaths().get(targetId).getDuration()
+        );
     }
 }
