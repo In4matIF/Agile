@@ -1,22 +1,32 @@
 package controller;
 
 import java.util.LinkedList;
+import java.util.List;
 
+import model.CrossingPoint;
 import model.DeliveryPoint;
 import model.Intersection;
+import model.Section;
 import util.Dijkstra;
 import view.Window;
 
 public class AddDeliveryPointCommand implements Command {
 	
 	DeliveryPoint toAdd;
+	List<CrossingPoint> listCP;
+	List<Section> listSections;
 
 	public AddDeliveryPointCommand(DeliveryPoint toAdd) {
 		this.toAdd = toAdd;
+		listCP = new LinkedList<>();
+		listSections = new LinkedList<>();
 	}
 
 	@Override
 	public boolean doCommand() {
+		
+		listCP.addAll(Window.tour.getOrdainedCrossingPoints());
+		listSections.addAll(Window.tour.getSections());
 		
 		//Recherche du meilleur endroit ou ajouter le point
 		Dijkstra dijkstraReturn = new Dijkstra(Window.plan);
@@ -87,6 +97,16 @@ public class AddDeliveryPointCommand implements Command {
 			System.out.println("Ajout de point de livraison impossible");
 			return false;
 		}
+	}
+	
+	public boolean undoCommand(){
+		Window.tour.setOrdainedCrossingPoints(listCP);
+		Window.tour.setSections(listSections);
+		return true;
+	}
+	
+	public boolean isDoable(){
+		return true;
 	}
 
 }

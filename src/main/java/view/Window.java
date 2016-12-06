@@ -328,12 +328,12 @@ public class Window {
 		suprimerPlanBtn.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent supPlanEvent) {
 				//plan = new Plan();
-				controller.deleteDeliveryPoint((DeliveryPoint)tour.getCrossingPoints().get(203));
+				/*controller.addDeliveryPoint(new DeliveryPoint(plan.getIntersections().get(80), 0, Long.MAX_VALUE, 900));
 				try {
 					renderLivraison(deliveryPane, filler2, planCanvas, deliveryGP,OpenState);
 				} catch (Exception e) {
 					e.printStackTrace();
-				}
+				}*/
 				//gc.setFill(Color.TAN);
 				//gc.fillRect(0, 0, planCanvas.getWidth(), planCanvas.getHeight());
 			}
@@ -341,7 +341,7 @@ public class Window {
 
 		supprimerLivraisonBtn.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent supLivrEvent) {
-				controller.undo();
+				//controller.undo();
 			}
 		});
 

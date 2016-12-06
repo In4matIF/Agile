@@ -40,6 +40,9 @@ public class DefaultState implements State{
     public void deleteDeliveryPoint(Window window, CommandList commandList, DeliveryPoint toDelete){
     }
     
+    public void addDeliveryPoint(Window window, CommandList commandList, DeliveryPoint toAdd){  	
+    }
+    
     public void undo(CommandList commandList){
     	commandList.undoCommand();
     }

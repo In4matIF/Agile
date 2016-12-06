@@ -55,6 +55,10 @@ public class Controller {
     	currentState.deleteDeliveryPoint(window, commandList, toDelete);
     }
     
+    public void addDeliveryPoint(DeliveryPoint toAdd){
+    	currentState.addDeliveryPoint(window, commandList, toAdd);
+    }
+    
     public void undo(){
     	currentState.undo(commandList);
     }
