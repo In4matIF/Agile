@@ -322,7 +322,7 @@ public class Window {
 				stepDisplay2.setText("0/"+tour.getSections().size());
 				// disp livraisons
 				try {
-					renderLivraison(OpenState);
+					renderLivraison(deliveryPane,planCanvas,deliveryGP,OpenState);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -442,7 +442,7 @@ public class Window {
 	 * @param planCanvas
 	 *            L'objet canvas contenant les formes géométrique à dessiner
 	 */
-	public void renderLivraison(Map<Integer, Boolean> openState)
+	public void renderLivraison(FlowPane deliveryPane,Group planCanvas, List<GridPane> deliveryGP, Map<Integer, Boolean> openState)
 			throws Exception {
 
 		for(int i=0; i<tour.getOrdainedCrossingPoints().size(); i++) {
