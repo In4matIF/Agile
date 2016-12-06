@@ -30,4 +30,10 @@ public class TourState extends DefaultState{
     	Controller.setCurrentState(Controller.tourState);
     }
     
+    public void addDeliveryPoint(Window window, CommandList commandList, DeliveryPoint toAdd)
+    {
+    	commandList.addCommand(new AddDeliveryPointCommand(toAdd));
+    	Controller.setCurrentState(Controller.tourState);
+    }
+    
 }

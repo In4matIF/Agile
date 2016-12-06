@@ -16,4 +16,8 @@ public class RenitializePlanCommand implements Command {
     public boolean undoCommand() {
     	return true;
     }
+    
+	public boolean isDoable() {
+		return false;
+	}
 }

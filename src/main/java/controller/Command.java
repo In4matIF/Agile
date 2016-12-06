@@ -7,4 +7,5 @@ public interface Command {
 
     public boolean doCommand();
     public boolean undoCommand();
+    public boolean isDoable();
 }
