@@ -64,7 +64,7 @@ public abstract class TemplateTSP implements TSP {
 				crtPoint.setWaitTime(0);
 			}
 			crtPoint.setArrival(crtTime);
-			crtTime += crtPoint.getDuration();
+			crtTime += crtPoint.getWaitTime() + crtPoint.getDuration();
 			crtPoint.setDeparture(crtTime);
 		}
 	}
@@ -114,10 +114,9 @@ public abstract class TemplateTSP implements TSP {
 		 if(coutVus < graph.getCrossingPoints().get(sommetCrt).getBeginTime()) {
 			 coutVus = graph.getCrossingPoints().get(sommetCrt).getBeginTime();
 		 }
-		 coutVus += graph.getCrossingPoints().get(sommetCrt).getDuration();
 	    if (nonVus.size() == 0){ // tous les sommets ont ete visites
             //coutVus += graph.getCrossingPoints().get(sommetCrt).getPaths().get(graph.getIdWarehouse()).getLength(); // on ajoute le dernier cout retour vers l'ntrepot
-            coutVus += graph.getCrossingPoints().get(sommetCrt).getPaths().get(graph.getIdWarehouse()).getDuration(); // on ajoute le dernier cout retour vers l'ntrepot
+            coutVus += graph.getCrossingPoints().get(sommetCrt).getDuration() + graph.getCrossingPoints().get(sommetCrt).getPaths().get(graph.getIdWarehouse()).getDuration(); // on ajoute le dernier cout retour vers l'ntrepot
 	    	if (coutVus < coutMeilleureSolution){ // on a trouve une solution meilleure que meilleureSolution
 	    		vus.toArray(meilleureSolution);
 	    		coutMeilleureSolution = coutVus;
@@ -131,7 +130,8 @@ public abstract class TemplateTSP implements TSP {
 	        	branchAndBound(
                         prochainSommet, nonVus, vus,
                         //coutVus + graph.getCrossingPoints().get(sommetCrt).getPaths().get(prochainSommet).getLength() //cout pour aller au prochain sommet
-                        coutVus + graph.getCrossingPoints().get(sommetCrt).getPaths().get(prochainSommet).getDuration(), //cout pour aller au prochain sommet
+                        coutVus + graph.getCrossingPoints().get(sommetCrt).getDuration()
+										+ graph.getCrossingPoints().get(sommetCrt).getPaths().get(prochainSommet).getDuration(), //cout pour aller au prochain sommet
                         graph, tpsDebut, tpsLimite);
 	        	vus.remove(prochainSommet);
 	        	nonVus.add(prochainSommet);
