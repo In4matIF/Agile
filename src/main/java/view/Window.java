@@ -51,7 +51,9 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.sun.prism.BasicStroke;
 
@@ -82,6 +84,8 @@ public class Window {
 	private Stage primaryStage;
 	private Controller controller;
 
+	private Map<Integer,Boolean> OpenState = new HashMap<>();
+	
 	public static Plan plan;
 	public static Tour tour;
 
@@ -313,7 +317,7 @@ public class Window {
 				stepDisplay2.setText("0/"+tour.getSections().size());
 				// disp livraisons
 				try {
-					renderLivraison(deliveryPane, filler2, planCanvas, deliveryGP);
+					renderLivraison(deliveryPane, filler2, planCanvas, deliveryGP,OpenState);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -429,7 +433,7 @@ public class Window {
 	 * @param planCanvas
 	 *            L'objet canvas contenant les formes géométrique à dessiner
 	 */
-	public void renderLivraison(FlowPane deliveryPane, TextArea filler2, Group planCanvas, List<GridPane> deliveryGP)
+	public void renderLivraison(FlowPane deliveryPane, TextArea filler2, Group planCanvas, List<GridPane> deliveryGP, Map<Integer, Boolean> openState)
 			throws Exception {
 		filler2.setText("");
 
@@ -456,11 +460,11 @@ public class Window {
 			Text textAttente = new Text(new String ("0"));
 			Circle adresse = new Circle(20,Color.TRANSPARENT);
 			adresse.setStroke(Color.WHITE);
-			Text arriveH = new Text(new String("h"));
-			Text arriveM = new Text(new String("m"));
+			Text arriveH = new Text(new String(toString().valueOf(((DeliveryPoint)deliveryPoint).getArrival()/3600)));
+			Text arriveM = new Text(new String(toString().valueOf(((DeliveryPoint)deliveryPoint).getArrival()%3600/60)));
 			Text fillerDash = new Text(new String("--"));
-			Text departH = new Text(new String("h"));
-			Text departM = new Text(new String("m"));
+			Text departH = new Text(new String(toString().valueOf(((DeliveryPoint)deliveryPoint).getDeparture()/3600)));
+			Text departM = new Text(new String(toString().valueOf(((DeliveryPoint)deliveryPoint).getDeparture()%3600/60)));
 			tmpGP.add(adresse, 0,0);
 			tmpGP.add(arriveH, 1, 0);
 			tmpGP.add(arriveM, 2, 0);
@@ -485,7 +489,6 @@ public class Window {
 			{
 				circleAttente.setStroke(Color.GREEN);
 			}
-			//tempHB.getChildren().add(circleStack);
 			tmpGP.add(circleStack, 6, 0);
 			circleStack.getChildren().add(circleAttente); 
 			circleStack.getChildren().add(textAttente);
@@ -495,12 +498,17 @@ public class Window {
 			clickable.setFill(Color.TRANSPARENT);
 			clickable.setStroke(Color.BLACK);
 			
+			openState.put(id,false);
+			
 			clickable.setOnMouseClicked(new EventHandler<MouseEvent>()
 	        {
 	            @Override
 	            public void handle(MouseEvent t) {
-	            	StackPane stackDetails = new StackPane();
-	            	Rectangle othercolor = new Rectangle(400,300);
+	            	if(openState.get(id) == false)
+	            	{
+		            StackPane stackDetails = new StackPane();
+		            GridPane gridDetails = new GridPane();
+		            Rectangle othercolor = new Rectangle(400,300);
 	            	othercolor.setFill(new LinearGradient(0,0,0,1, true, CycleMethod.NO_CYCLE,
 	    			        new Stop[]{
 	    			        new Stop(0,Color.web("#4977A3")),
@@ -509,7 +517,6 @@ public class Window {
 	    			    othercolor.setStroke(Color.web("#D0E6FA"));
 	    			    othercolor.setArcHeight(3.5);
 	    			    othercolor.setArcWidth(3.5);
-	            	GridPane gridDetails = new GridPane();
 	            	gridDetails.setHgap(10.0);
 	            	gridDetails.setVgap(10.0);
 	            	gridDetails.setPadding(new Insets(10.0));
@@ -517,21 +524,44 @@ public class Window {
 	            	Button supprimer = new Button("Supprimer");
 	            	Button modifier = new Button("Modifier");
 	            	Label adresseLabel =  new Label("Adresse : ");
+	            	TextField adresse = new TextField(id.toString());
 	            	Label arriveeLabel =  new Label("Arrivée : ");
-	            	Label debutLivraisonLabel =  new Label("début livraison : ");
+	            	TextField arrivee = new TextField(String.valueOf(((DeliveryPoint)deliveryPoint).getArrival()));
+	            	Label debutLivraisonLabel =  new Label("Début livraison : ");
+	            	TextField debutLivraison = new TextField(String.valueOf((((DeliveryPoint)deliveryPoint).getArrival())+((DeliveryPoint)deliveryPoint).getWaitTime()));
 	            	Label departLabel =  new Label("Départ : ");
+	            	TextField depart = new TextField(String.valueOf(((DeliveryPoint)deliveryPoint).getDeparture()));
 	            	Label attenteLabel =  new Label("Attente : ");
-	            	gridDetails.add(supprimer,0,0,3,1);
-	            	gridDetails.add(modifier, 4,0,3,1);
-	            	gridDetails.add(adresseLabel,0,1,3,1);
-	            	gridDetails.add(arriveeLabel,0,2,3,1);
-	            	gridDetails.add(debutLivraisonLabel,0,3,3,1);
-	            	gridDetails.add(departLabel,0,4,3,1);
-	            	gridDetails.add(attenteLabel,0,5,3,1);
+	            	TextField attente = new TextField(String.valueOf(((DeliveryPoint)deliveryPoint).getWaitTime()));
+	            	adresse.setDisable(true);
+	            	arrivee.setDisable(true);
+	            	depart.setDisable(true);
+	            	debutLivraison.setDisable(true);
+	            	attente.setDisable(true);
+	            	gridDetails.add(adresseLabel,0,0,3,1);
+	            	gridDetails.add(adresse,4,0,3,1);
+	            	gridDetails.add(arriveeLabel,0,1,3,1);
+	            	gridDetails.add(arrivee,4,1,3,1);
+	            	gridDetails.add(debutLivraisonLabel,0,2,3,1);
+	            	gridDetails.add(debutLivraison,4,2,3,1);
+	            	gridDetails.add(departLabel,0,3,3,1);
+	            	gridDetails.add(depart,4,3,3,1);
+	            	gridDetails.add(attenteLabel,0,4,3,1);
+	            	gridDetails.add(attente,4,4,3,1);
+	            	gridDetails.add(supprimer,0,5,3,1);
+	            	gridDetails.add(modifier, 4,5,3,1);
 	            	stackDetails.getChildren().add(othercolor);
 	            	stackDetails.getChildren().add(gridDetails);
 	            	deliveryVB.getChildren().add(stackDetails);
-	            	System.out.println("test " + id);
+	            	stackDetails.setUserData(id);
+	            	openState.put(id, true);
+	            	}
+	            	else
+	            	{
+	            		deliveryVB.getChildren().clear();
+	            		deliveryVB.getChildren().add(stack);
+	            		openState.put(id, false);
+	            	}
 	            }
 	        });
 			stack.getChildren().add(clickable);
