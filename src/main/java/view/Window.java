@@ -46,7 +46,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 
-
+import java.awt.Font;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -66,10 +66,12 @@ public class Window {
 	private final int SCENE_HEIGHT = 800;
 	private final int CANVAS_WIDTH = 750;
 	private final int CANVAS_HEIGHT = 650;
-	private final int TEXT_AREA_DELIVERY_WIDTH = 380;
+	private final int TEXT_AREA_DELIVERY_WIDTH = 400;
 	private final int TEXT_AREA_DELIVERY_HEIGHT = 650;
 	private final int TEXT_AREA_SHEET_WIDTH = 280;
 	private final int TEXT_AREA_SHEET_HEIGHT = 350;
+	private final int RECTANGLE_WIDTH = 400;
+	private final int RECTANGLE_HEIGHT = 100;
 
 	private final float WIDTH_RATIO = 0.95f;// (float)CANVAS_WIDTH/(float)SCENE_WIDTH;
 	private final float HEIGHT_RATIO = (float) CANVAS_HEIGHT / (float) SCENE_HEIGHT;
@@ -80,6 +82,10 @@ public class Window {
 	private final Color TOUR_WHAREHOUSE_COLOR = Color.DARKGREEN;
 	private final Color TOUR_PATH_COLOR = Color.RED;
 	private final Color TOUR_VISITED_SECTION_COLOR = Color.YELLOW;
+	private final Color DELIVERY_BG = Color.web("#17767A");
+	private final Color DELIVERY_DETAIL_BG = Color.web("#2F868A");
+	private final Color DELIVERY_TEXT_COLOR = Color.web("#B0E1E3");
+	private final Color WINDOW_BACKGROUND = Color.web("#17767A");
 
 	private Stage primaryStage;
 	private Controller controller;
@@ -152,6 +158,7 @@ public class Window {
 	 */
 	public void render() {
 
+		
 		GridPane grid = new GridPane();
 		grid.setHgap(20.0);
 		grid.setVgap(20.0);
@@ -230,7 +237,7 @@ public class Window {
 		planCanvas.maxWidth(CANVAS_WIDTH);
 		// PLAN AREA RECTANGLE
 		Rectangle rectangle = new Rectangle(CANVAS_WIDTH,CANVAS_HEIGHT);
-		rectangle.setFill(Color.TRANSPARENT);
+		rectangle.setFill(DELIVERY_DETAIL_BG);
 		rectangle.setStroke(Color.BLACK);
 		planCanvas.getChildren().add(rectangle);
 		grid.add(planCanvas, 0, 0, 3, 1); // col1, row2, takes up 2 cols, takes
@@ -247,9 +254,11 @@ public class Window {
 		deliveryPaneScroll.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
 		deliveryPaneScroll.setPrefWidth(TEXT_AREA_DELIVERY_WIDTH);
 		deliveryPaneScroll.setFitToHeight(true);
+		deliveryPaneScroll.setStyle("-fx-background-color: #2F868A;");
 		final FlowPane deliveryPane = new FlowPane();
+		deliveryPane.setStyle("-fx-background-color: #2F868A;");
 		deliveryPane.setVgap(5);
-		grid.add(deliveryLegendPane,3,0,1,1);
+		grid.add(deliveryLegendPane,3,0,2,1);
 		deliveryLegendPane.add(title,0,0);
 		deliveryLegendPane.add(deliveryPaneScroll,0,1);
 		deliveryPaneScroll.setContent(deliveryPane);
@@ -257,10 +266,6 @@ public class Window {
     	deliveryLegendPane.setPrefWidth(TEXT_AREA_DELIVERY_WIDTH);
     	deliveryPane.setPrefHeight(TEXT_AREA_DELIVERY_HEIGHT);
     	deliveryPane.setPrefWidth(TEXT_AREA_DELIVERY_WIDTH);
-		final TextArea filler2 = new TextArea("[feuille de route]");
-		filler2.setPrefHeight(TEXT_AREA_SHEET_HEIGHT);
-		filler2.setPrefWidth(TEXT_AREA_SHEET_WIDTH);
-		grid.add(filler2, 4, 0, 1, 1);
 
 		Button feuilleBtn = new Button("generer feuille de route");
 		grid.add(feuilleBtn, 4, 1);
@@ -271,7 +276,7 @@ public class Window {
 		// set stage
 		Group root = new Group();
 		root.getChildren().add(grid);
-		Scene scene = new Scene(root, SCENE_WIDTH, SCENE_HEIGHT);
+		Scene scene = new Scene(root, SCENE_WIDTH, SCENE_HEIGHT,WINDOW_BACKGROUND);
 		primaryStage.setTitle("PLD Agile");
 		primaryStage.setScene(scene);
 
@@ -317,7 +322,7 @@ public class Window {
 				stepDisplay2.setText("0/"+tour.getSections().size());
 				// disp livraisons
 				try {
-					renderLivraison(deliveryPane, filler2, planCanvas, deliveryGP,OpenState);
+					renderLivraison(OpenState);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -330,7 +335,7 @@ public class Window {
 				plan = new Plan();
 				controller.deleteDeliveryPoint((DeliveryPoint)tour.getCrossingPoints().get(203));
 				try {
-					renderLivraison(deliveryPane, filler2, planCanvas, deliveryGP,OpenState);
+					renderLivraison(OpenState);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -434,18 +439,17 @@ public class Window {
 	 * 
 	 * @param deliveryPane
 	 *            Contient les informations sur les livraisons
-	 * @param filler2
-	 *            Contient les informations de la feuille de route
 	 * @param planCanvas
 	 *            L'objet canvas contenant les formes géométrique à dessiner
 	 */
-	public void renderLivraison(FlowPane deliveryPane, TextArea filler2, Group planCanvas, List<GridPane> deliveryGP, Map<Integer, Boolean> openState)
+	public void renderLivraison(Map<Integer, Boolean> openState)
 			throws Exception {
-		filler2.setText("");
 
-		tour.getCrossingPoints().forEach((id,deliveryPoint) -> {
-			if(id!=tour.getIdWarehouse())
+		for(int i=0; i<tour.getOrdainedCrossingPoints().size(); i++) {
+			if(tour.getOrdainedCrossingPoints().get(i) instanceof DeliveryPoint )
 			{
+			int id = tour.getOrdainedCrossingPoints().get(i).getIntersection().getId();
+			DeliveryPoint p = (DeliveryPoint)tour.getOrdainedCrossingPoints().get(i);
 			VBox deliveryVB = new VBox();
 			GridPane tmpGP = new GridPane();
 			tmpGP.setHgap(10.0);
@@ -453,25 +457,32 @@ public class Window {
 			tmpGP.setPadding(new Insets(10.0));
 			tmpGP.setAlignment(Pos.CENTER);
 			deliveryGP.add(tmpGP);
-			Rectangle temp = new Rectangle(400,100);
-			temp.setFill(new LinearGradient(0,0,0,1, true, CycleMethod.NO_CYCLE,
-			        new Stop[]{
-			        new Stop(0,Color.web("#4977A3")),
-			        new Stop(0.5, Color.web("#B0C6DA")),
-			        new Stop(1,Color.web("#9CB6CF")),}));
-			    temp.setStroke(Color.web("#D0E6FA"));
-			    temp.setArcHeight(3.5);
-			    temp.setArcWidth(3.5);
-			Text text = new Text(new String("Adresse : " + deliveryPoint.getIntersection().getId() + "\r\n durée : " + deliveryPoint.getDuration()+ "\r\n arrivée : " + deliveryPoint.getBeginTime()+ "\r\n départ : " + deliveryPoint.getEndTime()));
+			Rectangle temp = new Rectangle(RECTANGLE_WIDTH,RECTANGLE_HEIGHT);
+			temp.setFill(DELIVERY_BG);
+			temp.setStroke(DELIVERY_BG);
+			temp.setArcHeight(3.5);
+			temp.setArcWidth(3.5);
+			Text textAdresse = new Text(String.valueOf(id));
+			textAdresse.setStroke(DELIVERY_TEXT_COLOR);
 			Text textAttente = new Text(new String ("0"));
-			Circle adresse = new Circle(20,Color.TRANSPARENT);
-			adresse.setStroke(Color.WHITE);
-			Text arriveH = new Text(new String(toString().valueOf(((DeliveryPoint)deliveryPoint).getArrival()/3600)));
-			Text arriveM = new Text(new String(toString().valueOf(((DeliveryPoint)deliveryPoint).getArrival()%3600/60)));
+			textAttente.setStroke(DELIVERY_TEXT_COLOR);
+			StackPane circleAdresseStack = new StackPane();
+			Circle circleAdresse = new Circle(20,Color.TRANSPARENT);
+			circleAdresse.setStroke(Color.WHITE);
+			circleAdresse.setStrokeWidth(4);
+			circleAdresseStack.getChildren().add(circleAdresse);
+			circleAdresseStack.getChildren().add(textAdresse);
+			Text arriveH = new Text(new String(toString().valueOf((p.getArrival()/3600))));
+			arriveH.setStroke(DELIVERY_TEXT_COLOR);
+			Text arriveM = new Text(new String(toString().valueOf((p.getArrival()%3600/60))));
+			arriveM.setStroke(DELIVERY_TEXT_COLOR);
 			Text fillerDash = new Text(new String("--"));
-			Text departH = new Text(new String(toString().valueOf(((DeliveryPoint)deliveryPoint).getDeparture()/3600)));
-			Text departM = new Text(new String(toString().valueOf(((DeliveryPoint)deliveryPoint).getDeparture()%3600/60)));
-			tmpGP.add(adresse, 0,0);
+			fillerDash.setStroke(DELIVERY_TEXT_COLOR);
+			Text departH = new Text(new String(toString().valueOf((p.getDeparture()/3600))));
+			departH.setStroke(DELIVERY_TEXT_COLOR);
+			Text departM = new Text(new String(toString().valueOf((p.getDeparture()%3600/60))));
+			departM.setStroke(DELIVERY_TEXT_COLOR);
+			tmpGP.add(circleAdresseStack, 0,0);
 			tmpGP.add(arriveH, 1, 0);
 			tmpGP.add(arriveM, 2, 0);
 			tmpGP.add(fillerDash, 3, 0);
@@ -482,7 +493,9 @@ public class Window {
 			stack.getChildren().add(temp);
 			stack.getChildren().add(tmpGP);
 			StackPane circleStack = new StackPane();
+			
 			Circle circleAttente = new Circle(20,Color.TRANSPARENT);
+			circleAttente.setStrokeWidth(4);
 			if(0<10)
 			{
 				circleAttente.setStroke(Color.RED);
@@ -500,11 +513,11 @@ public class Window {
 			circleStack.getChildren().add(textAttente);
 			deliveryPane.getChildren().add(deliveryVB);
 			
-			Rectangle clickable = new Rectangle(400,100);
+			Rectangle clickable = new Rectangle(RECTANGLE_WIDTH,RECTANGLE_HEIGHT);
 			clickable.setFill(Color.TRANSPARENT);
 			clickable.setStroke(Color.BLACK);
 			
-			openState.put(id,false);
+			openState.put(tour.getOrdainedCrossingPoints().get(i).getIntersection().getId(),false);
 			
 			clickable.setOnMouseClicked(new EventHandler<MouseEvent>()
 	        {
@@ -514,15 +527,11 @@ public class Window {
 	            	{
 		            StackPane stackDetails = new StackPane();
 		            GridPane gridDetails = new GridPane();
-		            Rectangle othercolor = new Rectangle(400,300);
-	            	othercolor.setFill(new LinearGradient(0,0,0,1, true, CycleMethod.NO_CYCLE,
-	    			        new Stop[]{
-	    			        new Stop(0,Color.web("#4977A3")),
-	    			        new Stop(0.5, Color.web("#B0C6DA")),
-	    			        new Stop(1,Color.web("#9CB6CF")),}));
-	    			    othercolor.setStroke(Color.web("#D0E6FA"));
-	    			    othercolor.setArcHeight(3.5);
-	    			    othercolor.setArcWidth(3.5);
+		            Rectangle othercolor = new Rectangle(RECTANGLE_WIDTH,RECTANGLE_HEIGHT+200);
+	            	othercolor.setFill(DELIVERY_DETAIL_BG);
+	    			othercolor.setStroke(DELIVERY_DETAIL_BG);
+	    			othercolor.setArcHeight(3.5);
+	    			othercolor.setArcWidth(3.5);
 	            	gridDetails.setHgap(10.0);
 	            	gridDetails.setVgap(10.0);
 	            	gridDetails.setPadding(new Insets(10.0));
@@ -530,15 +539,20 @@ public class Window {
 	            	Button supprimer = new Button("Supprimer");
 	            	Button modifier = new Button("Modifier");
 	            	Label adresseLabel =  new Label("Adresse : ");
-	            	TextField adresse = new TextField(id.toString());
+	            	adresseLabel.setTextFill(DELIVERY_TEXT_COLOR);
+	            	TextField adresse = new TextField(String.valueOf(id));
 	            	Label arriveeLabel =  new Label("Arrivée : ");
-	            	TextField arrivee = new TextField(String.valueOf(((DeliveryPoint)deliveryPoint).getArrival()));
+	            	arriveeLabel.setTextFill(DELIVERY_TEXT_COLOR);
+	            	TextField arrivee = new TextField(String.valueOf((p.getArrival())));
 	            	Label debutLivraisonLabel =  new Label("Début livraison : ");
-	            	TextField debutLivraison = new TextField(String.valueOf((((DeliveryPoint)deliveryPoint).getArrival())+((DeliveryPoint)deliveryPoint).getWaitTime()));
+	            	debutLivraisonLabel.setTextFill(DELIVERY_TEXT_COLOR);
+	            	TextField debutLivraison = new TextField(String.valueOf((p.getArrival())+(p.getWaitTime())));
 	            	Label departLabel =  new Label("Départ : ");
-	            	TextField depart = new TextField(String.valueOf(((DeliveryPoint)deliveryPoint).getDeparture()));
+	            	departLabel.setTextFill(DELIVERY_TEXT_COLOR);
+	            	TextField depart = new TextField(String.valueOf((p.getDeparture())));
 	            	Label attenteLabel =  new Label("Attente : ");
-	            	TextField attente = new TextField(String.valueOf(((DeliveryPoint)deliveryPoint).getWaitTime()));
+	            	attenteLabel.setTextFill(DELIVERY_TEXT_COLOR);
+	            	TextField attente = new TextField(String.valueOf((p.getWaitTime())));
 	            	adresse.setDisable(true);
 	            	arrivee.setDisable(true);
 	            	depart.setDisable(true);
@@ -559,7 +573,6 @@ public class Window {
 	            	stackDetails.getChildren().add(othercolor);
 	            	stackDetails.getChildren().add(gridDetails);
 	            	deliveryVB.getChildren().add(stackDetails);
-	            	stackDetails.setUserData(id);
 	            	openState.put(id, true);
 	            	}
 	            	else
@@ -572,7 +585,7 @@ public class Window {
 	        });
 			stack.getChildren().add(clickable);
 			}
-		});
+		};
 
 		tour.getSections().forEach(
 				(section) -> {
@@ -584,9 +597,6 @@ public class Window {
 					line.setStrokeWidth(3);
 					line.setStroke(TOUR_PATH_COLOR);
 					planCanvas.getChildren().add(line);
-					String deliverys = filler2.getText() + "Rue : " + section.getStreet() + " / Destination : "
-							+ section.getDestination().getId() + "\r\n";
-					filler2.setText(deliverys);
 				}
 		);
 		
