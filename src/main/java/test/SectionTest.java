@@ -15,9 +15,11 @@ import model.Section;
 public class SectionTest {
 
 	private Section s;
+	private int LENGTH = 50;
+	private int SPEED = 20;
 	@Before
 	public void setUp() throws Exception {
-		s = new Section(new Intersection(1,25,25),new Intersection(2,0,0),50,20,"x0");
+		s = new Section(new Intersection(1,25,25),new Intersection(2,0,0),LENGTH,SPEED,"x0");
 	}
 
 	@After
@@ -97,5 +99,12 @@ public class SectionTest {
 	public void testSetStreet() {
 		s.setStreet(new String("y0"));
 		assertEquals(s.getStreet(),new String("y0"));
+	}
+
+	@Test
+	public void testGetDurationSeconds() {
+		int durationS = s.getDurationSeconds();
+		int durationExpected = (int)(((float)LENGTH)/((float)SPEED)*3.6f);
+		assertEquals(durationS,durationExpected);
 	}
 }

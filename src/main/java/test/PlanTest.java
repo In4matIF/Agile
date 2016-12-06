@@ -35,4 +35,9 @@ public class PlanTest {
 	public void testPlanNonVide() {
 		assertFalse((p.getIntersections().size()==0)||(p.getSections().size()==0));
 	}
+
+	@Test
+	public void testPlanNominalCase() {
+		assertTrue((p.getIntersections().size()==25)&&(p.getSections().size()==56));
+	}
 }
