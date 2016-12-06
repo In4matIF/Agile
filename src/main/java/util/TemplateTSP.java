@@ -3,6 +3,7 @@ package util;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import javafx.util.Pair;
 import model.CrossingPoint;
 import model.DeliveryPoint;
 import model.Graph;
@@ -19,6 +20,13 @@ public abstract class TemplateTSP implements TSP {
     protected int dureeMinimale = 0;
     protected int coutMinimal = 0;
     protected boolean foundSolution = false;
+    private boolean isPossible = true;
+
+	private ArrayList<Pair> obviousIssues;
+
+	public ArrayList<Pair> getObviousIssues() {
+		return obviousIssues;
+	}
 	
 	public Boolean getTempsLimiteAtteint(){
 		return tempsLimiteAtteint;
@@ -29,19 +37,26 @@ public abstract class TemplateTSP implements TSP {
 	public void chercheSolution(long tpsLimite, Graph graph) {
 		tempsLimiteAtteint = false;
 		coutMeilleureSolution = Long.MAX_VALUE;
-        dureeMinimale = Integer.MAX_VALUE;
-        coutMinimal = Integer.MAX_VALUE;
+		dureeMinimale = Integer.MAX_VALUE;
+		coutMinimal = Integer.MAX_VALUE;
 		meilleureSolution = new Integer[graph.getCrossingPoints().size()];
+
+		ArrayList<Integer> vus = new ArrayList<Integer>(graph.getCrossingPoints().size());
 		ArrayList<Integer> nonVus = new ArrayList<Integer>();
+
+		if (!isPossible(graph)){
+			System.out.println("Impossible !");
+			return;
+		}
+
 		graph.getCrossingPoints().forEach(
                 (integer, crossingPoint) -> {
-                    if(crossingPoint != null)
-                    {
-	                	if (integer != graph.getIdWarehouse())
-	                        nonVus.add(integer);
-	                    if(crossingPoint.getDuration() < dureeMinimale)
-	                        dureeMinimale = crossingPoint.getDuration();
-                    }
+                    if(crossingPoint != null) {
+						if (integer != graph.getIdWarehouse())
+							nonVus.add(integer);
+						if (crossingPoint.getDuration() < dureeMinimale)
+							dureeMinimale = crossingPoint.getDuration();
+					}
                 }
 		);
         graph.getPaths().forEach(
@@ -52,7 +67,6 @@ public abstract class TemplateTSP implements TSP {
                     	coutMinimal = path.getDuration();
                 }
         );
-		ArrayList<Integer> vus = new ArrayList<Integer>(graph.getCrossingPoints().size());
 		vus.add(graph.getIdWarehouse());
 		Warehouse warehouse = (Warehouse)(graph.getCrossingPoints().get(graph.getIdWarehouse()));
 		branchAndBound(graph.getIdWarehouse(), nonVus, vus, warehouse.getDepartureTime(), graph, System.currentTimeMillis(), tpsLimite);
@@ -143,6 +157,32 @@ public abstract class TemplateTSP implements TSP {
 	        	nonVus.add(prochainSommet);
 	        }	    
 	    }
+	}
+
+	boolean isPossible(Graph graph){
+
+		ArrayList<Integer> alreadyVerified = new ArrayList<Integer>(graph.getCrossingPoints().size());
+
+		graph.getCrossingPoints().forEach(
+				(integer, crossingPoint) -> {
+					alreadyVerified.add(integer);
+					graph.getCrossingPoints().forEach(
+							(otherInteger, otherCrossingPoint) -> {
+								if(!alreadyVerified.contains(otherInteger)){
+									long interTime = crossingPoint.getDuration()
+											+ crossingPoint.getPaths().get(otherInteger).getDuration();
+									long invertTime = otherCrossingPoint.getDuration()
+											+ otherCrossingPoint.getPaths().get(integer).getDuration();
+									if(interTime + crossingPoint.getBeginTime() > otherCrossingPoint.getEndTime()
+											&& invertTime + otherCrossingPoint.getBeginTime() > crossingPoint.getEndTime() )
+										isPossible = false;
+										obviousIssues.add(new Pair(crossingPoint,otherCrossingPoint));
+								}
+							}
+					);
+				}
+		);
+	 	return isPossible;
 	}
 }
 
