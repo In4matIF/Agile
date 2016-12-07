@@ -14,8 +14,19 @@ import util.Dijkstra;
  */
 public class Graph {
 
-    private List<Path> paths;
+    /**
+     * Les arrêtes du graphe
+     */
+	private List<Path> paths;
+	
+	/**
+	 * Les noeuds du graphe (Les points de passage de la livraison)
+	 */
     private Map<Integer, CrossingPoint> crossingPoints;
+    
+    /**
+     * L'id de l'entrepôt
+     */
     private int idWarehouse;
 
     public Graph() {
@@ -34,21 +45,24 @@ public class Graph {
     	idWarehouse = t.getIdWarehouse();
     	crossingPoints.get(idWarehouse).setDuration(0);
     	List<Path> paths = new ArrayList<Path>();
-		Dijkstra dijkstra = new Dijkstra(p);
+		
+    	Dijkstra dijkstra = new Dijkstra(p); //Construction du graphe à partir du Plan
 		
 		for(Map.Entry<Integer,CrossingPoint> origin : t.getCrossingPoints().entrySet())
 		{
-			dijkstra.execute(origin.getValue().getIntersection());
+			dijkstra.execute(origin.getValue().getIntersection()); //Application de dijkstra à partir de chaque CrossingPoint
 			
 			for(Map.Entry<Integer,CrossingPoint> destination : t.getCrossingPoints().entrySet())
 			{
 				if(!destination.equals(origin))
 				{
+					//Récupération du chemin le plus court vers chaque CrossingPoint de destination
 					LinkedList<Intersection> listinter = dijkstra.getPath(destination.getValue().getIntersection());
 					List<Section> sections = new ArrayList<Section>();
 					int length = 0;
 					int duration = 0;
-					for(int i=0 ; i<listinter.size()-1; i++)
+					
+					for(int i=0 ; i<listinter.size()-1; i++) //Transformation en liste de sections
 					{
 						Section toAdd = listinter.get(i).getSectionTo(listinter.get(i+1));
 						sections.add(toAdd);
@@ -59,7 +73,7 @@ public class Graph {
 					Path newPath = new Path(sections,length,duration);
 					paths.add(newPath);
 					
-					// Add the generated path to the crossing point
+					// Ajout de l'arrête générée au CrossingPoint de départ
 					origin.getValue().addPath(newPath, listinter.getLast().getId());
 				}
 			}

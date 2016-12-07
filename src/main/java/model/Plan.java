@@ -21,7 +21,14 @@ import java.util.Map;
  */
 public class Plan implements Observable{
 
-    private Map<Integer, Intersection> intersections = new HashMap<Integer, Intersection>();
+    /**
+     * Map des intersections du Plan avec l'id de l'intersection en clé
+     */
+	private Map<Integer, Intersection> intersections = new HashMap<Integer, Intersection>();
+	
+	/**
+	 * Liste des sections du plan
+	 */
     private List<Section> sections = new ArrayList<>();
 
     public Plan() {
@@ -32,6 +39,10 @@ public class Plan implements Observable{
         this.sections = sections;
     }
 
+    /**
+     * Création d'un objet plan à partir d'un fichier XML de plan
+     * @param xmlFile le xml du plan
+     */
     public Plan(File xmlFile){
         try {
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
@@ -42,6 +53,7 @@ public class Plan implements Observable{
 
             NodeList nList = doc.getElementsByTagName("noeud");
 
+            //Création des objets Intersections
             for (int temp = 0; temp < nList.getLength(); temp++) {
                 Node nNode = nList.item(temp);
 
@@ -60,6 +72,7 @@ public class Plan implements Observable{
 
             NodeList sList = doc.getElementsByTagName("troncon");
 
+            //Création des objets Section
             for (int temp = 0; temp < sList.getLength(); temp++) {
                 Node sNode = sList.item(temp);
 

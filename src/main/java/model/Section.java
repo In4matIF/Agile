@@ -9,8 +9,8 @@ public class Section {
 
     private Intersection origin;
     private Intersection destination;
-    private Integer length;
-    private Integer speed;
+    private Integer length; //en mètres
+    private Integer speed; //en mètres par secondes
     private String street;
 
     public Section() {

@@ -11,6 +11,10 @@ public class Intersection {
     private Integer id;
     private Integer x;
     private Integer y;
+    
+    /**
+     * Liste des sections vers d'autres Intersections
+     */
     private List<Section> sections;
 
     public Intersection() {

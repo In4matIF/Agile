@@ -8,10 +8,29 @@ import java.util.Map;
  */
 public abstract class CrossingPoint {
 
-    private Intersection intersection;
+    /**
+     * Intersection liée au CrossingPoint
+     */
+	private Intersection intersection;
+	
+	/**
+	 * Map des paths vers d'autres CrossingPoints
+	 */
     private Map<Integer, Path> paths;
+    
+    /**
+     * Durée de livraison
+     */
     private Integer duration;
+    
+    /**
+     * Début de la plage horaire de livraison
+     */
     protected long beginTime = 0;
+    
+    /**
+     * Fin de la plage horaire de livraison
+     */
     protected long endTime = Long.MAX_VALUE;
 
     public CrossingPoint() {

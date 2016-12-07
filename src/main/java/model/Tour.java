@@ -21,12 +21,13 @@ import java.util.Map;
  */
 public class Tour implements Observable{
 
-    private List<Section> sections;
+	private List<Section> sections;
     private Map<Integer, CrossingPoint> crossingPoints;
-    private Integer duration;
-    private Integer idWarehouse;
-    private List<Intersection> intersections;
-    private List<CrossingPoint> ordainedCrossingPoints;
+    private Integer duration; //en secondes
+    private Integer idWarehouse; //id de l'entrepot
+    private List<Intersection> intersections; //
+    private List<CrossingPoint> ordainedCrossingPoints; //Liste ordonnée de crossing points pour
+    													//l'ajout et la suppression de points
 
     public Tour() {
     }
@@ -60,6 +61,7 @@ public class Tour implements Observable{
                     + Integer.parseInt(strTime[1]) * 60
                     + Integer.parseInt(strTime[2]);
 
+            //Création de l'entrepot
             Warehouse warehouse = new Warehouse(
                     plan.getIntersections().get(Integer.parseInt(tElement.getAttribute("adresse"))),
             		departure
@@ -72,6 +74,7 @@ public class Tour implements Observable{
             
             NodeList tList = doc.getElementsByTagName("livraison");
 
+            //Création des points de livraison
             for (int temp = 0; temp < tList.getLength(); temp++) {
                 
             	Node tNode = tList.item(temp);

@@ -10,8 +10,19 @@ import java.sql.Time;
  */
 public class DeliveryPoint extends CrossingPoint {
 
-    private long waitTime;
+    /**
+     * Temps d'attente sur le point
+     */
+	private long waitTime;
+	
+	/**
+	 * Heure d'arrivée au point (en secondes)
+	 */
     private long arrival;
+    
+    /**
+     * Heure de départ du point (en secondes)
+     */
     private long departure;
 
     public DeliveryPoint() {

@@ -10,8 +10,8 @@ import java.util.List;
 public class Path {
 
     private List<Section> sections;
-    private int length; //in meters
-    private int duration; //in seconds
+    private int length; //en mètres
+    private int duration; //en secondes
 
     public Path() {
     }

@@ -72,8 +72,10 @@ public class Dijkstra {
     }
     
 	/**
-	 * 
-	 * @param node
+	 * Regarde tous les voisins de l'intersection en paramètre
+	 * et la définie comme prédecesseurs si ceux-ci sont à une distance
+	 * plus courte en passant par l'intersection
+	 * @param node une intersection
 	 */
     private void findMinimalDistances(Intersection node) {
         List<Intersection> adjacentNodes = getNeighbors(node);
@@ -89,6 +91,12 @@ public class Dijkstra {
 
     }
 
+    /**
+     * Renvoie la distance entre les intersections node et target
+     * @param node l'intersection de départ
+     * @param target l'intersection d'arrivée
+     * @return la distance entre les deux intersections
+     */
     private int getDistance(Intersection node, Intersection target) {
             for (Section edge : plan.getSections()) {
                     if (edge.getOrigin().equals(node)
@@ -100,6 +108,11 @@ public class Dijkstra {
             throw new RuntimeException("Should not happen");
     }
 
+    /**
+     * Renvoie les voisins de l'intersection en paramètre
+     * @param node une intersection
+     * @return les voisins de l'intersection
+     */
     private List<Intersection> getNeighbors(Intersection node) {
             List<Intersection> neighbors = new ArrayList<Intersection>();
             for (Section edge : plan.getSections()) {
