@@ -22,9 +22,7 @@ import java.util.List;
 public class GraphTest {
 
     private Graph g;
-    private final Integer ID = 1;
-    private final Integer X = 2;
-    private final Integer Y = 3;
+
 
     @Before
     public void setUp() throws Exception {

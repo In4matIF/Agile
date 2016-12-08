@@ -108,7 +108,7 @@ public class GenerateTourSheetCommand implements Command {
     	    if (deltaA < 0)
     	    	deltaA += 360;
     	    
-    	    tourMessage += "Degres : "+deltaA+"\r\n";
+    	    //tourMessage += "Degres : "+deltaA+"\r\n";
     	    
     	    if(deltaA < 345 && deltaA > 180)
     	    {
