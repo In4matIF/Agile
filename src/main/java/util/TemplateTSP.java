@@ -133,7 +133,7 @@ public abstract class TemplateTSP implements TSP {
 		 if(coutVus < graph.getCrossingPoints().get(sommetCrt).getBeginTime()) {
 			 coutVus = graph.getCrossingPoints().get(sommetCrt).getBeginTime();
 		 }
-	    if (nonVus.size() == 0){ // tous les sommets ont ete visites
+	    if (nonVus.size() == 0 && coutVus < graph.getCrossingPoints().get(sommetCrt).getEndTime()){ // tous les sommets ont ete visites
             //coutVus += graph.getCrossingPoints().get(sommetCrt).getPaths().get(graph.getIdWarehouse()).getLength(); // on ajoute le dernier cout retour vers l'ntrepot
             coutVus += graph.getCrossingPoints().get(sommetCrt).getDuration() + graph.getCrossingPoints().get(sommetCrt).getPaths().get(graph.getIdWarehouse()).getDuration(); // on ajoute le dernier cout retour vers l'ntrepot
 	    	if (coutVus < coutMeilleureSolution){ // on a trouve une solution meilleure que meilleureSolution
