@@ -1,9 +1,11 @@
 package util;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Iterator;
 
 import javafx.util.Pair;
+import javafx.util.converter.IntegerStringConverter;
 import model.CrossingPoint;
 import model.DeliveryPoint;
 import model.Graph;
@@ -126,6 +128,16 @@ public abstract class TemplateTSP implements TSP {
 	 * @param tpsLimite : limite de temps pour la resolution
 	 */	
 	 void branchAndBound(int sommetCrt, ArrayList<Integer> nonVus, ArrayList<Integer> vus, long coutVus, Graph graph, long tpsDebut, long tpsLimite){
+		 Comparator<Integer> comparatorNonVus = new Comparator<Integer>() {
+			 @Override
+			 public int compare(Integer first, Integer second) {
+				 long distanceFirst = graph.getCrossingPoints().get(sommetCrt).getPaths().get(first).getDuration();
+				 long distanceSecond = graph.getCrossingPoints().get(sommetCrt).getPaths().get(second).getDuration();
+				 return -Long.compare(distanceFirst, distanceSecond);
+			 }
+		 };
+		 nonVus.sort(comparatorNonVus);
+
 		 if (System.currentTimeMillis() - tpsDebut > tpsLimite){
 			 tempsLimiteAtteint = true;
 			 return;
