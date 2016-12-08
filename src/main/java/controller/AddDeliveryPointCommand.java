@@ -132,8 +132,9 @@ public class AddDeliveryPointCommand implements Command {
 				Window.tour.getSections().add(startPath+i,returnIntersects.get(i).getSectionTo(returnIntersects.get(i+1)));
 			}
 			
-			Window.tour.getOrdainedCrossingPoints().add(bestCrossingPoint+1, toAdd);
+			Window.tour.getOrdainedCrossingPoints().add(bestCrossingPoint, toAdd);
 			Window.tour.getCrossingPoints().put(toAdd.getIntersection().getId(), toAdd);
+			
 			
 			return true;
 		}

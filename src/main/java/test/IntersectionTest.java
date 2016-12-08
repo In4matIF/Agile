@@ -9,7 +9,7 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
 /**
- * Created by Olivice on 06/12/2016.
+ * Classe de test de l'objet Intersection
  */
 public class IntersectionTest {
 
@@ -18,6 +18,10 @@ public class IntersectionTest {
     private final Integer X = 2;
     private final Integer Y = 3;
 
+    /**
+     * Création d'un objet Intersection
+     * @throws Exception
+     */
     @Before
     public void setUp() throws Exception {
         i = new Intersection(ID,X,Y);

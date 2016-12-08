@@ -17,23 +17,30 @@ import java.io.File;
 import java.util.List;
 
 /**
-* Created by Olivice on 06/12/2016.
+* Classe de test de l'objet Graph
 */
 public class GraphTest {
 
     private Graph g;
 
 
+    /**
+     * Création du graphe
+     * @throws Exception
+     */
     @Before
     public void setUp() throws Exception {
-    	Plan plan = new Plan(new File("/src/main/resources/xml/testGraphPlan.xml"));
-        g = new Graph(plan, new Tour(new File("/src/main/resources/xml/testGraphTour.xml"), plan));
+    	Plan plan = new Plan(new File("src/main/resources/xml/testGraphPlan.xml"));
+        g = new Graph(plan, new Tour(new File("src/main/resources/xml/testGraphTour.xml"), plan));
     }
 
    @After
    public void tearDown() throws Exception {
    }
 
+   /**
+    * Test des arretes générées
+    */
    @Test
    public void testGraph() {
        List<Path> paths = g.getPaths();

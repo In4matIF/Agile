@@ -25,7 +25,7 @@ import java.io.IOException;
 import java.util.List;
 
 /**
- * Created by Olivice on 06/12/2016.
+ * Classe de test de la création de feuille de route
  */
 public class GenerateTourSheetCommandTest {
 
@@ -41,6 +41,9 @@ public class GenerateTourSheetCommandTest {
     public void tearDown() throws Exception {
     }
 
+    /**
+     * Test du fichier feuille de route généré
+     */
     @Test
     public void testCommand() {
     	LoadPlanCommand LPC = new LoadPlanCommand(new File("/src/main/resources/xml/testGraphPlan.xml"));

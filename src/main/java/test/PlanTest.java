@@ -13,8 +13,6 @@ import model.Plan;
 
 /**
  * Tests unitaires de JUnit pour la classe Plan
- * @author Tom
- *
  */
 public class PlanTest {
 
