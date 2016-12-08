@@ -35,8 +35,8 @@ public class Controller {
         currentState.loadPlan(window,commandList,file);
     }
 
-    public void loadTour(File file){
-        currentState.loadTour(window,commandList, file);
+    public boolean loadTour(File file){
+        return currentState.loadTour(window,commandList, file);
     }
 
     public void renitializePlan(){

@@ -77,6 +77,9 @@ public class Window {
 	private final float WIDTH_RATIO = 0.95f;// (float)CANVAS_WIDTH/(float)SCENE_WIDTH;
 	private final float HEIGHT_RATIO = (float) CANVAS_HEIGHT / (float) SCENE_HEIGHT;
 
+	private final int SELECTED_CIRCLE_RADIUS = 14;
+	private final int NON_SELECTED_CIRCLE_RADIUS = 6;
+
 	private final Color PLAN_INTERSECTION_COLOR = Color.AQUA;
 	private final Color PLAN_SECTION_COLOR = Color.AQUA;
 	private final Color TOUR_DELIVERY_COLOR = Color.web("#FF00EF");
@@ -374,11 +377,12 @@ public class Window {
 				File fileLivr = livrChooser.showOpenDialog(primaryStage);
 				currentTourFile = fileLivr.getName();
 				livraisonText.setText(currentTourFile);
-				controller.loadTour(fileLivr);
+				boolean isOk = controller.loadTour(fileLivr);
 				stepDisplay2.setText("0/"+tour.getSections().size());
 				// disp livraisons
 				try {
-					renderLivraison();
+                    if (isOk)
+					    renderLivraison();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -464,7 +468,7 @@ public class Window {
 			float x = intersection.getX() * WIDTH_RATIO;
 			float y = intersection.getY() * HEIGHT_RATIO;
 
-			Circle circle = new Circle(x, y, 6, PLAN_INTERSECTION_COLOR);
+			Circle circle = new Circle(x, y, NON_SELECTED_CIRCLE_RADIUS, PLAN_INTERSECTION_COLOR);
 
 			Tooltip t = new Tooltip("Intersection : "+intersection.getId());
 			circle.setOnMouseEntered(
@@ -543,7 +547,7 @@ public class Window {
 			{
 				circleAttente.setStroke(Color.GREEN);
 			}
-			tmpGP.add(circleStack, 6, 0);
+			tmpGP.add(circleStack, NON_SELECTED_CIRCLE_RADIUS, 0);
 			circleStack.getChildren().add(circleAttente); 
 			circleStack.getChildren().add(textAttente);
 			deliveryPane.getChildren().add(deliveryVB);
@@ -615,12 +619,20 @@ public class Window {
 	            	stackDetails.getChildren().add(othercolor);
 	            	stackDetails.getChildren().add(gridDetails);
 	            	deliveryVB.getChildren().add(stackDetails);
+	            	Circle circle = (Circle) getPlanCircle(p.getIntersection().getId());
+	            	if(circle!=null){
+	            		circle.setRadius(SELECTED_CIRCLE_RADIUS);
+					}
 	            	openState.put(id, true);
 	            	}
 	            	else
 	            	{
 	            		deliveryVB.getChildren().clear();
 	            		deliveryVB.getChildren().add(stack);
+						Circle circle = (Circle) getPlanCircle(p.getIntersection().getId());
+						if(circle!=null){
+							circle.setRadius(NON_SELECTED_CIRCLE_RADIUS);
+						}
 	            		openState.put(id, false);
 	            	}
 	            }
@@ -646,7 +658,8 @@ public class Window {
 
 			float x = crossingPoint.getIntersection().getX() * WIDTH_RATIO;
 			float y = crossingPoint.getIntersection().getY() * HEIGHT_RATIO;
-			Circle circle = new Circle(x, y, 6);
+			Circle circle = new Circle(x, y, NON_SELECTED_CIRCLE_RADIUS);
+			circle.setId(integer.toString());
 
 			if (tour.getIdWarehouse() == integer) {
 				circle.setFill(TOUR_WHAREHOUSE_COLOR);
@@ -714,4 +727,20 @@ public class Window {
 		}
 		return result;
 	}
+
+	private Node getPlanCircle(Integer id){
+		ArrayList<Node> result = new ArrayList();
+		planCanvas.getChildren().forEach(
+			node -> {
+				if(node instanceof Circle){
+					if(node.getId()!=null && node.getId().equals(id.toString())){
+						result.add(node);
+					}
+				}
+			}
+		);
+		if(result.size()>0) return result.get(0);
+		return null;
+	}
+
 }
