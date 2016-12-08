@@ -437,8 +437,13 @@ public class Window {
                 }
             }
         });
-		
-		
+
+		planCanvas.setOnMouseClicked(new EventHandler<MouseEvent>() {
+			public void handle(MouseEvent livraisonEvent) {
+				planCanvas.requestFocus();
+			}
+
+		});
 
 	}
 
