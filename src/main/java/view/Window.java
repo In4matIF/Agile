@@ -62,11 +62,11 @@ import com.sun.prism.BasicStroke;
  */
 public class Window {
 
-	private final int SCENE_WIDTH = 1400;
+	private final int SCENE_WIDTH = 1220;
 	private final int SCENE_HEIGHT = 800;
 	private final int CANVAS_WIDTH = 750;
 	private final int CANVAS_HEIGHT = 650;
-	private final int TEXT_AREA_DELIVERY_WIDTH = 400;
+	private final int TEXT_AREA_DELIVERY_WIDTH = 425;
 	private final int TEXT_AREA_DELIVERY_HEIGHT = 650;
 	private final int TEXT_AREA_SHEET_WIDTH = 280;
 	private final int TEXT_AREA_SHEET_HEIGHT = 350;
@@ -276,6 +276,7 @@ public class Window {
 		deliveryPaneScroll.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
 		deliveryPaneScroll.setPrefWidth(TEXT_AREA_DELIVERY_WIDTH);
 		deliveryPaneScroll.setFitToHeight(true);
+		deliveryPaneScroll.setFitToWidth(true);
 		deliveryPaneScroll.setStyle("-fx-background-color: #2F868A;");
 		deliveryPane.setStyle("-fx-background-color: #2F868A;");
 		deliveryPane.setVgap(5);
@@ -471,7 +472,7 @@ public class Window {
 			temp.setArcWidth(3.5);
 			Text textAdresse = new Text(String.valueOf(id));
 			textAdresse.setStroke(DELIVERY_TEXT_COLOR);
-			Text textAttente = new Text(new String ("0"));
+			Text textAttente = new Text(new String (toString().valueOf((p.getWaitTime()%3600/60))));
 			textAttente.setStroke(DELIVERY_TEXT_COLOR);
 			StackPane circleAdresseStack = new StackPane();
 			Circle circleAdresse = new Circle(20,Color.TRANSPARENT);
