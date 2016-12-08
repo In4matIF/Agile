@@ -16,6 +16,9 @@ import model.Plan;
 import model.Section;
 import util.Dijkstra;
 
+/**
+ * Classe de test de la classe Dijkstra
+ */
 public class DijkstraTest {
 	
 	private Dijkstra d;
@@ -24,6 +27,10 @@ public class DijkstraTest {
 	private Intersection destination;
 	private List<Intersection> path;
 	
+	/**
+	 * Creation d'un plan sur lequel faire les calcul de Dijkstra
+	 * @throws Exception
+	 */
 	@Before
 	public void setUp() throws Exception {
 		Map<Integer, Intersection> intersections = new HashMap<Integer, Intersection>();
@@ -93,6 +100,9 @@ public class DijkstraTest {
 		path = d.getPath(destination);
 	}
 	
+	/**
+	 * Vérification des chemins les plus courts
+	 */
 	@Test
 	public void testPath()
 	{

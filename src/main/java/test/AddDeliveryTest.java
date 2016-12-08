@@ -14,10 +14,17 @@ import model.Plan;
 import model.Tour;
 import view.Window;
 
+/**
+ * Classe de test JUnit sur la commande d'ajout de point de livraison AddDeliveryPoint
+ */
 public class AddDeliveryTest {
 	
 	Tour t;
 	
+	/**
+	 * Création d'un Tour et d'un Plan
+	 * @throws Exception
+	 */
 	@Before
 	public void setUp() throws Exception {
 	    Window.plan = new Plan(new File("src/main/resources/xml/testGraphPlan.xml"));
@@ -29,6 +36,9 @@ public class AddDeliveryTest {
 	    t = Window.tour;
 	}
 	
+	/**
+	 * Vérification du nouveau chemin après ajout du nouveau point
+	 */
 	@Test
 	public void testAddDelivery()
 	{
@@ -55,5 +65,12 @@ public class AddDeliveryTest {
 		
 		assertEquals(t.getSections().get(7).getOrigin().getId(),(Integer) 2);
 		assertEquals(t.getSections().get(7).getDestination().getId(),(Integer) 1);
+		
+		assertNotNull(t.getCrossingPoints().get(4));
+		
+		assertEquals(t.getOrdainedCrossingPoints().get(0).getIntersection().getId(),(Integer) 1);
+		assertEquals(t.getOrdainedCrossingPoints().get(1).getIntersection().getId(),(Integer) 3);
+		assertEquals(t.getOrdainedCrossingPoints().get(2).getIntersection().getId(),(Integer) 4);
+		assertEquals(t.getOrdainedCrossingPoints().get(3).getIntersection().getId(),(Integer) 5);
 	}
 }

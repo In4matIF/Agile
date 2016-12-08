@@ -1,6 +1,6 @@
 package test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 import java.io.File;
 
@@ -15,10 +15,17 @@ import model.Plan;
 import model.Tour;
 import view.Window;
 
+/**
+ * Classe de test de la commande de suppression de point de livraison DeleteDeliveryPoint
+ */
 public class DeleteDeliveryTest {
 	
 	Tour t;
 	
+	/**
+	 * Creation d'un Tour et d'un Plan
+	 * @throws Exception
+	 */
 	@Before
 	public void setUp() throws Exception {
 	    Window.plan = new Plan(new File("src/main/resources/xml/testGraphPlan.xml"));
@@ -30,6 +37,9 @@ public class DeleteDeliveryTest {
 	    t = Window.tour;
 	}
 	
+	/**
+	 * Vérification de la liste des sections après suppression du point
+	 */
 	@Test
 	public void testAddDelivery()
 	{
@@ -47,6 +57,12 @@ public class DeleteDeliveryTest {
 		
 		assertEquals(t.getSections().get(4).getOrigin().getId(),(Integer) 0);
 		assertEquals(t.getSections().get(4).getDestination().getId(),(Integer) 1);
+		
+		assertNull(t.getCrossingPoints().get(4));
+		
+		assertEquals(t.getOrdainedCrossingPoints().get(0).getIntersection().getId(),(Integer) 1);
+		assertEquals(t.getOrdainedCrossingPoints().get(1).getIntersection().getId(),(Integer) 3);
+		assertEquals(t.getOrdainedCrossingPoints().get(2).getIntersection().getId(),(Integer) 5);
 	}
 
 }
