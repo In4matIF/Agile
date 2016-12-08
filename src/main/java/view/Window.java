@@ -85,7 +85,13 @@ public class Window {
 	private final Color DELIVERY_BG = Color.web("#17767A");
 	private final Color DELIVERY_DETAIL_BG = Color.web("#2F868A");
 	private final Color DELIVERY_TEXT_COLOR = Color.web("#B0E1E3");
+	private final Color LABEL_TEXT_COLOR = Color.web("#B0E1E3");
 	private final Color WINDOW_BACKGROUND = Color.web("#17767A");
+	private final Color BORDER_COLOR = Color.web("#B0E1E3");
+	private final String BUTTON_COLOR = "#78C1C4";
+	private final String BUTTON_FONT_COLOR = "#024F53";
+
+	private final int DETAILS_FONT_SIZE = 20;
 
 	private final String PLAN_FILE_TEXT = "Fichier Plan";
 	private final String TOUR_FILE_TEXT = "Fichier Tour";
@@ -173,25 +179,31 @@ public class Window {
 
 		// AREA LOAD PLAN
 		final TextField planText = new TextField(currentPlanFile);
+		planText.setStyle("-fx-control-inner-background: "+BUTTON_COLOR+"; -fx-text-fill: "+BUTTON_FONT_COLOR+";");
 		planText.setEditable(false);
 		grid.add(planText, 0, 1);
 
 		Button planBtn = new Button("charger plan");
+		planBtn.setStyle("-fx-base: "+BUTTON_COLOR+"; -fx-text-fill: "+BUTTON_FONT_COLOR+";");
 		grid.add(planBtn, 1, 1);
 
 		Button suprimerPlanBtn = new Button("X");
+		suprimerPlanBtn.setStyle("-fx-base: "+BUTTON_COLOR+"; -fx-text-fill: "+BUTTON_FONT_COLOR+";");
 		suprimerPlanBtn.setMaxWidth(20);
 		grid.add(suprimerPlanBtn, 2, 1);
 
 		// AREA LOAD DELIVERY
 		final TextField livraisonText = new TextField(currentTourFile);
+		livraisonText.setStyle("-fx-control-inner-background: "+BUTTON_COLOR+"; -fx-text-fill: "+BUTTON_FONT_COLOR+";");
 		livraisonText.setEditable(false);
 		grid.add(livraisonText, 0, 2);
 
 		Button livraisonBtn = new Button("charger livraison");
+		livraisonBtn.setStyle("-fx-base: "+BUTTON_COLOR+"; -fx-text-fill: "+BUTTON_FONT_COLOR+";");
 		grid.add(livraisonBtn, 1, 2);
 
 		Button supprimerLivraisonBtn = new Button("X");
+		supprimerLivraisonBtn.setStyle("-fx-base: "+BUTTON_COLOR+"; -fx-text-fill: "+BUTTON_FONT_COLOR+";");
 		supprimerLivraisonBtn.setMaxWidth(20);
 		grid.add(supprimerLivraisonBtn, 2, 2);
 
@@ -204,15 +216,19 @@ public class Window {
 		grid.add(infosPos, 3, 1);
 		
 		Label stepDisplay1 = new Label("Etape");
+		stepDisplay1.setTextFill(LABEL_TEXT_COLOR);
 		infosPos.add(stepDisplay1, 0, 0);
 		
 		Label stepDisplay2 = new Label("0/0");
+		stepDisplay2.setTextFill(LABEL_TEXT_COLOR);
 		infosPos.add(stepDisplay2, 1, 0);
 		
 		Label nextStreet1 = new Label("Prochaine rue ");
+		nextStreet1.setTextFill(LABEL_TEXT_COLOR);
 		infosPos.add(nextStreet1, 0, 1);
 		
 		Label nextStreet2 = new Label();
+		nextStreet2.setTextFill(LABEL_TEXT_COLOR);
 		infosPos.add(nextStreet2, 1, 1);
 		
 		GridPane infosTime = new GridPane();
@@ -223,15 +239,19 @@ public class Window {
 		grid.add(infosTime, 3, 2);
 		
 		Label timePast1 = new Label("Temps Passé");
+		timePast1.setTextFill(LABEL_TEXT_COLOR);
 		infosTime.add(timePast1, 0, 0);
 		
 		Label timePast2 = new Label("0mn");
+		timePast2.setTextFill(LABEL_TEXT_COLOR);
 		infosTime.add(timePast2, 1, 0);
 		
 		Label timeLeft1 = new Label("Temps Restant");
+		timeLeft1.setTextFill(LABEL_TEXT_COLOR);
 		infosTime.add(timeLeft1, 0, 1);
 		
 		Label timeLeft2 = new Label("0mn");
+		timeLeft2.setTextFill(LABEL_TEXT_COLOR);
 		infosTime.add(timeLeft2, 1, 1);
 
 		// PLAN GROUP
@@ -243,12 +263,12 @@ public class Window {
 		// PLAN AREA RECTANGLE
 		Rectangle rectangle = new Rectangle(CANVAS_WIDTH,CANVAS_HEIGHT);
 		rectangle.setFill(DELIVERY_DETAIL_BG);
-		rectangle.setStroke(Color.BLACK);
 		planCanvas.getChildren().add(rectangle);
 		grid.add(planCanvas, 0, 0, 3, 1);
 
 		//Delivery - titles
 		Text title = new Text(new String("adresse   arrive -- depart   duree"));
+		title.setStroke(DELIVERY_TEXT_COLOR);
 
 		// Delivery Panel
 		GridPane deliveryLegendPane = new GridPane();
@@ -269,6 +289,7 @@ public class Window {
     	deliveryPane.setPrefWidth(TEXT_AREA_DELIVERY_WIDTH);
 
 		Button feuilleBtn = new Button("generer feuille de route");
+		feuilleBtn.setStyle("-fx-base: "+BUTTON_COLOR+"; -fx-text-fill: "+BUTTON_FONT_COLOR+";");
 		grid.add(feuilleBtn, 4, 1);
 
 		// test purposes only
@@ -501,7 +522,7 @@ public class Window {
 			
 			Rectangle clickable = new Rectangle(RECTANGLE_WIDTH,RECTANGLE_HEIGHT);
 			clickable.setFill(Color.TRANSPARENT);
-			clickable.setStroke(Color.BLACK);
+			clickable.setStroke(BORDER_COLOR);
 			
 			openState.put(tour.getOrdainedCrossingPoints().get(i).getIntersection().getId(),false);
 			
@@ -523,25 +544,27 @@ public class Window {
 	            	gridDetails.setPadding(new Insets(10.0));
 	            	gridDetails.setAlignment(Pos.CENTER);
 	            	Button supprimer = new Button("Supprimer");
+					supprimer.setStyle("-fx-base: "+BUTTON_COLOR+"; -fx-text-fill: "+BUTTON_FONT_COLOR+";");
 	            	Button modifier = new Button("Modifier");
+					modifier.setStyle("-fx-base: "+BUTTON_COLOR+"; -fx-text-fill: "+BUTTON_FONT_COLOR+";");
 	            	Label adresseLabel =  new Label("Adresse : ");
 	            	adresseLabel.setTextFill(DELIVERY_TEXT_COLOR);
-	            	adresseLabel.setStyle("-fx-font-size:"+25+" px");
+	            	adresseLabel.setStyle("-fx-font-size:"+DETAILS_FONT_SIZE+" px");
 	            	TextField adresse = new TextField(String.valueOf(id));
 	            	Label arriveeLabel =  new Label("Arrivée : ");
 	            	arriveeLabel.setTextFill(DELIVERY_TEXT_COLOR);
-	            	arriveeLabel.setStyle("-fx-font-size:"+25+" px");
+	            	arriveeLabel.setStyle("-fx-font-size:"+DETAILS_FONT_SIZE+" px");
 	            	TextField arrivee = new TextField(formatSecondTime(p.getArrival()));
 	            	Label debutLivraisonLabel =  new Label("Début livraison : ");
 	            	debutLivraisonLabel.setTextFill(DELIVERY_TEXT_COLOR);
-	            	debutLivraisonLabel.setStyle("-fx-font-size:"+25+" px");
+	            	debutLivraisonLabel.setStyle("-fx-font-size:"+DETAILS_FONT_SIZE+" px");
 	            	TextField debutLivraison = new TextField(formatSecondTime(p.getArrival()+p.getWaitTime()));
 	            	Label departLabel =  new Label("Départ : ");
-	            	departLabel.setStyle("-fx-font-size:"+25+" px");
+	            	departLabel.setStyle("-fx-font-size:"+DETAILS_FONT_SIZE+" px");
 	            	departLabel.setTextFill(DELIVERY_TEXT_COLOR);
 	            	TextField depart = new TextField(formatSecondTime(p.getDeparture()));
 	            	Label attenteLabel =  new Label("Attente : ");
-	            	attenteLabel.setStyle("-fx-font-size:"+25+" px");
+	            	attenteLabel.setStyle("-fx-font-size:"+DETAILS_FONT_SIZE+" px");
 	            	attenteLabel.setTextFill(DELIVERY_TEXT_COLOR);
 	            	TextField attente = new TextField(formatSecondTime(p.getWaitTime()));
 	            	adresse.setDisable(true);
