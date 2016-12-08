@@ -6,7 +6,7 @@ import view.Window;
 import java.io.File;
 
 /**
- * Commande liée au chargement du Plan
+ * Commande liï¿½e au chargement du Plan
  */
 public class LoadPlanCommand implements Command {
 
@@ -17,7 +17,7 @@ public class LoadPlanCommand implements Command {
     }
 
     @Override
-    public boolean doCommand() {
+    public boolean doCommand() throws Exception{
         Window.plan = new Plan(file);
         return true;
     }

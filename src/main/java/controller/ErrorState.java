@@ -10,17 +10,21 @@ import view.Window;
 public class ErrorState extends DefaultState{
 
     @Override
-    public void renitializePlan(Window window, CommandList commandList) {
+    public void renitializePlan(Window window, CommandList commandList){
         Window.plan = new Plan();
         Window.tour = new Tour();
-        commandList.addCommand(new RenitializePlanCommand());
+        try {
+            commandList.addCommand(new RenitializePlanCommand());
+        }catch (Exception e){}
         Controller.setCurrentState(Controller.initState);
     }
 
     @Override
-    public void renitializeTour(Window window, CommandList commandList) {
+    public void renitializeTour(Window window, CommandList commandList){
         Window.tour = new Tour();
-        commandList.addCommand(new RenitializeTourCommand());
+        try {
+            commandList.addCommand(new RenitializeTourCommand());
+        }catch (Exception e){}
         Controller.setCurrentState(Controller.planState);
     }
 }

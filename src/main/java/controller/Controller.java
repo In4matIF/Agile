@@ -31,31 +31,31 @@ public class Controller {
         currentState = state;
     }
 
-    public void loadPlan(File file){
+    public void loadPlan(File file) throws Exception{
         currentState.loadPlan(window,commandList,file);
     }
 
-    public boolean loadTour(File file){
+    public boolean loadTour(File file) throws Exception{
         return currentState.loadTour(window,commandList, file);
     }
 
-    public void renitializePlan(){
+    public void renitializePlan() throws Exception{
         currentState.renitializePlan(window,commandList);
     }
 
-    public void renitializeDelivery(){
+    public void renitializeDelivery() throws Exception{
         currentState.renitializeTour(window,commandList);
     }
 
-    public void generateTourSheet(){
+    public void generateTourSheet() throws Exception{
         currentState.generateTourSheet(window,commandList);
     }
     
-    public void deleteDeliveryPoint(DeliveryPoint toDelete){
+    public void deleteDeliveryPoint(DeliveryPoint toDelete) throws Exception{
     	currentState.deleteDeliveryPoint(window, commandList, toDelete);
     }
     
-    public void addDeliveryPoint(DeliveryPoint toAdd){
+    public void addDeliveryPoint(DeliveryPoint toAdd) throws Exception{
     	currentState.addDeliveryPoint(window, commandList, toAdd);
     }
     

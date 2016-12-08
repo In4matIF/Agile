@@ -17,9 +17,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.VBox;
-import javafx.scene.layout.VBoxBuilder;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.paint.LinearGradient;
@@ -30,11 +28,9 @@ import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.StrokeLineCap;
 import javafx.stage.FileChooser;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 import javafx.scene.control.ScrollPane;
 import model.DeliveryPoint;
@@ -314,23 +310,27 @@ public class Window {
 			public void handle(ActionEvent arg0) {
 				FileChooser planChooser = new FileChooser();
 				FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("XML Files (*.xml)", "*.xml");
-				/*File f = new File("xml");
-				try {
-					System.out.println(f.getCanonicalPath());
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}*/
 				planChooser.getExtensionFilters().add(extFilter);
 				File filePlan = planChooser.showOpenDialog(primaryStage);
 				if(filePlan!=null){
-					currentPlanFile = filePlan.getName();
-					planText.setText(currentPlanFile);
-					controller.loadPlan(filePlan);
 					try {
+						controller.renitializePlan();
+					}catch (Exception e){}
+					currentPlanFile = filePlan.getName();
+					currentTourFile = TOUR_FILE_TEXT;
+					render();
+					planText.setText(currentPlanFile);
+					try {
+						controller.loadPlan(filePlan);
 						renderPlan();
 					} catch (Exception e) {
-						e.printStackTrace();
+						if(e.getMessage().equals("Fichier incompatible.")){
+							currentPlanFile = PLAN_FILE_TEXT;
+							render();
+							errorPopUp(e.getMessage());
+						}else{
+							e.printStackTrace();
+						}
 					}
 				}
 			}
@@ -345,16 +345,38 @@ public class Window {
 				livrChooser.getExtensionFilters().add(extFilter);
 				File fileLivr = livrChooser.showOpenDialog(primaryStage);
 				if(fileLivr!=null) {
-					currentTourFile = fileLivr.getName();
-					livraisonText.setText(currentTourFile);
-					boolean isOk = controller.loadTour(fileLivr);
-					stepDisplay2.setText("0/" + tour.getSections().size());
+					try{
+						controller.renitializeDelivery();
+						currentTourFile = TOUR_FILE_TEXT;
+						render();
+						renderPlan();
+					} catch (Exception e){
+
+					}
 					// disp livraisons
 					try {
-						if (isOk)
+						boolean isOk = controller.loadTour(fileLivr);
+						if (isOk){
+							currentTourFile = fileLivr.getName();
+							livraisonText.setText(currentTourFile);
+							render();
+							renderPlan();
+							stepDisplay2.setText("0/" + tour.getSections().size());
 							renderLivraison();
+						}else{
+							errorPopUp("Le calcul d'une tournée optimale pour ce fichier est impossible.");
+						}
 					} catch (Exception e) {
-						e.printStackTrace();
+						if(e.getMessage().equals("Fichier incompatible.")){
+							currentTourFile = TOUR_FILE_TEXT;
+							render();
+							try{
+								renderPlan();
+							}catch (Exception e2){}
+							errorPopUp(e.getMessage());
+						}else{
+							e.printStackTrace();
+						}
 					}
 				}
 			}
@@ -390,7 +412,9 @@ public class Window {
 
 		feuilleBtn.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent feiulleEvent) {
-				controller.generateTourSheet();
+				try {
+					controller.generateTourSheet();
+				}catch (Exception e){}
 			}
 		});
 		
@@ -697,6 +721,28 @@ public class Window {
 			result = (hours<10?"0"+hours:hours) + ":" + (minutes<10?"0"+minutes:minutes);
 		}
 		return result;
+	}
+
+	public void errorPopUp(String errorMessage)
+	{
+		final Stage dialog = new Stage();
+		dialog.initModality(Modality.APPLICATION_MODAL);
+		dialog.initOwner(primaryStage);
+		Label errorLabel = new Label(errorMessage);
+		BorderPane bp = new BorderPane();
+		bp.setCenter(errorLabel);
+		Button close = new Button("Close");
+		close.setOnAction(
+				new EventHandler<ActionEvent>() {
+					@Override
+					public void handle(ActionEvent event) {
+						dialog.hide();
+					}
+				});
+		bp.setBottom(close);
+		Scene dialogScene = new Scene(bp, 500, 200);
+		dialog.setScene(dialogScene);
+		dialog.show();
 	}
 
 	private Node getPlanCircle(Integer id){

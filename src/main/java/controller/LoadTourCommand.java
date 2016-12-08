@@ -31,7 +31,7 @@ public class LoadTourCommand implements Command {
      * Applique les algorithmes de calcul de tourn�e
      */
     @Override
-    public boolean doCommand() {
+    public boolean doCommand() throws Exception{
 		Window.tour = new Tour(file, Window.plan);
 		Graph g = new Graph(Window.plan, Window.tour);
 		TSP1 tsp = new TSP1();
