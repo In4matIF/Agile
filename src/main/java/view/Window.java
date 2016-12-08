@@ -505,7 +505,7 @@ public class Window {
 			temp.setArcWidth(3.5);
 			Text textAdresse = new Text(String.valueOf(id));
 			textAdresse.setStroke(DELIVERY_TEXT_COLOR);
-			Text textAttente = new Text(new String (toString().valueOf((p.getWaitTime()%3600/60))));
+			Text textAttente = new Text(formatSecondTime(p.getWaitTime(),false));
 			textAttente.setStroke(DELIVERY_TEXT_COLOR);
 			StackPane circleAdresseStack = new StackPane();
 			Circle circleAdresse = new Circle(20,Color.TRANSPARENT);
@@ -513,22 +513,16 @@ public class Window {
 			circleAdresse.setStrokeWidth(4);
 			circleAdresseStack.getChildren().add(circleAdresse);
 			circleAdresseStack.getChildren().add(textAdresse);
-			Text arriveH = new Text(new String(toString().valueOf(p.getArrival()/3600)));
+			Text arriveH = new Text(formatSecondTime(p.getArrival(),false));
 			arriveH.setStroke(DELIVERY_TEXT_COLOR);
-			Text arriveM = new Text(new String(toString().valueOf(p.getArrival()%3600/60)));
-			arriveM.setStroke(DELIVERY_TEXT_COLOR);
 			Text fillerDash = new Text(new String("--"));
 			fillerDash.setStroke(DELIVERY_TEXT_COLOR);
-			Text departH = new Text(new String(toString().valueOf(p.getDeparture()/3600)));
+			Text departH = new Text(formatSecondTime(p.getDeparture(),false));
 			departH.setStroke(DELIVERY_TEXT_COLOR);
-			Text departM = new Text(new String(toString().valueOf(p.getDeparture()%3600/60)));
-			departM.setStroke(DELIVERY_TEXT_COLOR);
 			tmpGP.add(circleAdresseStack, 0,0);
 			tmpGP.add(arriveH, 1, 0);
-			tmpGP.add(arriveM, 2, 0);
 			tmpGP.add(fillerDash, 3, 0);
 			tmpGP.add(departH, 4, 0);
-			tmpGP.add(departM, 5, 0);
 			StackPane stack = new StackPane();
 			deliveryVB.getChildren().add(stack);
 			stack.getChildren().add(temp);
@@ -588,19 +582,19 @@ public class Window {
 	            	Label arriveeLabel =  new Label("Arrivée : ");
 	            	arriveeLabel.setTextFill(DELIVERY_TEXT_COLOR);
 	            	arriveeLabel.setStyle("-fx-font-size:"+DETAILS_FONT_SIZE+" px");
-	            	TextField arrivee = new TextField(formatSecondTime(p.getArrival()));
+	            	TextField arrivee = new TextField(formatSecondTime(p.getArrival(),true));
 	            	Label debutLivraisonLabel =  new Label("Début livraison : ");
 	            	debutLivraisonLabel.setTextFill(DELIVERY_TEXT_COLOR);
 	            	debutLivraisonLabel.setStyle("-fx-font-size:"+DETAILS_FONT_SIZE+" px");
-	            	TextField debutLivraison = new TextField(formatSecondTime(p.getArrival()+p.getWaitTime()));
+	            	TextField debutLivraison = new TextField(formatSecondTime(p.getArrival()+p.getWaitTime(),true));
 	            	Label departLabel =  new Label("Départ : ");
 	            	departLabel.setStyle("-fx-font-size:"+DETAILS_FONT_SIZE+" px");
 	            	departLabel.setTextFill(DELIVERY_TEXT_COLOR);
-	            	TextField depart = new TextField(formatSecondTime(p.getDeparture()));
+	            	TextField depart = new TextField(formatSecondTime(p.getDeparture(),true));
 	            	Label attenteLabel =  new Label("Attente : ");
 	            	attenteLabel.setStyle("-fx-font-size:"+DETAILS_FONT_SIZE+" px");
 	            	attenteLabel.setTextFill(DELIVERY_TEXT_COLOR);
-	            	TextField attente = new TextField(formatSecondTime(p.getWaitTime()));
+	            	TextField attente = new TextField(formatSecondTime(p.getWaitTime(),true));
 	            	adresse.setDisable(true);
 	            	arrivee.setDisable(true);
 	            	depart.setDisable(true);
@@ -707,12 +701,17 @@ public class Window {
 		noSectionToDraw--;
 	}
 
-	private String formatSecondTime(long time){
+	private String formatSecondTime(long time,boolean showSeconds){
 		long seconds = time % 60;
 		long totalMinutes = time / 60;
 		long minutes = totalMinutes % 60;
 		long hours = totalMinutes / 60;
-		String result = (hours<10?"0"+hours:hours) + ":" + (minutes<10?"0"+minutes:minutes) + ":" + (seconds<10?"0"+seconds:seconds);
+		String result;
+		if(showSeconds){
+			result = (hours<10?"0"+hours:hours) + ":" + (minutes<10?"0"+minutes:minutes) + ":" + (seconds<10?"0"+seconds:seconds);
+		}else{
+			result = (hours<10?"0"+hours:hours) + ":" + (minutes<10?"0"+minutes:minutes);
+		}
 		return result;
 	}
 }
