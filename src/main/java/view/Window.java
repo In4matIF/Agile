@@ -45,6 +45,7 @@ import javafx.event.EventHandler;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Modality;
 
 import java.awt.Font;
 import java.io.File;
@@ -293,6 +294,38 @@ public class Window {
 		feuilleBtn.setStyle("-fx-base: "+BUTTON_COLOR+"; -fx-text-fill: "+BUTTON_FONT_COLOR+";");
 		grid.add(feuilleBtn, 4, 1);
 
+		Button popup = new Button();
+		popup.setText("Ajouter une livraison");
+		popup.setOnAction(
+	        new EventHandler<ActionEvent>() {
+	            @Override
+	            public void handle(ActionEvent event) {
+	                final Stage dialog = new Stage();
+	                dialog.initModality(Modality.APPLICATION_MODAL);;
+	                dialog.initOwner(primaryStage);
+	                GridPane ajoutGrid = new GridPane();
+	                Label addAddress = new Label("Adresse : ");
+	                ajoutGrid.add(addAddress, 0, 0);
+	                Label addBeginTime = new Label("Début : ");
+	                ajoutGrid.add(addBeginTime, 0, 1);
+	                Label addEndTime = new Label("Fin : ");
+	                ajoutGrid.add(addEndTime, 0, 2);
+	                TextField tfAddress = new TextField();
+	                tfAddress.setPrefSize(100, 30);
+	                ajoutGrid.add(tfAddress, 1, 0);
+	                TextField tfBeginTime = new TextField();
+	                tfBeginTime.setPrefSize(100, 30);
+	                ajoutGrid.add(tfBeginTime, 1, 1);
+	                TextField tfEndTime = new TextField();
+	                tfEndTime.setPrefSize(100, 30);
+	                ajoutGrid.add(tfEndTime, 1, 2);
+	                Scene dialogScene = new Scene(ajoutGrid, 300, 200);
+	                dialog.setScene(dialogScene);
+	                dialog.show();
+	            }
+	         });
+		grid.add(popup, 4, 2);
+		
 		// test purposes only
 		grid.setGridLinesVisible(false);
 
