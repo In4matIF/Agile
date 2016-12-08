@@ -4,7 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * Liste des commandes effectuées dans la session actuelle
+ * Liste des commandes effectuï¿½es dans la session actuelle
  */
 public class CommandList {
 
@@ -19,11 +19,11 @@ public class CommandList {
     }
 
     /**
-     * Ajoute une commande à la liste
-     * @param command la commande à jouer
-     * @return true si la commande a été correctement rajoutée
+     * Ajoute une commande ï¿½ la liste
+     * @param command la commande ï¿½ jouer
+     * @return true si la commande a ï¿½tï¿½ correctement rajoutï¿½e
      */
-    public boolean addCommand(Command command){
+    public boolean addCommand(Command command) throws Exception{
         boolean success = command.doCommand();
         if(success) commands.push(command);
         return success;

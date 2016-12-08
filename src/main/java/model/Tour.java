@@ -26,7 +26,7 @@ public class Tour implements Observable{
     private Integer duration; //en secondes
     private Integer idWarehouse; //id de l'entrepot
     private List<Intersection> intersections; //
-    private List<CrossingPoint> ordainedCrossingPoints; //Liste ordonnée de crossing points pour
+    private List<CrossingPoint> ordainedCrossingPoints; //Liste ordonnï¿½e de crossing points pour
     													//l'ajout et la suppression de points
 
     public Tour() {
@@ -43,74 +43,74 @@ public class Tour implements Observable{
      * @param xmlFile le fichier de livraison
      * @param plan l'objet plan crï¿½ï¿½ en amont
      */
-    public Tour(File xmlFile, Plan plan){
-        try {
-            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-            Document doc = dBuilder.parse(xmlFile);
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+    public Tour(File xmlFile, Plan plan) throws Exception{
+        DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+        Document doc = dBuilder.parse(xmlFile);
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 
-            doc.getDocumentElement().normalize();
-            
-            Element tElement = (Element) (doc.getElementsByTagName("entrepot").item(0));
+        doc.getDocumentElement().normalize();
 
-            long departure = 0;
+        NodeList nTest = doc.getElementsByTagName("demandeDeLivraisons");
+        if(nTest.getLength()==0){
+            throw new Exception("Fichier incompatible.");
+        }
 
-            String[] strTime = (tElement.getAttribute("heureDepart")).split(":");
-            departure = Integer.parseInt(strTime[0]) * 3600
-                    + Integer.parseInt(strTime[1]) * 60
-                    + Integer.parseInt(strTime[2]);
+        Element tElement = (Element) (doc.getElementsByTagName("entrepot").item(0));
 
-            //Création de l'entrepot
-            Warehouse warehouse = new Warehouse(
-                    plan.getIntersections().get(Integer.parseInt(tElement.getAttribute("adresse"))),
-            		departure
-            		);
-            idWarehouse = warehouse.getIntersection().getId();
+        long departure = 0;
 
-            crossingPoints = new HashMap<>();
-            sections = new LinkedList<Section>();
-            crossingPoints.put(warehouse.getIntersection().getId(),warehouse);
-            
-            NodeList tList = doc.getElementsByTagName("livraison");
+        String[] strTime = (tElement.getAttribute("heureDepart")).split(":");
+        departure = Integer.parseInt(strTime[0]) * 3600
+                + Integer.parseInt(strTime[1]) * 60
+                + Integer.parseInt(strTime[2]);
 
-            //Création des points de livraison
-            for (int temp = 0; temp < tList.getLength(); temp++) {
-                
-            	Node tNode = tList.item(temp);
+        //Crï¿½ation de l'entrepot
+        Warehouse warehouse = new Warehouse(
+                plan.getIntersections().get(Integer.parseInt(tElement.getAttribute("adresse"))),
+                departure
+                );
+        idWarehouse = warehouse.getIntersection().getId();
 
-                if (tNode.getNodeType() == Node.ELEMENT_NODE) {
+        crossingPoints = new HashMap<>();
+        sections = new LinkedList<Section>();
+        crossingPoints.put(warehouse.getIntersection().getId(),warehouse);
 
-                    Element t2Element = (Element) tNode;
+        NodeList tList = doc.getElementsByTagName("livraison");
 
-                    long beginTime = 0;
-                    long endTime = Long.MAX_VALUE;
+        //Crï¿½ation des points de livraison
+        for (int temp = 0; temp < tList.getLength(); temp++) {
 
-                    if(t2Element.hasAttribute("debutPlage") && t2Element.hasAttribute("finPlage")) {
-                        strTime = (t2Element.getAttribute("debutPlage")).split(":");
-                        beginTime = Integer.parseInt(strTime[0]) * 3600
-                                + Integer.parseInt(strTime[1]) * 60
-                                + Integer.parseInt(strTime[2]);
+            Node tNode = tList.item(temp);
 
-                        strTime = (t2Element.getAttribute("finPlage")).split(":");
-                        endTime = Integer.parseInt(strTime[0]) * 3600
-                                + Integer.parseInt(strTime[1]) * 60
-                                + Integer.parseInt(strTime[2]);
-                    }
+            if (tNode.getNodeType() == Node.ELEMENT_NODE) {
 
-                    DeliveryPoint deliveryPoint = new DeliveryPoint(
-                                plan.getIntersections().get(Integer.parseInt(t2Element.getAttribute("adresse"))),
-                                beginTime,
-                                endTime,
-                                Integer.parseInt(t2Element.getAttribute("duree"))
-                            );
+                Element t2Element = (Element) tNode;
 
-                    crossingPoints.put(deliveryPoint.getIntersection().getId(),deliveryPoint);
+                long beginTime = 0;
+                long endTime = Long.MAX_VALUE;
+
+                if(t2Element.hasAttribute("debutPlage") && t2Element.hasAttribute("finPlage")) {
+                    strTime = (t2Element.getAttribute("debutPlage")).split(":");
+                    beginTime = Integer.parseInt(strTime[0]) * 3600
+                            + Integer.parseInt(strTime[1]) * 60
+                            + Integer.parseInt(strTime[2]);
+
+                    strTime = (t2Element.getAttribute("finPlage")).split(":");
+                    endTime = Integer.parseInt(strTime[0]) * 3600
+                            + Integer.parseInt(strTime[1]) * 60
+                            + Integer.parseInt(strTime[2]);
                 }
+
+                DeliveryPoint deliveryPoint = new DeliveryPoint(
+                            plan.getIntersections().get(Integer.parseInt(t2Element.getAttribute("adresse"))),
+                            beginTime,
+                            endTime,
+                            Integer.parseInt(t2Element.getAttribute("duree"))
+                        );
+
+                crossingPoints.put(deliveryPoint.getIntersection().getId(),deliveryPoint);
             }
-            
-        } catch (Exception e) {
-            e.printStackTrace();
         }
     }
 

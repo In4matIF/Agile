@@ -25,7 +25,7 @@ import java.io.IOException;
 import java.util.List;
 
 /**
- * Classe de test de la création de feuille de route
+ * Classe de test de la crï¿½ation de feuille de route
  */
 public class GenerateTourSheetCommandTest {
 
@@ -42,14 +42,18 @@ public class GenerateTourSheetCommandTest {
     }
 
     /**
-     * Test du fichier feuille de route généré
+     * Test du fichier feuille de route gï¿½nï¿½rï¿½
      */
     @Test
     public void testCommand() {
     	LoadPlanCommand LPC = new LoadPlanCommand(new File("/src/main/resources/xml/testGraphPlan.xml"));
-    	LPC.doCommand();
+    	try{
+    		LPC.doCommand();
+		}catch (Exception e){}
         LoadTourCommand LTC = new LoadTourCommand(new File("/src/main/resources/xml/testGraphTour.xml"));
-        LTC.doCommand();
+        try{
+        	LTC.doCommand();
+        } catch (Exception e){}
     	String bigText = "Prenez la rue v0"
     			+ "Continuez tour droit vers la rue v0"
     			+ "Prenez la 1ere a gauche vers la rue v0"

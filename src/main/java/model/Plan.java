@@ -16,13 +16,13 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Objet représentant le plan de la ville
+ * Objet reprï¿½sentant le plan de la ville
  * Contient les intersections et les sections
  */
 public class Plan implements Observable{
 
     /**
-     * Map des intersections du Plan avec l'id de l'intersection en clé
+     * Map des intersections du Plan avec l'id de l'intersection en clï¿½
      */
 	private Map<Integer, Intersection> intersections = new HashMap<Integer, Intersection>();
 	
@@ -40,64 +40,65 @@ public class Plan implements Observable{
     }
 
     /**
-     * Création d'un objet plan à partir d'un fichier XML de plan
+     * Crï¿½ation d'un objet plan ï¿½ partir d'un fichier XML de plan
      * @param xmlFile le xml du plan
      */
-    public Plan(File xmlFile){
-        try {
-            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-            Document doc = dBuilder.parse(xmlFile);
+    public Plan(File xmlFile) throws Exception{
+        DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+        Document doc = dBuilder.parse(xmlFile);
 
-            doc.getDocumentElement().normalize();
+        doc.getDocumentElement().normalize();
 
-            NodeList nList = doc.getElementsByTagName("noeud");
+        NodeList nTest = doc.getElementsByTagName("reseau");
+        if(nTest.getLength()==0){
+            throw new Exception("Fichier incompatible.");
+        }
 
-            //Création des objets Intersections
-            for (int temp = 0; temp < nList.getLength(); temp++) {
-                Node nNode = nList.item(temp);
+        NodeList nList = doc.getElementsByTagName("noeud");
 
-                if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+        //Crï¿½ation des objets Intersections
+        for (int temp = 0; temp < nList.getLength(); temp++) {
+            Node nNode = nList.item(temp);
 
-                    Element eElement = (Element) nNode;
+            if (nNode.getNodeType() == Node.ELEMENT_NODE) {
 
-                    Intersection intersection = new Intersection(
-                            Integer.parseInt(eElement.getAttribute("id")),
-                            Integer.parseInt(eElement.getAttribute("x")),
-                            Integer.parseInt(eElement.getAttribute("y"))
-                            );
-                    this.getIntersections().put(intersection.getId(),intersection);
-                }
+                Element eElement = (Element) nNode;
+
+                Intersection intersection = new Intersection(
+                        Integer.parseInt(eElement.getAttribute("id")),
+                        Integer.parseInt(eElement.getAttribute("x")),
+                        Integer.parseInt(eElement.getAttribute("y"))
+                        );
+                this.getIntersections().put(intersection.getId(),intersection);
             }
+        }
 
-            NodeList sList = doc.getElementsByTagName("troncon");
+        NodeList sList = doc.getElementsByTagName("troncon");
 
-            //Création des objets Section
-            for (int temp = 0; temp < sList.getLength(); temp++) {
-                Node sNode = sList.item(temp);
+        //Crï¿½ation des objets Section
+        for (int temp = 0; temp < sList.getLength(); temp++) {
+            Node sNode = sList.item(temp);
 
-                if (sNode.getNodeType() == Node.ELEMENT_NODE) {
+            if (sNode.getNodeType() == Node.ELEMENT_NODE) {
 
-                    Element eElement = (Element) sNode;
+                Element eElement = (Element) sNode;
 
-                    Intersection origine = this.getIntersections().get(Integer.parseInt(eElement.getAttribute("origine")));
-                    Intersection destination = this.getIntersections().get(Integer.parseInt(eElement.getAttribute("destination")));
+                Intersection origine = this.getIntersections().get(Integer.parseInt(eElement.getAttribute("origine")));
+                Intersection destination = this.getIntersections().get(Integer.parseInt(eElement.getAttribute("destination")));
 
-                    Section section = new Section(
-                        origine,
-                        destination,
-                        Integer.parseInt(eElement.getAttribute("longueur")),
-                        Integer.parseInt(eElement.getAttribute("vitesse")),
-                        eElement.getAttribute("nomRue")
-                    );
+                Section section = new Section(
+                    origine,
+                    destination,
+                    Integer.parseInt(eElement.getAttribute("longueur")),
+                    Integer.parseInt(eElement.getAttribute("vitesse")),
+                    eElement.getAttribute("nomRue")
+                );
 
-                    origine.getSections().add(section);
+                origine.getSections().add(section);
 
-                    this.getSections().add(section);
-                }
+                this.getSections().add(section);
             }
-        } catch (Exception e) {
-            e.printStackTrace();
         }
     }
 

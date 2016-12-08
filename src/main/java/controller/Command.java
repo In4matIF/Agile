@@ -5,7 +5,7 @@ package controller;
  */
 public interface Command {
 
-    public boolean doCommand();
+    public boolean doCommand() throws Exception;
     public boolean undoCommand();
     public boolean isDoable();
 }
