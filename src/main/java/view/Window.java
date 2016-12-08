@@ -356,13 +356,15 @@ public class Window {
 				}*/
 				planChooser.getExtensionFilters().add(extFilter);
 				File filePlan = planChooser.showOpenDialog(primaryStage);
-				currentPlanFile = filePlan.getName();
-				planText.setText(currentPlanFile);
-				controller.loadPlan(filePlan);
-				try {
-					renderPlan();
-				} catch (Exception e) {
-					e.printStackTrace();
+				if(filePlan!=null){
+					currentPlanFile = filePlan.getName();
+					planText.setText(currentPlanFile);
+					controller.loadPlan(filePlan);
+					try {
+						renderPlan();
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
 				}
 			}
 
@@ -375,16 +377,18 @@ public class Window {
 				FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("XML Files (*.xml)", "*.xml");
 				livrChooser.getExtensionFilters().add(extFilter);
 				File fileLivr = livrChooser.showOpenDialog(primaryStage);
-				currentTourFile = fileLivr.getName();
-				livraisonText.setText(currentTourFile);
-				boolean isOk = controller.loadTour(fileLivr);
-				stepDisplay2.setText("0/"+tour.getSections().size());
-				// disp livraisons
-				try {
-                    if (isOk)
-					    renderLivraison();
-				} catch (Exception e) {
-					e.printStackTrace();
+				if(fileLivr!=null) {
+					currentTourFile = fileLivr.getName();
+					livraisonText.setText(currentTourFile);
+					boolean isOk = controller.loadTour(fileLivr);
+					stepDisplay2.setText("0/" + tour.getSections().size());
+					// disp livraisons
+					try {
+						if (isOk)
+							renderLivraison();
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
 				}
 			}
 
