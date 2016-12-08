@@ -1,6 +1,7 @@
 package util;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Iterator;
 
 public class TSP1 extends TemplateTSP {
@@ -12,6 +13,12 @@ public class TSP1 extends TemplateTSP {
 
 	@Override
 	protected int bound(Integer sommetCourant, ArrayList<Integer> nonVus) {
-		return (nonVus.size() + 1)*(coutMinimal+dureeMinimale);
+		listCout.sort(Comparator.<Integer>naturalOrder());
+		listDuree.sort(Comparator.<Integer>naturalOrder());
+		int bound = 0;
+		for(int i = 0; i <= nonVus.size(); i ++){
+			bound += listCout.get(i) + listDuree.get(i);
+		}
+		return bound;
 	}
 }

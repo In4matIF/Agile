@@ -25,6 +25,8 @@ public abstract class TemplateTSP implements TSP {
     private boolean isPossible = true;
 
 	private ArrayList<Pair> obviousIssues = new ArrayList<Pair>();
+    protected ArrayList<Integer> listDuree = new ArrayList<Integer>();;
+    protected ArrayList<Integer> listCout = new ArrayList<Integer>();;
 
 	public ArrayList<Pair> getObviousIssues() {
 		return obviousIssues;
@@ -53,6 +55,7 @@ public abstract class TemplateTSP implements TSP {
 
 		graph.getCrossingPoints().forEach(
                 (integer, crossingPoint) -> {
+                    listDuree.add(crossingPoint.getDuration());
                     if(crossingPoint != null) {
 						if (integer != graph.getIdWarehouse())
 							nonVus.add(integer);
@@ -61,14 +64,15 @@ public abstract class TemplateTSP implements TSP {
 					}
                 }
 		);
+
         graph.getPaths().forEach(
                 (path) -> {
-                    //if(path.getLength() < coutMinimal)
+                    listCout.add(path.getDuration());
                 	if(path.getDuration() < coutMinimal)
-                        //coutMinimal = path.getLength();
                     	coutMinimal = path.getDuration();
                 }
         );
+
 		vus.add(graph.getIdWarehouse());
 		Warehouse warehouse = (Warehouse)(graph.getCrossingPoints().get(graph.getIdWarehouse()));
 		branchAndBound(graph.getIdWarehouse(), nonVus, vus, warehouse.getDepartureTime(), graph, System.currentTimeMillis(), tpsLimite);
@@ -159,14 +163,20 @@ public abstract class TemplateTSP implements TSP {
 	        	Integer prochainSommet = it.next();
 	        	vus.add(prochainSommet);
 	        	nonVus.remove(prochainSommet);
+                listCout.remove(listCout.indexOf(graph.getCrossingPoints().get(sommetCrt).getPaths().get(prochainSommet).getDuration()));
+                listDuree.remove(listDuree.indexOf(graph.getCrossingPoints().get(prochainSommet).getDuration()));
+
 	        	branchAndBound(
                         prochainSommet, nonVus, vus,
                         //coutVus + graph.getCrossingPoints().get(sommetCrt).getPaths().get(prochainSommet).getLength() //cout pour aller au prochain sommet
                         coutVus + graph.getCrossingPoints().get(sommetCrt).getDuration()
 										+ graph.getCrossingPoints().get(sommetCrt).getPaths().get(prochainSommet).getDuration(), //cout pour aller au prochain sommet
                         graph, tpsDebut, tpsLimite);
+
 	        	vus.remove(prochainSommet);
 	        	nonVus.add(prochainSommet);
+                listCout.add(graph.getCrossingPoints().get(sommetCrt).getPaths().get(prochainSommet).getDuration());
+                listDuree.add(graph.getCrossingPoints().get(prochainSommet).getDuration());
 	        }	    
 	    }
 	}
