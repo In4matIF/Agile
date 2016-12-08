@@ -39,28 +39,59 @@ public class AddDeliveryPointCommand implements Command {
 		
 		int bestCrossingPoint = -1;
 		int bestCost = Integer.MAX_VALUE;
-		for(int i=1;i<Window.tour.getOrdainedCrossingPoints().size()-1;i++)
+		for(int i=1;i<Window.tour.getOrdainedCrossingPoints().size()-2;i++)
 		{
 			dijkstraGoing.execute(Window.tour.getOrdainedCrossingPoints().get(i).getIntersection());
 			
-			int sumCostPath=0;
+			int goingCost=0;
+			int returnCost=0;
 			LinkedList<Intersection> goingIntersects = dijkstraGoing.getPath(toAdd.getIntersection());
 			LinkedList<Intersection> returnIntersects = dijkstraReturn.getPath(Window.tour.getOrdainedCrossingPoints().get(i+1).getIntersection());
 			
 			for(int j=0;j<goingIntersects.size()-1;j++)
-				sumCostPath+=goingIntersects.get(j).getSectionTo(goingIntersects.get(j+1)).getDurationSeconds();
+				goingCost+=goingIntersects.get(j).getSectionTo(goingIntersects.get(j+1)).getDurationSeconds();
 			for(int j=0;j<returnIntersects.size()-1;j++)
-				sumCostPath+=returnIntersects.get(j).getSectionTo(returnIntersects.get(j+1)).getDurationSeconds();
+				returnCost+=returnIntersects.get(j).getSectionTo(returnIntersects.get(j+1)).getDurationSeconds();
+			
 			
 			DeliveryPoint nextDP = (DeliveryPoint) Window.tour.getOrdainedCrossingPoints().get(i+1);
 			DeliveryPoint prevDP = (DeliveryPoint) Window.tour.getOrdainedCrossingPoints().get(i);
 			
-			//Si le temps d'attente au point suivant est suffisant que le temps ajouté à la tournée plus faible que le meilleur temps trouvé, on le garde
-			if(nextDP.getArrival() + nextDP.getWaitTime() - prevDP.getDeparture() > sumCostPath
-					&& sumCostPath < bestCost)
+			//Si le temps d'attente au point suivant est suffisant que le temps ajouté à la tournée plus faible que le meilleur temps trouvé,
+			//et que les plages horaires sont respectées, on le garde
+			if(nextDP.getArrival() + nextDP.getWaitTime() - prevDP.getDeparture() > goingCost+returnCost+toAdd.getDuration()
+					&& goingCost+returnCost < bestCost
+					&& toAdd.getBeginTime()< prevDP.getDeparture()+goingCost
+					&& toAdd.getEndTime()> prevDP.getDeparture()+goingCost)
 			{
 				bestCrossingPoint = i;
-				bestCost = sumCostPath;
+				bestCost = goingCost+returnCost;
+			}
+		}
+		
+		//Si on a pas trouvé de créneau adapté, on l'ajoute à la fin
+		if(bestCrossingPoint == -1)
+		{
+			int i = Window.tour.getOrdainedCrossingPoints().size()-2;
+			dijkstraGoing.execute(Window.tour.getOrdainedCrossingPoints().get(i).getIntersection());
+			
+			int goingCost=0;
+			int returnCost=0;
+			LinkedList<Intersection> goingIntersects = dijkstraGoing.getPath(toAdd.getIntersection());
+			LinkedList<Intersection> returnIntersects = dijkstraReturn.getPath(Window.tour.getOrdainedCrossingPoints().get(i+1).getIntersection());
+			
+			for(int j=0;j<goingIntersects.size()-1;j++)
+				goingCost+=goingIntersects.get(j).getSectionTo(goingIntersects.get(j+1)).getDurationSeconds();
+			for(int j=0;j<returnIntersects.size()-1;j++)
+				returnCost+=returnIntersects.get(j).getSectionTo(returnIntersects.get(j+1)).getDurationSeconds();
+			
+			DeliveryPoint prevDP = (DeliveryPoint) Window.tour.getOrdainedCrossingPoints().get(i);
+			
+			if(toAdd.getBeginTime()< prevDP.getDeparture()+goingCost
+				&& toAdd.getEndTime()> prevDP.getDeparture()+goingCost)
+			{
+				bestCrossingPoint = i;
+				bestCost = goingCost+returnCost;
 			}
 		}
 		
@@ -70,10 +101,11 @@ public class AddDeliveryPointCommand implements Command {
 			int startPath = 0;
 			while(Window.tour.getSections().get(startPath).getOrigin().getId()!=Window.tour.getOrdainedCrossingPoints().get(bestCrossingPoint).getIntersection().getId())
 				startPath++; //Trouve l'index de la première intersection du path
-			while(Window.tour.getSections().get(startPath).getOrigin().getId()!=Window.tour.getOrdainedCrossingPoints().get(bestCrossingPoint+1).getIntersection().getId())
+			while(Window.tour.getSections().get(startPath).getDestination().getId()!=Window.tour.getOrdainedCrossingPoints().get(bestCrossingPoint+1).getIntersection().getId())
 			{
 				Window.tour.getSections().remove(startPath);
 			}
+			Window.tour.getSections().remove(startPath);
 						
 			//Execution de Dijkstra à partir du nouveau point
 			dijkstraGoing.execute(Window.tour.getOrdainedCrossingPoints().get(bestCrossingPoint).getIntersection());

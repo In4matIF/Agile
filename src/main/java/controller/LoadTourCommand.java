@@ -81,6 +81,7 @@ public class LoadTourCommand implements Command {
 		//System.out.print(tsp.getMeilleureSolution(i)+" -> ");
 		Integer id = tsp.getMeilleureSolution(g.getCrossingPoints().size()-1);
 		ordainedCrossingPoints.add(Window.tour.getCrossingPoints().get(tsp.getMeilleureSolution(g.getCrossingPoints().size()-1)));
+		ordainedCrossingPoints.add(Window.tour.getCrossingPoints().get(tsp.getMeilleureSolution(0))); //Ajout du Warehouse à la fin
 		
 		
 		
