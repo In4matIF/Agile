@@ -531,19 +531,19 @@ public class Window {
 	            	Label arriveeLabel =  new Label("Arrivée : ");
 	            	arriveeLabel.setTextFill(DELIVERY_TEXT_COLOR);
 	            	arriveeLabel.setStyle("-fx-font-size:"+25+" px");
-	            	TextField arrivee = new TextField(String.valueOf(p.getArrival()));
+	            	TextField arrivee = new TextField(formatSecondTime(p.getArrival()));
 	            	Label debutLivraisonLabel =  new Label("Début livraison : ");
 	            	debutLivraisonLabel.setTextFill(DELIVERY_TEXT_COLOR);
 	            	debutLivraisonLabel.setStyle("-fx-font-size:"+25+" px");
-	            	TextField debutLivraison = new TextField(String.valueOf(p.getArrival())+(p.getWaitTime()));
+	            	TextField debutLivraison = new TextField(formatSecondTime(p.getArrival()+p.getWaitTime()));
 	            	Label departLabel =  new Label("Départ : ");
 	            	departLabel.setStyle("-fx-font-size:"+25+" px");
 	            	departLabel.setTextFill(DELIVERY_TEXT_COLOR);
-	            	TextField depart = new TextField(String.valueOf(p.getDeparture()));
+	            	TextField depart = new TextField(formatSecondTime(p.getDeparture()));
 	            	Label attenteLabel =  new Label("Attente : ");
 	            	attenteLabel.setStyle("-fx-font-size:"+25+" px");
 	            	attenteLabel.setTextFill(DELIVERY_TEXT_COLOR);
-	            	TextField attente = new TextField(String.valueOf(p.getWaitTime()));
+	            	TextField attente = new TextField(formatSecondTime(p.getWaitTime()));
 	            	adresse.setDisable(true);
 	            	arrivee.setDisable(true);
 	            	depart.setDisable(true);
@@ -648,5 +648,14 @@ public class Window {
 			line.setStroke(TOUR_PATH_COLOR);
 		planCanvas.getChildren().add(line);
 		noSectionToDraw--;
+	}
+
+	private String formatSecondTime(long time){
+		long seconds = time % 60;
+		long totalMinutes = time / 60;
+		long minutes = totalMinutes % 60;
+		long hours = totalMinutes / 60;
+		String result = (hours<10?"0"+hours:hours) + ":" + (minutes<10?"0"+minutes:minutes) + ":" + (seconds<10?"0"+seconds:seconds);
+		return result;
 	}
 }
