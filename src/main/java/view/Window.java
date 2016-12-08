@@ -360,21 +360,6 @@ public class Window {
 
 		feuilleBtn.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent feiulleEvent) {
-				/*File output = new File("FeuilleDeRoute.txt");
-				try {
-					FileWriter fw = new FileWriter(output);
-					{
-						try {
-							fw.write(filler2.getText());
-						} catch (IOException e) {
-							System.out.println("Erreur lors de la lecture des intersections : " + e.getMessage());
-							e.printStackTrace();
-						}
-					}
-					fw.close();
-				} catch (IOException e) {
-					System.out.println("Erreur lors de la lecture : " + e.getMessage());
-				}*/
 				controller.generateTourSheet();
 			}
 		});
@@ -663,26 +648,5 @@ public class Window {
 			line.setStroke(TOUR_PATH_COLOR);
 		planCanvas.getChildren().add(line);
 		noSectionToDraw--;
-	}
-
-	public void refreshPlanCanvas() throws Exception{
-		planCanvas.getChildren().removeAll();
-		renderPlan();
-		renderLivraison();
-		primaryStage.show();
-	}
-
-	private void resetPlan() throws Exception{
-		plan = new Plan();
-		resetDelivery();
-	}
-
-	private void resetDelivery() throws Exception{
-		tour = new Tour();
-		deliveryPane = new FlowPane();
-		deliveryGP = new ArrayList<>();
-		openState = new HashMap<>();
-		planCanvas = new Group();
-		render();
 	}
 }
