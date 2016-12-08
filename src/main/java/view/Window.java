@@ -344,11 +344,12 @@ public class Window {
 				File fileLivr = livrChooser.showOpenDialog(primaryStage);
 				currentTourFile = fileLivr.getName();
 				livraisonText.setText(currentTourFile);
-				controller.loadTour(fileLivr);
+				boolean isOk = controller.loadTour(fileLivr);
 				stepDisplay2.setText("0/"+tour.getSections().size());
 				// disp livraisons
 				try {
-					renderLivraison();
+                    if (isOk)
+					    renderLivraison();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
