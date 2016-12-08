@@ -110,6 +110,12 @@ public class GenerateTourSheetCommand implements Command {
     	    
     	    //tourMessage += "Degres : "+deltaA+"\r\n";
     	    
+    	    for(int j = 0; j < Window.tour.getOrdainedCrossingPoints().size(); j++)
+    	    {
+    	    	if(sections.get(i).getOrigin().getId() == Window.tour.getOrdainedCrossingPoints().get(j).getIntersection().getId())
+    	    		tourMessage += "Livraison, duree : "+ Window.tour.getOrdainedCrossingPoints().get(j).getDuration()+"\r\n";
+    	    }
+    	    
     	    if(deltaA < 345 && deltaA > 180)
     	    {
     	    	if (listG.size() == 1)
