@@ -1,12 +1,13 @@
 package controller;
 
+import model.Plan;
 import model.Tour;
 import view.Window;
 
 import java.io.File;
 
 /**
- * Etat où le plan est chargé mais pas la livraison
+ * Etat oï¿½ le plan est chargï¿½ mais pas la livraison
  */
 public class PlanState extends DefaultState{
 
@@ -20,5 +21,13 @@ public class PlanState extends DefaultState{
         }else{
             Controller.setCurrentState(Controller.errorState);
         }
+    }
+
+    @Override
+    public void renitializePlan(Window window, CommandList commandList) {
+        Window.plan = new Plan();
+        Window.tour = new Tour();
+        commandList.addCommand(new RenitializePlanCommand());
+        Controller.setCurrentState(Controller.initState);
     }
 }

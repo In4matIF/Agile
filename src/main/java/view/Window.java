@@ -87,13 +87,24 @@ public class Window {
 	private final Color DELIVERY_TEXT_COLOR = Color.web("#B0E1E3");
 	private final Color WINDOW_BACKGROUND = Color.web("#17767A");
 
+	private final String PLAN_FILE_TEXT = "Fichier Plan";
+	private final String TOUR_FILE_TEXT = "Fichier Tour";
+
 	private Stage primaryStage;
+	private Scene scene;
+	private Group root;
 	private Controller controller;
 
-	private Map<Integer,Boolean> OpenState = new HashMap<>();
+	private FlowPane deliveryPane;
+	private Group planCanvas;
+	private List<GridPane> deliveryGP;
+	private ScrollPane deliveryPaneScroll;
+	private Map<Integer,Boolean> openState;
 	
 	public static Plan plan;
+	private String currentPlanFile = PLAN_FILE_TEXT;
 	public static Tour tour;
+	private String currentTourFile = TOUR_FILE_TEXT;
 
 	static int noSectionToDraw = 0;
 	private Color colorToDraw = TOUR_VISITED_SECTION_COLOR;
@@ -111,26 +122,12 @@ public class Window {
 		this.primaryStage = primaryStage;
 		this.plan = new Plan();
 		this.tour = new Tour();
+		this.deliveryPane = new FlowPane();
+		this.planCanvas = new Group();
+		this.deliveryGP = new ArrayList<>();
+		this.deliveryPaneScroll = new ScrollPane();
+		this.openState = new HashMap<>();
 		this.controller = new Controller(this);
-	}
-
-	/**
-	 * Rﾃｩcupﾃｨre le container PrimaryStage
-	 * 
-	 * @return Le container principale de l'interface
-	 */
-	public Stage getPrimaryStage() {
-		return primaryStage;
-	}
-
-	/**
-	 * Change la valeur du container PrimaryStage
-	 * 
-	 * @param primaryStage
-	 *            Le nouveau container principale de l'interface
-	 */
-	public void setPrimaryStage(Stage primaryStage) {
-		this.primaryStage = primaryStage;
 	}
 
 	/**
@@ -152,21 +149,30 @@ public class Window {
 		this.controller = controller;
 	}
 
+	private void init(){
+		this.deliveryPane = new FlowPane();
+		this.planCanvas = new Group();
+		this.deliveryGP = new ArrayList<>();
+		this.deliveryPaneScroll = new ScrollPane();
+		this.openState = new HashMap<>();
+	}
+
 	/**
 	 * Configure la gestion des panels dans l'interface graphique, ainsi que les
 	 * actions liﾃｩes aux boutons de l'interface
 	 */
 	public void render() {
+		init();
 
-		
+		// GRID PANE
 		GridPane grid = new GridPane();
 		grid.setHgap(20.0);
 		grid.setVgap(20.0);
 		grid.setPadding(new Insets(10.0));
 		grid.setAlignment(Pos.CENTER);
 
-		// PLAN
-		final TextField planText = new TextField("fichier");
+		// AREA LOAD PLAN
+		final TextField planText = new TextField(currentPlanFile);
 		planText.setEditable(false);
 		grid.add(planText, 0, 1);
 
@@ -177,8 +183,8 @@ public class Window {
 		suprimerPlanBtn.setMaxWidth(20);
 		grid.add(suprimerPlanBtn, 2, 1);
 
-		// LIVRAISON
-		final TextField livraisonText = new TextField("fichier2");
+		// AREA LOAD DELIVERY
+		final TextField livraisonText = new TextField(currentTourFile);
 		livraisonText.setEditable(false);
 		grid.add(livraisonText, 0, 2);
 
@@ -189,7 +195,7 @@ public class Window {
 		supprimerLivraisonBtn.setMaxWidth(20);
 		grid.add(supprimerLivraisonBtn, 2, 2);
 
-		//INFOS LORS DU PARCOURS
+		//INFORMATION DURING THE STEP TO STEP ANIMATION
 		GridPane infosPos = new GridPane();
 		infosPos.setHgap(30.0);
 		infosPos.setVgap(2.0);
@@ -229,7 +235,6 @@ public class Window {
 		infosTime.add(timeLeft2, 1, 1);
 
 		// PLAN GROUP
-		Group planCanvas = new Group();
 		planCanvas.setAutoSizeChildren(true);
 		planCanvas.minHeight(CANVAS_HEIGHT);
 		planCanvas.maxHeight(CANVAS_HEIGHT);
@@ -240,22 +245,18 @@ public class Window {
 		rectangle.setFill(DELIVERY_DETAIL_BG);
 		rectangle.setStroke(Color.BLACK);
 		planCanvas.getChildren().add(rectangle);
-		grid.add(planCanvas, 0, 0, 3, 1); // col1, row2, takes up 2 cols, takes
-											// up 1 row
+		grid.add(planCanvas, 0, 0, 3, 1);
 
 		//Delivery - titles
 		Text title = new Text(new String("adresse   arrive -- depart   duree"));
 
 		// Delivery Panel
 		GridPane deliveryLegendPane = new GridPane();
-		List<GridPane> deliveryGP = new ArrayList<GridPane>() ;
-		final ScrollPane deliveryPaneScroll = new ScrollPane();
 		deliveryPaneScroll.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
 		deliveryPaneScroll.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
 		deliveryPaneScroll.setPrefWidth(TEXT_AREA_DELIVERY_WIDTH);
 		deliveryPaneScroll.setFitToHeight(true);
 		deliveryPaneScroll.setStyle("-fx-background-color: #2F868A;");
-		final FlowPane deliveryPane = new FlowPane();
 		deliveryPane.setStyle("-fx-background-color: #2F868A;");
 		deliveryPane.setVgap(5);
 		grid.add(deliveryLegendPane,3,0,2,1);
@@ -274,9 +275,9 @@ public class Window {
 		grid.setGridLinesVisible(false);
 
 		// set stage
-		Group root = new Group();
+		root = new Group();
 		root.getChildren().add(grid);
-		Scene scene = new Scene(root, SCENE_WIDTH, SCENE_HEIGHT,WINDOW_BACKGROUND);
+		scene = new Scene(root, SCENE_WIDTH, SCENE_HEIGHT,WINDOW_BACKGROUND);
 		primaryStage.setTitle("PLD Agile");
 		primaryStage.setScene(scene);
 
@@ -295,13 +296,13 @@ public class Window {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}*/
-				//planChooser.setInitialDirectory(new File("src\\main\\resources\\xml"));
 				planChooser.getExtensionFilters().add(extFilter);
 				File filePlan = planChooser.showOpenDialog(primaryStage);
-				planText.setText(filePlan.getName());
+				currentPlanFile = filePlan.getName();
+				planText.setText(currentPlanFile);
 				controller.loadPlan(filePlan);
 				try {
-					renderPlan(planCanvas);
+					renderPlan();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -315,14 +316,14 @@ public class Window {
 				FileChooser livrChooser = new FileChooser();
 				FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("XML Files (*.xml)", "*.xml");
 				livrChooser.getExtensionFilters().add(extFilter);
-				//livrChooser.setInitialDirectory(new File("src\\main\\resources\\xml"));
 				File fileLivr = livrChooser.showOpenDialog(primaryStage);
-				livraisonText.setText(fileLivr.getName());
+				currentTourFile = fileLivr.getName();
+				livraisonText.setText(currentTourFile);
 				controller.loadTour(fileLivr);
 				stepDisplay2.setText("0/"+tour.getSections().size());
 				// disp livraisons
 				try {
-					renderLivraison(deliveryPane,planCanvas,deliveryGP,OpenState);
+					renderLivraison();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -332,21 +333,28 @@ public class Window {
 
 		suprimerPlanBtn.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent supPlanEvent) {
-				//plan = new Plan();
-				/*controller.addDeliveryPoint(new DeliveryPoint(plan.getIntersections().get(80), 0, Long.MAX_VALUE, 900));
-				try {
-					renderLivraison(OpenState);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}*/
-				//gc.setFill(Color.TAN);
-				//gc.fillRect(0, 0, planCanvas.getWidth(), planCanvas.getHeight());
+				try{
+					controller.renitializePlan();
+					currentPlanFile = PLAN_FILE_TEXT;
+					currentTourFile = TOUR_FILE_TEXT;
+					render();
+				} catch (Exception e){
+
+				}
+				//controller.addDeliveryPoint(new DeliveryPoint(plan.getIntersections().get(80), 0, Long.MAX_VALUE, 900));
 			}
 		});
 
 		supprimerLivraisonBtn.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent supLivrEvent) {
-				//controller.undo();
+				try{
+					controller.renitializeDelivery();
+					currentTourFile = TOUR_FILE_TEXT;
+					render();
+					renderPlan();
+				} catch (Exception e){
+
+				}
 			}
 		});
 
@@ -377,14 +385,14 @@ public class Window {
             	if(event.getCode() == KeyCode.RIGHT)
                 {
                 	event.consume();
-                	drawNextStep(planCanvas);
+                	drawNextStep();
                 	stepDisplay2.setText(noSectionToDraw+"/"+tour.getSections().size());
                 	nextStreet2.setText(tour.getSections().get(noSectionToDraw).getStreet());
                 }
                 else if(event.getCode() == KeyCode.LEFT)
                 {
                 	event.consume();
-                	drawPreviousStep(planCanvas);
+                	drawPreviousStep();
                 	stepDisplay2.setText(noSectionToDraw+"/"+tour.getSections().size());
                 	nextStreet2.setText(tour.getSections().get(noSectionToDraw).getStreet());
                 }
@@ -396,12 +404,10 @@ public class Window {
 	}
 
 	/**
-	 * Gﾃｨre l'affichage du plan en canvas dans l'interface graphique
-	 * 
-	 * @param planCanvas
-	 *            L'objet canvas contenant les formes géométrique à dessiner
+	 * Gere l'affichage du plan en canvas dans l'interface graphique
+	 *
 	 */
-	public void renderPlan(Group planCanvas) throws Exception {
+	public void renderPlan() throws Exception {
 
 		plan.getSections().forEach(section -> {
 			float xOrigin = section.getOrigin().getX() * WIDTH_RATIO;
@@ -435,14 +441,9 @@ public class Window {
 	}
 
 	/**
-	 * Gﾃｨre l'affichage du plan en canvas dans l'interface graphique
-	 * 
-	 * @param deliveryPane
-	 *            Contient les informations sur les livraisons
-	 * @param planCanvas
-	 *            L'objet canvas contenant les formes géométrique à dessiner
+	 * Gere l'affichage du plan en canvas dans l'interface graphique
 	 */
-	public void renderLivraison(FlowPane deliveryPane,Group planCanvas, List<GridPane> deliveryGP, Map<Integer, Boolean> openState)
+	public void renderLivraison()
 			throws Exception {
 
 		for(int i=0; i<tour.getOrdainedCrossingPoints().size(); i++) {
@@ -619,12 +620,9 @@ public class Window {
 			planCanvas.getChildren().add(circle);
 
 		});
-
-		//filler1.setText(filler1.getText() + "\r\n Total duration : " + (int) tour.getDuration()/1000 + "km \r\n");
-
 	}
 	
-	public void drawNextStep(Group planCanvas) {	
+	public void drawNextStep() {
 		float xOrigin = tour.getSections().get(noSectionToDraw).getOrigin().getX() * WIDTH_RATIO;
 		float yOrigin = tour.getSections().get(noSectionToDraw).getOrigin().getY() * HEIGHT_RATIO;
 		float xDestination = tour.getSections().get(noSectionToDraw).getDestination().getX() * WIDTH_RATIO;
@@ -644,7 +642,7 @@ public class Window {
 		}
 	}
 	
-	public void drawPreviousStep(Group planCanvas) {	
+	public void drawPreviousStep() {
 		if(noSectionToDraw == 0)
 		{
 			noSectionToDraw=tour.getSections().size();
@@ -665,5 +663,26 @@ public class Window {
 			line.setStroke(TOUR_PATH_COLOR);
 		planCanvas.getChildren().add(line);
 		noSectionToDraw--;
+	}
+
+	public void refreshPlanCanvas() throws Exception{
+		planCanvas.getChildren().removeAll();
+		renderPlan();
+		renderLivraison();
+		primaryStage.show();
+	}
+
+	private void resetPlan() throws Exception{
+		plan = new Plan();
+		resetDelivery();
+	}
+
+	private void resetDelivery() throws Exception{
+		tour = new Tour();
+		deliveryPane = new FlowPane();
+		deliveryGP = new ArrayList<>();
+		openState = new HashMap<>();
+		planCanvas = new Group();
+		render();
 	}
 }
