@@ -12,7 +12,7 @@ import java.io.File;
 public class PlanState extends DefaultState{
 
     @Override
-    public void loadTour(Window window, CommandList commandList, File file) {
+    public boolean loadTour(Window window, CommandList commandList, File file) {
         Window.tour = new Tour(file, Window.plan);
         //TODO : add TSP
         boolean isOk = commandList.addCommand(new LoadTourCommand(file));
@@ -21,6 +21,7 @@ public class PlanState extends DefaultState{
         }else{
             Controller.setCurrentState(Controller.errorState);
         }
+        return isOk;
     }
 
     @Override

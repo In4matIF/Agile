@@ -17,8 +17,8 @@ public class DefaultState implements State{
     }
 
     @Override
-    public void loadTour(Window window, CommandList commandList, File file) {
-
+    public boolean loadTour(Window window, CommandList commandList, File file) {
+        return false;
     }
 
     @Override
