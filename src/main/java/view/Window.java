@@ -623,38 +623,6 @@ public class Window {
 		//filler1.setText(filler1.getText() + "\r\n Total duration : " + (int) tour.getDuration()/1000 + "km \r\n");
 
 	}
-
-	/**
-	 * Dessine la livraison section par section
-	 *
-	 */
-	public void drawTour(Group planCanvas) {
-		noSectionToDraw = 0;
-		if (colorToDraw == PLAN_INTERSECTION_COLOR)
-			colorToDraw = TOUR_VISITED_SECTION_COLOR;
-		else
-			colorToDraw = PLAN_INTERSECTION_COLOR;
-
-
-
-		Timeline drawSections = new Timeline(new KeyFrame(Duration.seconds(0.25), new EventHandler<ActionEvent>() {
-
-			@Override
-			public void handle(ActionEvent event) {
-				float xOrigin = tour.getSections().get(noSectionToDraw).getOrigin().getX() * WIDTH_RATIO;
-				float yOrigin = tour.getSections().get(noSectionToDraw).getOrigin().getY() * HEIGHT_RATIO;
-				float xDestination = tour.getSections().get(noSectionToDraw).getDestination().getX() * WIDTH_RATIO;
-				float yDestination = tour.getSections().get(noSectionToDraw).getDestination().getY() * HEIGHT_RATIO;
-				Line line = new Line(xOrigin, yOrigin, xDestination, yDestination);
-				line.setStrokeWidth(3);
-				line.setStroke(colorToDraw);
-				planCanvas.getChildren().add(line);
-				noSectionToDraw++;
-			}
-		}));
-		drawSections.setCycleCount(tour.getSections().size());
-		drawSections.play();
-	}
 	
 	public void drawNextStep(Group planCanvas) {	
 		float xOrigin = tour.getSections().get(noSectionToDraw).getOrigin().getX() * WIDTH_RATIO;
