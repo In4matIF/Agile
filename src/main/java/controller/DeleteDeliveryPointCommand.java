@@ -48,7 +48,7 @@ public class DeleteDeliveryPointCommand implements Command {
 			timeAdd+=intersectionsToAdd.get(i).getSectionTo(intersectionsToAdd.get(i+1)).getDurationSeconds();
 			Window.tour.getSections().add(startPath+i,intersectionsToAdd.get(i).getSectionTo(intersectionsToAdd.get(i+1)));
 		}
-		
+
 		((DeliveryPoint)Window.tour.getOrdainedCrossingPoints().get(index+1)).setWaitTime(((DeliveryPoint)Window.tour.getOrdainedCrossingPoints().get(index+1)).getWaitTime()+timeSaved-timeAdd);
 		((DeliveryPoint)Window.tour.getOrdainedCrossingPoints().get(index+1)).setArrival(((DeliveryPoint)Window.tour.getOrdainedCrossingPoints().get(index+1)).getArrival()-timeSaved+timeAdd);
 		Window.tour.getCrossingPoints().remove(toDelete.getIntersection().getId());
