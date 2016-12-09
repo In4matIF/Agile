@@ -113,6 +113,9 @@ public class Window {
 	private String currentTourFile = TOUR_FILE_TEXT;
 
 	static int noSectionToDraw = 0;
+	static List<Integer> timesPast = new ArrayList<Integer>();
+	static int timePast=0;
+	static int timeTotal=0;
 	private Color colorToDraw = TOUR_VISITED_SECTION_COLOR;
 
 	public Window() {
@@ -395,6 +398,13 @@ public class Window {
 							render();
 							renderPlan();
 							stepDisplay2.setText("0/" + tour.getSections().size());
+							for(int i=0;i<tour.getSections().size();i++)
+							{
+								int duration = tour.getSections().get(i).getDurationSeconds();
+								timesPast.add(duration);
+								timeTotal+=duration;
+							}
+							timeLeft2.setText(timeTotal+" sec");
 							renderLivraison();
 						}else{
 							errorPopUp("Le calcul d'une tournée optimale pour ce fichier est impossible.");
@@ -453,24 +463,30 @@ public class Window {
 		});
 
 		scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent event) {
-            	if(event.getCode() == KeyCode.RIGHT)
-                {
-                	event.consume();
-                	drawNextStep();
-                	stepDisplay2.setText(noSectionToDraw+"/"+tour.getSections().size());
-                	nextStreet2.setText(tour.getSections().get(noSectionToDraw).getStreet());
-                }
-                else if(event.getCode() == KeyCode.LEFT)
-                {
-                	event.consume();
-                	drawPreviousStep();
-                	stepDisplay2.setText(noSectionToDraw+"/"+tour.getSections().size());
-                	nextStreet2.setText(tour.getSections().get(noSectionToDraw).getStreet());
-                }
-            }
-        });
+			@Override
+			public void handle(KeyEvent event) {
+				if(event.getCode() == KeyCode.RIGHT)
+				{
+					event.consume();
+					timePast+=timesPast.get(noSectionToDraw);
+					timeLeft2.setText((timeTotal-timePast)/60+" min");
+					timePast2.setText(timePast/60+" min");
+					drawNextStep();
+					stepDisplay2.setText(noSectionToDraw+"/"+tour.getSections().size());
+					nextStreet2.setText(tour.getSections().get(noSectionToDraw).getStreet());
+				}
+				else if(event.getCode() == KeyCode.LEFT)
+				{
+					event.consume();
+					timePast-=timesPast.get(noSectionToDraw-1);
+					timeLeft2.setText((timeTotal-timePast)/60+" min");
+					timePast2.setText(timePast/60+" min");
+					drawPreviousStep();
+					stepDisplay2.setText(noSectionToDraw+"/"+tour.getSections().size());
+					nextStreet2.setText(tour.getSections().get(noSectionToDraw).getStreet());
+				}
+			}
+		});
 
 		planCanvas.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			public void handle(MouseEvent livraisonEvent) {
