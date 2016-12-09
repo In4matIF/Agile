@@ -25,7 +25,7 @@ public class GraphTest {
 
 
     /**
-     * Création du graphe
+     * Creation du graphe
      * @throws Exception
      */
     @Before
@@ -39,7 +39,7 @@ public class GraphTest {
    }
 
    /**
-    * Test des arretes générées
+    * Test des arretes generees
     */
    @Test
    public void testGraph() {

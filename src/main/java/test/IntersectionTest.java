@@ -19,7 +19,7 @@ public class IntersectionTest {
     private final Integer Y = 3;
 
     /**
-     * Création d'un objet Intersection
+     * Creation d'un objet Intersection
      * @throws Exception
      */
     @Before

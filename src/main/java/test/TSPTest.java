@@ -36,7 +36,7 @@ public class TSPTest {
 	}
 	
 	/**
-	 * Vérifie la solution renvoyée par le TSP
+	 * Verifie la solution renvoyee par le TSP
 	 */
 	@Test
 	public void testSolutionTSP()

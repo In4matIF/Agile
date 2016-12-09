@@ -22,7 +22,7 @@ public class AddDeliveryTest {
 	Tour t;
 	
 	/**
-	 * Création d'un Tour et d'un Plan
+	 * Creation d'un Tour et d'un Plan
 	 * @throws Exception
 	 */
 	@Before
@@ -37,7 +37,7 @@ public class AddDeliveryTest {
 	}
 	
 	/**
-	 * Vérification du nouveau chemin après ajout du nouveau point
+	 * Verification du nouveau chemin apres ajout du nouveau point
 	 */
 	@Test
 	public void testAddDelivery()

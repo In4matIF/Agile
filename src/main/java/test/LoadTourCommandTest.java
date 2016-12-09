@@ -28,7 +28,7 @@ public class LoadTourCommandTest {
 
 
     /**
-     * Création du graphe
+     * Creation du graphe
      * @throws Exception
      */
     @Before
@@ -41,7 +41,7 @@ public class LoadTourCommandTest {
    }
 
    /**
-    * Test des arretes générées
+    * Test des arretes generees
     */
    @Test
    public void testLoadTourCommand() {

@@ -101,7 +101,7 @@ public class DijkstraTest {
 	}
 	
 	/**
-	 * Vérification des chemins les plus courts
+	 * Verification des chemins les plus courts
 	 */
 	@Test
 	public void testPath()

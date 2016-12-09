@@ -38,7 +38,7 @@ public class DeleteDeliveryTest {
 	}
 	
 	/**
-	 * Vérification de la liste des sections après suppression du point
+	 * Verification de la liste des sections apres suppression du point
 	 */
 	@Test
 	public void testAddDelivery()

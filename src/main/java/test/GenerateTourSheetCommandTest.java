@@ -25,7 +25,7 @@ import java.io.IOException;
 import java.util.List;
 
 /**
- * Classe de test de la cr�ation de feuille de route
+ * Classe de test de la creation de feuille de route
  */
 public class GenerateTourSheetCommandTest {
 
