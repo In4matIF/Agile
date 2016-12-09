@@ -60,7 +60,7 @@ import com.sun.prism.BasicStroke;
 public class Window {
 
 	private final int SCENE_WIDTH = 1220;
-	private final int SCENE_HEIGHT = 900;
+	private final int SCENE_HEIGHT = 850;
 	private final int CANVAS_WIDTH = 750;
 	private final int CANVAS_HEIGHT = 650;
 	private final int TEXT_AREA_DELIVERY_WIDTH = 425;
@@ -270,11 +270,12 @@ public class Window {
 		grid.add(planCanvas, 0, 0, 3, 1);
 
 		//Delivery - titles
-		Text title = new Text(new String("adresse   arrive -- depart   duree"));
+		Text title = new Text(new String("                             adresse   arrive      --   depart       duree"));
 		title.setStroke(DELIVERY_TEXT_COLOR);
 
 		// Delivery Panel
 		GridPane deliveryLegendPane = new GridPane();
+		BorderPane center = new BorderPane();
 		deliveryPaneScroll.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
 		deliveryPaneScroll.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
 		deliveryPaneScroll.setPrefWidth(TEXT_AREA_DELIVERY_WIDTH);
@@ -284,11 +285,13 @@ public class Window {
 		deliveryPane.setStyle("-fx-background-color: #2F868A;");
 		deliveryPane.setVgap(5);
 		grid.add(deliveryLegendPane,3,0,2,1);
-		deliveryLegendPane.add(title,0,0);
+		deliveryLegendPane.add(center,0,0);
+		center.setBottom(title);
 		deliveryLegendPane.add(deliveryPaneScroll,0,1);
 		deliveryPaneScroll.setContent(deliveryPane);
     	deliveryLegendPane.setPrefHeight(TEXT_AREA_DELIVERY_HEIGHT);
     	deliveryLegendPane.setPrefWidth(TEXT_AREA_DELIVERY_WIDTH);
+    	deliveryLegendPane.setAlignment(Pos.CENTER);
     	deliveryPane.setPrefHeight(TEXT_AREA_DELIVERY_HEIGHT);
     	deliveryPane.setPrefWidth(TEXT_AREA_DELIVERY_WIDTH);
 
@@ -329,6 +332,10 @@ public class Window {
 	                Button addDelivery = new Button();
 	                addDelivery.setText("Valider");
 	        		ajoutGrid.add(addDelivery,1,4);
+	        		ajoutGrid.setHgap(10.0);
+	        		ajoutGrid.setVgap(10.0);
+	        		ajoutGrid.setPadding(new Insets(10.0));
+	        		ajoutGrid.setAlignment(Pos.CENTER);
 	        		addDelivery.setOnAction(
 	        				new EventHandler<ActionEvent>() {
 	        	            @Override
