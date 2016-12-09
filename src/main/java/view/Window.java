@@ -610,6 +610,21 @@ public class Window {
 	            	gridDetails.setAlignment(Pos.CENTER);
 	            	Button supprimer = new Button("Supprimer");
 					supprimer.setStyle("-fx-base: "+BUTTON_COLOR+"; -fx-text-fill: "+BUTTON_FONT_COLOR+";");
+					supprimer.setOnAction(
+							new EventHandler<ActionEvent>() {
+								@Override
+								public void handle(ActionEvent event) {
+									try {
+										controller.deleteDeliveryPoint(p);
+										render();
+										renderPlan();
+										renderLivraison();
+									} catch (Exception e) {
+										// TODO Auto-generated catch block
+										e.printStackTrace();
+									}
+								}
+							});
 	            	Button modifier = new Button("Modifier");
 					modifier.setStyle("-fx-base: "+BUTTON_COLOR+"; -fx-text-fill: "+BUTTON_FONT_COLOR+";");
 	            	Label adresseLabel =  new Label("Adresse : ");
