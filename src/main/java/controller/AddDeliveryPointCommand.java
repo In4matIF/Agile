@@ -1,7 +1,9 @@
 package controller;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import model.CrossingPoint;
 import model.DeliveryPoint;
@@ -19,10 +21,12 @@ public class AddDeliveryPointCommand implements Command {
 	DeliveryPoint toAdd; //Intersection à ajouter
 	List<CrossingPoint> listCP; //Liste des CrossingPoints initiale
 	List<Section> listSections; //Liste des CrossingPoints initiale
+	Map<Integer, CrossingPoint> listNonOrderedCP;
 
 	public AddDeliveryPointCommand(DeliveryPoint toAdd) {
 		this.toAdd = toAdd;
 		listCP = new LinkedList<>();
+		listNonOrderedCP = new HashMap<>();
 		listSections = new LinkedList<>();
 	}
 
@@ -30,6 +34,7 @@ public class AddDeliveryPointCommand implements Command {
 	public boolean doCommand() {
 		
 		listCP.addAll(Window.tour.getOrdainedCrossingPoints());
+		listNonOrderedCP.putAll(Window.tour.getCrossingPoints());
 		listSections.addAll(Window.tour.getSections());
 		
 		//Recherche du meilleur endroit ou ajouter le point
@@ -147,6 +152,7 @@ public class AddDeliveryPointCommand implements Command {
 	
 	public boolean undoCommand(){
 		Window.tour.setOrdainedCrossingPoints(listCP);
+		Window.tour.setCrossingPoints(listNonOrderedCP);
 		Window.tour.setSections(listSections);
 		return true;
 	}
