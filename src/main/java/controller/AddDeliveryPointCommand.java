@@ -92,12 +92,12 @@ public class AddDeliveryPointCommand implements Command {
 			
 			DeliveryPoint prevDP = (DeliveryPoint) Window.tour.getOrdainedCrossingPoints().get(i);
 			
-			if(toAdd.getBeginTime()< prevDP.getDeparture()+goingCost
-				&& toAdd.getEndTime()> prevDP.getDeparture()+goingCost)
-			{
+//			if(toAdd.getBeginTime()< prevDP.getDeparture()+goingCost
+//				&& toAdd.getEndTime()> prevDP.getDeparture()+goingCost)
+//			{
 				bestCrossingPoint = i;
 				bestCost = goingCost+returnCost;
-			}
+//			}
 		}
 		
 		if(bestCrossingPoint != -1)
