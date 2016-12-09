@@ -1,0 +1,219 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Plan</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">model</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Plan (model)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Plan</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    50%
+  </span>
+  <span class="absValue">
+    (5/ 10)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    79,6%
+  </span>
+  <span class="absValue">
+    (39/ 49)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package model;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import javafx.beans.InvalidationListener;
+<i>4</i>&nbsp;import javafx.beans.Observable;
+<i>5</i>&nbsp;import org.w3c.dom.Document;
+<i>6</i>&nbsp;import org.w3c.dom.Element;
+<i>7</i>&nbsp;import org.w3c.dom.Node;
+<i>8</i>&nbsp;import org.w3c.dom.NodeList;
+<i>9</i>&nbsp;
+<i>10</i>&nbsp;import javax.xml.parsers.DocumentBuilder;
+<i>11</i>&nbsp;import javax.xml.parsers.DocumentBuilderFactory;
+<i>12</i>&nbsp;import java.io.File;
+<i>13</i>&nbsp;import java.util.ArrayList;
+<i>14</i>&nbsp;import java.util.HashMap;
+<i>15</i>&nbsp;import java.util.List;
+<i>16</i>&nbsp;import java.util.Map;
+<i>17</i>&nbsp;
+<i>18</i>&nbsp;/**
+<i>19</i>&nbsp; * Objet repr�sentant le plan de la ville
+<i>20</i>&nbsp; * Contient les intersections et les sections
+<i>21</i>&nbsp; */
+<i>22</i>&nbsp;public class Plan implements Observable{
+<i>23</i>&nbsp;
+<i>24</i>&nbsp;    /**
+<i>25</i>&nbsp;     * Map des intersections du Plan avec l&#39;id de l&#39;intersection en cl�
+<i>26</i>&nbsp;     */
+<b class="fc"><i>27</i>&nbsp;	private Map&lt;Integer, Intersection&gt; intersections = new HashMap&lt;Integer, Intersection&gt;();</b>
+<i>28</i>&nbsp;	
+<i>29</i>&nbsp;	/**
+<i>30</i>&nbsp;	 * Liste des sections du plan
+<i>31</i>&nbsp;	 */
+<b class="fc"><i>32</i>&nbsp;    private List&lt;Section&gt; sections = new ArrayList&lt;&gt;();</b>
+<i>33</i>&nbsp;
+<b class="nc"><i>34</i>&nbsp;    public Plan() {</b>
+<b class="nc"><i>35</i>&nbsp;    }</b>
+<i>36</i>&nbsp;
+<b class="fc"><i>37</i>&nbsp;    public Plan(Map&lt;Integer, Intersection&gt; intersections, ArrayList sections) {</b>
+<b class="fc"><i>38</i>&nbsp;        this.intersections = intersections;</b>
+<b class="fc"><i>39</i>&nbsp;        this.sections = sections;</b>
+<b class="fc"><i>40</i>&nbsp;    }</b>
+<i>41</i>&nbsp;
+<i>42</i>&nbsp;    /**
+<i>43</i>&nbsp;     * Cr�ation d&#39;un objet plan � partir d&#39;un fichier XML de plan
+<i>44</i>&nbsp;     * @param xmlFile le xml du plan
+<i>45</i>&nbsp;     */
+<b class="fc"><i>46</i>&nbsp;    public Plan(File xmlFile) throws Exception{</b>
+<b class="fc"><i>47</i>&nbsp;        DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();</b>
+<b class="fc"><i>48</i>&nbsp;        DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();</b>
+<b class="fc"><i>49</i>&nbsp;        Document doc = dBuilder.parse(xmlFile);</b>
+<i>50</i>&nbsp;
+<b class="fc"><i>51</i>&nbsp;        doc.getDocumentElement().normalize();</b>
+<i>52</i>&nbsp;
+<b class="fc"><i>53</i>&nbsp;        NodeList nTest = doc.getElementsByTagName(&quot;reseau&quot;);</b>
+<b class="fc"><i>54</i>&nbsp;        if(nTest.getLength()==0){</b>
+<b class="nc"><i>55</i>&nbsp;            throw new Exception(&quot;Fichier incompatible.&quot;);</b>
+<i>56</i>&nbsp;        }
+<i>57</i>&nbsp;
+<b class="fc"><i>58</i>&nbsp;        NodeList nList = doc.getElementsByTagName(&quot;noeud&quot;);</b>
+<i>59</i>&nbsp;
+<i>60</i>&nbsp;        //Cr�ation des objets Intersections
+<b class="fc"><i>61</i>&nbsp;        for (int temp = 0; temp &lt; nList.getLength(); temp++) {</b>
+<b class="fc"><i>62</i>&nbsp;            Node nNode = nList.item(temp);</b>
+<i>63</i>&nbsp;
+<b class="fc"><i>64</i>&nbsp;            if (nNode.getNodeType() == Node.ELEMENT_NODE) {</b>
+<i>65</i>&nbsp;
+<b class="fc"><i>66</i>&nbsp;                Element eElement = (Element) nNode;</b>
+<i>67</i>&nbsp;
+<b class="fc"><i>68</i>&nbsp;                Intersection intersection = new Intersection(</b>
+<b class="fc"><i>69</i>&nbsp;                        Integer.parseInt(eElement.getAttribute(&quot;id&quot;)),</b>
+<b class="fc"><i>70</i>&nbsp;                        Integer.parseInt(eElement.getAttribute(&quot;x&quot;)),</b>
+<b class="fc"><i>71</i>&nbsp;                        Integer.parseInt(eElement.getAttribute(&quot;y&quot;))</b>
+<i>72</i>&nbsp;                        );
+<b class="fc"><i>73</i>&nbsp;                this.getIntersections().put(intersection.getId(),intersection);</b>
+<i>74</i>&nbsp;            }
+<i>75</i>&nbsp;        }
+<i>76</i>&nbsp;
+<b class="fc"><i>77</i>&nbsp;        NodeList sList = doc.getElementsByTagName(&quot;troncon&quot;);</b>
+<i>78</i>&nbsp;
+<i>79</i>&nbsp;        //Cr�ation des objets Section
+<b class="fc"><i>80</i>&nbsp;        for (int temp = 0; temp &lt; sList.getLength(); temp++) {</b>
+<b class="fc"><i>81</i>&nbsp;            Node sNode = sList.item(temp);</b>
+<i>82</i>&nbsp;
+<b class="fc"><i>83</i>&nbsp;            if (sNode.getNodeType() == Node.ELEMENT_NODE) {</b>
+<i>84</i>&nbsp;
+<b class="fc"><i>85</i>&nbsp;                Element eElement = (Element) sNode;</b>
+<i>86</i>&nbsp;
+<b class="fc"><i>87</i>&nbsp;                Intersection origine = this.getIntersections().get(Integer.parseInt(eElement.getAttribute(&quot;origine&quot;)));</b>
+<b class="fc"><i>88</i>&nbsp;                Intersection destination = this.getIntersections().get(Integer.parseInt(eElement.getAttribute(&quot;destination&quot;)));</b>
+<i>89</i>&nbsp;
+<b class="fc"><i>90</i>&nbsp;                Section section = new Section(</b>
+<i>91</i>&nbsp;                    origine,
+<i>92</i>&nbsp;                    destination,
+<b class="fc"><i>93</i>&nbsp;                    Integer.parseInt(eElement.getAttribute(&quot;longueur&quot;)),</b>
+<b class="fc"><i>94</i>&nbsp;                    Integer.parseInt(eElement.getAttribute(&quot;vitesse&quot;)),</b>
+<b class="fc"><i>95</i>&nbsp;                    eElement.getAttribute(&quot;nomRue&quot;)</b>
+<i>96</i>&nbsp;                );
+<i>97</i>&nbsp;
+<b class="fc"><i>98</i>&nbsp;                origine.getSections().add(section);</b>
+<i>99</i>&nbsp;
+<b class="fc"><i>100</i>&nbsp;                this.getSections().add(section);</b>
+<i>101</i>&nbsp;            }
+<i>102</i>&nbsp;        }
+<b class="fc"><i>103</i>&nbsp;    }</b>
+<i>104</i>&nbsp;
+<i>105</i>&nbsp;    public Map&lt;Integer, Intersection&gt; getIntersections() {
+<b class="fc"><i>106</i>&nbsp;        return intersections;</b>
+<i>107</i>&nbsp;    }
+<i>108</i>&nbsp;
+<i>109</i>&nbsp;    public void setIntersections(Map&lt;Integer, Intersection&gt; intersections) {
+<b class="nc"><i>110</i>&nbsp;        this.intersections = intersections;</b>
+<b class="nc"><i>111</i>&nbsp;    }</b>
+<i>112</i>&nbsp;
+<i>113</i>&nbsp;    public List&lt;Section&gt; getSections() {
+<b class="fc"><i>114</i>&nbsp;        return sections;</b>
+<i>115</i>&nbsp;    }
+<i>116</i>&nbsp;
+<i>117</i>&nbsp;    public void setSections(ArrayList sections) {
+<b class="nc"><i>118</i>&nbsp;        this.sections = sections;</b>
+<b class="nc"><i>119</i>&nbsp;    }</b>
+<i>120</i>&nbsp;
+<i>121</i>&nbsp;    @Override
+<i>122</i>&nbsp;    public String toString() {
+<b class="nc"><i>123</i>&nbsp;        return &quot;Plan{&quot; +</b>
+<i>124</i>&nbsp;                &quot;intersections=&quot; + intersections +
+<i>125</i>&nbsp;                &quot;, sections=&quot; + sections +
+<i>126</i>&nbsp;                &#39;}&#39;;
+<i>127</i>&nbsp;    }
+<i>128</i>&nbsp;
+<i>129</i>&nbsp;    public void addListener(InvalidationListener listener) {
+<i>130</i>&nbsp;
+<b class="nc"><i>131</i>&nbsp;    }</b>
+<i>132</i>&nbsp;
+<i>133</i>&nbsp;    public void removeListener(InvalidationListener listener) {
+<i>134</i>&nbsp;
+<b class="nc"><i>135</i>&nbsp;    }</b>
+<i>136</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2016-12-09 14:23</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,151 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: DeleteDeliveryTest</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">test</a> ]
+</div>
+
+<h1>Coverage Summary for Class: DeleteDeliveryTest (test)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">DeleteDeliveryTest</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (3/ 3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (23/ 23)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package test;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import static org.junit.Assert.*;
+<i>4</i>&nbsp;
+<i>5</i>&nbsp;import java.io.File;
+<i>6</i>&nbsp;
+<i>7</i>&nbsp;import org.junit.Before;
+<i>8</i>&nbsp;import org.junit.Test;
+<i>9</i>&nbsp;
+<i>10</i>&nbsp;import controller.AddDeliveryPointCommand;
+<i>11</i>&nbsp;import controller.DeleteDeliveryPointCommand;
+<i>12</i>&nbsp;import controller.LoadTourCommand;
+<i>13</i>&nbsp;import model.DeliveryPoint;
+<i>14</i>&nbsp;import model.Plan;
+<i>15</i>&nbsp;import model.Tour;
+<i>16</i>&nbsp;import view.Window;
+<i>17</i>&nbsp;
+<i>18</i>&nbsp;/**
+<i>19</i>&nbsp; * Classe de test de la commande de suppression de point de livraison DeleteDeliveryPoint
+<i>20</i>&nbsp; */
+<b class="fc"><i>21</i>&nbsp;public class DeleteDeliveryTest {</b>
+<i>22</i>&nbsp;	
+<i>23</i>&nbsp;	Tour t;
+<i>24</i>&nbsp;	
+<i>25</i>&nbsp;	/**
+<i>26</i>&nbsp;	 * Creation d&#39;un Tour et d&#39;un Plan
+<i>27</i>&nbsp;	 * @throws Exception
+<i>28</i>&nbsp;	 */
+<i>29</i>&nbsp;	@Before
+<i>30</i>&nbsp;	public void setUp() throws Exception {
+<b class="fc"><i>31</i>&nbsp;	    Window.plan = new Plan(new File(&quot;src/main/resources/xml/testGraphPlan.xml&quot;));</b>
+<b class="fc"><i>32</i>&nbsp;	    LoadTourCommand lt = new LoadTourCommand(new File(&quot;src/main/resources/xml/testDeletePoint.xml&quot;));</b>
+<b class="fc"><i>33</i>&nbsp;	    lt.doCommand();</b>
+<i>34</i>&nbsp;	       
+<b class="fc"><i>35</i>&nbsp;	    DeleteDeliveryPointCommand ddp = new DeleteDeliveryPointCommand((DeliveryPoint)Window.tour.getOrdainedCrossingPoints().get(2));</b>
+<b class="fc"><i>36</i>&nbsp;	    ddp.doCommand();</b>
+<b class="fc"><i>37</i>&nbsp;	    t = Window.tour;</b>
+<b class="fc"><i>38</i>&nbsp;	}</b>
+<i>39</i>&nbsp;	
+<i>40</i>&nbsp;	/**
+<i>41</i>&nbsp;	 * V�rification de la liste des sections apr�s suppression du point
+<i>42</i>&nbsp;	 */
+<i>43</i>&nbsp;	@Test
+<i>44</i>&nbsp;	public void testAddDelivery()
+<i>45</i>&nbsp;	{
+<b class="fc"><i>46</i>&nbsp;		assertEquals(t.getSections().get(0).getOrigin().getId(),(Integer) 1);</b>
+<b class="fc"><i>47</i>&nbsp;		assertEquals(t.getSections().get(0).getDestination().getId(),(Integer) 2);</b>
+<i>48</i>&nbsp;		
+<b class="fc"><i>49</i>&nbsp;		assertEquals(t.getSections().get(1).getOrigin().getId(),(Integer) 2);</b>
+<b class="fc"><i>50</i>&nbsp;		assertEquals(t.getSections().get(1).getDestination().getId(),(Integer) 3);</b>
+<i>51</i>&nbsp;		
+<b class="fc"><i>52</i>&nbsp;		assertEquals(t.getSections().get(2).getOrigin().getId(),(Integer) 3);</b>
+<b class="fc"><i>53</i>&nbsp;		assertEquals(t.getSections().get(2).getDestination().getId(),(Integer) 5);</b>
+<i>54</i>&nbsp;		
+<b class="fc"><i>55</i>&nbsp;		assertEquals(t.getSections().get(3).getOrigin().getId(),(Integer) 5);</b>
+<b class="fc"><i>56</i>&nbsp;		assertEquals(t.getSections().get(3).getDestination().getId(),(Integer) 0);</b>
+<i>57</i>&nbsp;		
+<b class="fc"><i>58</i>&nbsp;		assertEquals(t.getSections().get(4).getOrigin().getId(),(Integer) 0);</b>
+<b class="fc"><i>59</i>&nbsp;		assertEquals(t.getSections().get(4).getDestination().getId(),(Integer) 1);</b>
+<i>60</i>&nbsp;		
+<b class="fc"><i>61</i>&nbsp;		assertNull(t.getCrossingPoints().get(4));</b>
+<i>62</i>&nbsp;		
+<b class="fc"><i>63</i>&nbsp;		assertEquals(t.getOrdainedCrossingPoints().get(0).getIntersection().getId(),(Integer) 1);</b>
+<b class="fc"><i>64</i>&nbsp;		assertEquals(t.getOrdainedCrossingPoints().get(1).getIntersection().getId(),(Integer) 3);</b>
+<b class="fc"><i>65</i>&nbsp;		assertEquals(t.getOrdainedCrossingPoints().get(2).getIntersection().getId(),(Integer) 5);</b>
+<b class="fc"><i>66</i>&nbsp;	}</b>
+<i>67</i>&nbsp;
+<i>68</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2016-12-09 14:23</div>
+</div>
+</body>
+</html>

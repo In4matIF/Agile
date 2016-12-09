@@ -1,0 +1,129 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: TourState</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">controller</a> ]
+</div>
+
+<h1>Coverage Summary for Class: TourState (controller)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">TourState</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 14)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package controller;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import model.DeliveryPoint;
+<i>4</i>&nbsp;import model.Plan;
+<i>5</i>&nbsp;import model.Tour;
+<i>6</i>&nbsp;import view.Window;
+<i>7</i>&nbsp;
+<i>8</i>&nbsp;/**
+<i>9</i>&nbsp; * Etat o� la livraison est charg�e et calcul�e
+<i>10</i>&nbsp; */
+<b class="nc"><i>11</i>&nbsp;public class TourState extends DefaultState{</b>
+<i>12</i>&nbsp;
+<i>13</i>&nbsp;    @Override
+<i>14</i>&nbsp;    public void renitializePlan(Window window, CommandList commandList) throws Exception{
+<b class="nc"><i>15</i>&nbsp;        Window.plan = new Plan();</b>
+<b class="nc"><i>16</i>&nbsp;        Window.tour = new Tour();</b>
+<b class="nc"><i>17</i>&nbsp;        commandList.addCommand(new RenitializePlanCommand());</b>
+<b class="nc"><i>18</i>&nbsp;        Controller.setCurrentState(Controller.initState);</b>
+<i>19</i>&nbsp;    }
+<i>20</i>&nbsp;
+<i>21</i>&nbsp;    @Override
+<i>22</i>&nbsp;    public void renitializeTour(Window window, CommandList commandList) throws Exception{
+<b class="nc"><i>23</i>&nbsp;        Window.tour = new Tour();</b>
+<b class="nc"><i>24</i>&nbsp;        commandList.addCommand(new RenitializeTourCommand());</b>
+<b class="nc"><i>25</i>&nbsp;        Controller.setCurrentState(Controller.planState);</b>
+<i>26</i>&nbsp;    }
+<i>27</i>&nbsp;
+<i>28</i>&nbsp;    @Override
+<i>29</i>&nbsp;    public void generateTourSheet(Window window, CommandList commandList) throws Exception{
+<b class="nc"><i>30</i>&nbsp;    	commandList.addCommand(new GenerateTourSheetCommand());</b>
+<b class="nc"><i>31</i>&nbsp;        Controller.setCurrentState(Controller.tourState);</b>
+<i>32</i>&nbsp;    }
+<i>33</i>&nbsp;    
+<i>34</i>&nbsp;    public void deleteDeliveryPoint(Window window, CommandList commandList, DeliveryPoint toDelete) throws Exception
+<i>35</i>&nbsp;    {
+<b class="nc"><i>36</i>&nbsp;    	commandList.addCommand(new DeleteDeliveryPointCommand(toDelete));</b>
+<b class="nc"><i>37</i>&nbsp;    	Controller.setCurrentState(Controller.tourState);</b>
+<i>38</i>&nbsp;    }
+<i>39</i>&nbsp;    
+<i>40</i>&nbsp;    public void addDeliveryPoint(Window window, CommandList commandList, DeliveryPoint toAdd) throws Exception
+<i>41</i>&nbsp;    {
+<b class="nc"><i>42</i>&nbsp;    	commandList.addCommand(new AddDeliveryPointCommand(toAdd));</b>
+<b class="nc"><i>43</i>&nbsp;    	Controller.setCurrentState(Controller.tourState);</b>
+<i>44</i>&nbsp;    }
+<i>45</i>&nbsp;    
+<i>46</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2016-12-09 14:23</div>
+</div>
+</body>
+</html>

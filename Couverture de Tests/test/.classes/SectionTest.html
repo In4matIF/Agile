@@ -1,0 +1,193 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: SectionTest</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">test</a> ]
+</div>
+
+<h1>Coverage Summary for Class: SectionTest (test)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">SectionTest</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (14/ 14)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (55/ 55)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package test;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import static org.junit.Assert.*;
+<i>4</i>&nbsp;
+<i>5</i>&nbsp;import org.junit.After;
+<i>6</i>&nbsp;import org.junit.Before;
+<i>7</i>&nbsp;import org.junit.Test;
+<i>8</i>&nbsp;
+<i>9</i>&nbsp;import model.Intersection;
+<i>10</i>&nbsp;import model.Section;
+<i>11</i>&nbsp;
+<i>12</i>&nbsp;/**
+<i>13</i>&nbsp; * Tests unitaires de JUnit sur la classe Section
+<i>14</i>&nbsp; */
+<b class="fc"><i>15</i>&nbsp;public class SectionTest {</b>
+<i>16</i>&nbsp;
+<i>17</i>&nbsp;	private Section s;
+<b class="fc"><i>18</i>&nbsp;	private int LENGTH = 50;</b>
+<b class="fc"><i>19</i>&nbsp;	private int SPEED = 20;</b>
+<i>20</i>&nbsp;	@Before
+<i>21</i>&nbsp;	public void setUp() throws Exception {
+<b class="fc"><i>22</i>&nbsp;		s = new Section(new Intersection(1,25,25),new Intersection(2,0,0),LENGTH,SPEED,&quot;x0&quot;);</b>
+<b class="fc"><i>23</i>&nbsp;	}</b>
+<i>24</i>&nbsp;
+<i>25</i>&nbsp;	@After
+<i>26</i>&nbsp;	public void tearDown() throws Exception {
+<b class="fc"><i>27</i>&nbsp;	}</b>
+<i>28</i>&nbsp;
+<i>29</i>&nbsp;	@Test
+<i>30</i>&nbsp;	public void testGetOrigin() {
+<b class="fc"><i>31</i>&nbsp;		Integer i = 1;</b>
+<b class="fc"><i>32</i>&nbsp;		assertEquals(s.getOrigin().getId(),i);</b>
+<b class="fc"><i>33</i>&nbsp;		i=25;</b>
+<b class="fc"><i>34</i>&nbsp;		assertEquals(s.getOrigin().getX(),i);</b>
+<b class="fc"><i>35</i>&nbsp;		assertEquals(s.getOrigin().getY(),i);</b>
+<b class="fc"><i>36</i>&nbsp;	}</b>
+<i>37</i>&nbsp;	
+<i>38</i>&nbsp;	@Test
+<i>39</i>&nbsp;	public void testSetOrigin() {
+<b class="fc"><i>40</i>&nbsp;		s.setOrigin(new Intersection(3,15,15));</b>
+<b class="fc"><i>41</i>&nbsp;		Integer i = 3;</b>
+<b class="fc"><i>42</i>&nbsp;		assertEquals(s.getOrigin().getId(),i);</b>
+<b class="fc"><i>43</i>&nbsp;		i=15;</b>
+<b class="fc"><i>44</i>&nbsp;		assertEquals(s.getOrigin().getX(),i);</b>
+<b class="fc"><i>45</i>&nbsp;		assertEquals(s.getOrigin().getY(),i);</b>
+<b class="fc"><i>46</i>&nbsp;	}</b>
+<i>47</i>&nbsp;	
+<i>48</i>&nbsp;	@Test
+<i>49</i>&nbsp;	public void testGetDestination() {
+<b class="fc"><i>50</i>&nbsp;		Integer i = 2;</b>
+<b class="fc"><i>51</i>&nbsp;		assertEquals(s.getDestination().getId(),i);</b>
+<b class="fc"><i>52</i>&nbsp;		i=0;</b>
+<b class="fc"><i>53</i>&nbsp;		assertEquals(s.getDestination().getX(),i);</b>
+<b class="fc"><i>54</i>&nbsp;		assertEquals(s.getDestination().getY(),i);</b>
+<b class="fc"><i>55</i>&nbsp;	}</b>
+<i>56</i>&nbsp;	
+<i>57</i>&nbsp;	@Test
+<i>58</i>&nbsp;	public void testSetDestination() {
+<b class="fc"><i>59</i>&nbsp;		s.setDestination(new Intersection(4,10,10));</b>
+<b class="fc"><i>60</i>&nbsp;		Integer i = 4;</b>
+<b class="fc"><i>61</i>&nbsp;		assertEquals(s.getDestination().getId(),i);</b>
+<b class="fc"><i>62</i>&nbsp;		i=10;</b>
+<b class="fc"><i>63</i>&nbsp;		assertEquals(s.getDestination().getX(),i);</b>
+<b class="fc"><i>64</i>&nbsp;		assertEquals(s.getDestination().getY(),i);</b>
+<b class="fc"><i>65</i>&nbsp;	}</b>
+<i>66</i>&nbsp;	
+<i>67</i>&nbsp;	@Test
+<i>68</i>&nbsp;	public void testGetLength() {
+<b class="fc"><i>69</i>&nbsp;		Integer i = 50;</b>
+<b class="fc"><i>70</i>&nbsp;		assertEquals(s.getLength(),i);</b>
+<b class="fc"><i>71</i>&nbsp;	}</b>
+<i>72</i>&nbsp;	
+<i>73</i>&nbsp;	@Test
+<i>74</i>&nbsp;	public void testSetLength() {
+<b class="fc"><i>75</i>&nbsp;		Integer i = 100;</b>
+<b class="fc"><i>76</i>&nbsp;		s.setLength(100);</b>
+<b class="fc"><i>77</i>&nbsp;		assertEquals(s.getLength(),i);</b>
+<b class="fc"><i>78</i>&nbsp;	}</b>
+<i>79</i>&nbsp;
+<i>80</i>&nbsp;	@Test
+<i>81</i>&nbsp;	public void testGetSpeed() {
+<b class="fc"><i>82</i>&nbsp;		Integer i = 20;</b>
+<b class="fc"><i>83</i>&nbsp;		assertEquals(s.getSpeed(),i);</b>
+<b class="fc"><i>84</i>&nbsp;	}</b>
+<i>85</i>&nbsp;	
+<i>86</i>&nbsp;	@Test
+<i>87</i>&nbsp;	public void testSetSpeed() {
+<b class="fc"><i>88</i>&nbsp;		Integer i = 30;</b>
+<b class="fc"><i>89</i>&nbsp;		s.setSpeed(30);</b>
+<b class="fc"><i>90</i>&nbsp;		assertEquals(s.getSpeed(),i);</b>
+<b class="fc"><i>91</i>&nbsp;	}</b>
+<i>92</i>&nbsp;	
+<i>93</i>&nbsp;	@Test
+<i>94</i>&nbsp;	public void testGetStreet() {
+<b class="fc"><i>95</i>&nbsp;		assertEquals(s.getStreet(),new String(&quot;x0&quot;));</b>
+<b class="fc"><i>96</i>&nbsp;	}</b>
+<i>97</i>&nbsp;	
+<i>98</i>&nbsp;	@Test
+<i>99</i>&nbsp;	public void testSetStreet() {
+<b class="fc"><i>100</i>&nbsp;		s.setStreet(new String(&quot;y0&quot;));</b>
+<b class="fc"><i>101</i>&nbsp;		assertEquals(s.getStreet(),new String(&quot;y0&quot;));</b>
+<b class="fc"><i>102</i>&nbsp;	}</b>
+<i>103</i>&nbsp;
+<i>104</i>&nbsp;	@Test
+<i>105</i>&nbsp;	public void testGetDurationSeconds() {
+<b class="fc"><i>106</i>&nbsp;		int durationS = s.getDurationSeconds();</b>
+<b class="fc"><i>107</i>&nbsp;		int durationExpected = (int)(((float)LENGTH)/((float)SPEED)*3.6f);</b>
+<b class="fc"><i>108</i>&nbsp;		assertEquals(durationS,durationExpected);</b>
+<b class="fc"><i>109</i>&nbsp;	}</b>
+<i>110</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2016-12-09 14:23</div>
+</div>
+</body>
+</html>

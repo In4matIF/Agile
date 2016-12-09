@@ -1,0 +1,120 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: IteratorSeq</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">util</a> ]
+</div>
+
+<h1>Coverage Summary for Class: IteratorSeq (util)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">IteratorSeq</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    75%
+  </span>
+  <span class="absValue">
+    (3/ 4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    90%
+  </span>
+  <span class="absValue">
+    (9/ 10)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package util;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import java.util.Collection;
+<i>4</i>&nbsp;import java.util.Iterator;
+<i>5</i>&nbsp;
+<i>6</i>&nbsp;public class IteratorSeq implements Iterator&lt;Integer&gt; {
+<i>7</i>&nbsp;
+<i>8</i>&nbsp;	private Integer[] candidats;
+<i>9</i>&nbsp;	private int nbCandidats;
+<i>10</i>&nbsp;
+<i>11</i>&nbsp;	/**
+<i>12</i>&nbsp;	 * Cree un iterateur pour iterer sur l&#39;ensemble des sommets de nonVus
+<i>13</i>&nbsp;	 * @param nonVus
+<i>14</i>&nbsp;	 * @param sommetCrt
+<i>15</i>&nbsp;	 */
+<b class="fc"><i>16</i>&nbsp;	public IteratorSeq(Collection&lt;Integer&gt; nonVus, int sommetCrt){</b>
+<b class="fc"><i>17</i>&nbsp;		this.candidats = new Integer[nonVus.size()];</b>
+<b class="fc"><i>18</i>&nbsp;		nbCandidats = 0;</b>
+<b class="fc"><i>19</i>&nbsp;		for (Integer s : nonVus){</b>
+<b class="fc"><i>20</i>&nbsp;			candidats[nbCandidats++] = s;</b>
+<b class="fc"><i>21</i>&nbsp;		}</b>
+<b class="fc"><i>22</i>&nbsp;	}</b>
+<i>23</i>&nbsp;	
+<i>24</i>&nbsp;	@Override
+<i>25</i>&nbsp;	public boolean hasNext() {
+<b class="fc"><i>26</i>&nbsp;		return nbCandidats &gt; 0;</b>
+<i>27</i>&nbsp;	}
+<i>28</i>&nbsp;
+<i>29</i>&nbsp;	@Override
+<i>30</i>&nbsp;	public Integer next() {
+<b class="fc"><i>31</i>&nbsp;		return candidats[--nbCandidats];</b>
+<i>32</i>&nbsp;	}
+<i>33</i>&nbsp;
+<i>34</i>&nbsp;	@Override
+<b class="nc"><i>35</i>&nbsp;	public void remove() {}</b>
+<i>36</i>&nbsp;
+<i>37</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2016-12-09 14:23</div>
+</div>
+</body>
+</html>

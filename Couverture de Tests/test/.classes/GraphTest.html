@@ -1,0 +1,166 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: GraphTest</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">test</a> ]
+</div>
+
+<h1>Coverage Summary for Class: GraphTest (test)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">GraphTest</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (4/ 4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    97,2%
+  </span>
+  <span class="absValue">
+    (35/ 36)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package test;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import model.Graph;
+<i>4</i>&nbsp;import model.Intersection;
+<i>5</i>&nbsp;import model.Path;
+<i>6</i>&nbsp;import model.Plan;
+<i>7</i>&nbsp;import model.Section;
+<i>8</i>&nbsp;import model.Tour;
+<i>9</i>&nbsp;
+<i>10</i>&nbsp;import org.junit.After;
+<i>11</i>&nbsp;import org.junit.Before;
+<i>12</i>&nbsp;import org.junit.Test;
+<i>13</i>&nbsp;
+<i>14</i>&nbsp;import static org.junit.Assert.assertEquals;
+<i>15</i>&nbsp;
+<i>16</i>&nbsp;import java.io.File;
+<i>17</i>&nbsp;import java.util.List;
+<i>18</i>&nbsp;
+<i>19</i>&nbsp;/**
+<i>20</i>&nbsp;* Classe de test de l&#39;objet Graph
+<i>21</i>&nbsp;*/
+<b class="fc"><i>22</i>&nbsp;public class GraphTest {</b>
+<i>23</i>&nbsp;
+<i>24</i>&nbsp;    private Graph g;
+<i>25</i>&nbsp;
+<i>26</i>&nbsp;
+<i>27</i>&nbsp;    /**
+<i>28</i>&nbsp;     * Cr�ation du graphe
+<i>29</i>&nbsp;     * @throws Exception
+<i>30</i>&nbsp;     */
+<i>31</i>&nbsp;    @Before
+<i>32</i>&nbsp;    public void setUp() throws Exception {
+<b class="fc"><i>33</i>&nbsp;    	Plan plan = new Plan(new File(&quot;src/main/resources/xml/testGraphPlan.xml&quot;));</b>
+<b class="fc"><i>34</i>&nbsp;        g = new Graph(plan, new Tour(new File(&quot;src/main/resources/xml/testGraphTour.xml&quot;), plan));</b>
+<b class="fc"><i>35</i>&nbsp;    }</b>
+<i>36</i>&nbsp;
+<i>37</i>&nbsp;   @After
+<i>38</i>&nbsp;   public void tearDown() throws Exception {
+<b class="fc"><i>39</i>&nbsp;   }</b>
+<i>40</i>&nbsp;
+<i>41</i>&nbsp;   /**
+<i>42</i>&nbsp;    * Test des arretes g�n�r�es
+<i>43</i>&nbsp;    */
+<i>44</i>&nbsp;   @Test
+<i>45</i>&nbsp;   public void testGraph() {
+<b class="fc"><i>46</i>&nbsp;       List&lt;Path&gt; paths = g.getPaths();</b>
+<b class="fc"><i>47</i>&nbsp;       assertEquals(g.getPaths().size(), 6);</b>
+<b class="fc"><i>48</i>&nbsp;       boolean path13 = false;</b>
+<b class="fc"><i>49</i>&nbsp;       boolean path15 = false;</b>
+<b class="fc"><i>50</i>&nbsp;       boolean path31 = false;</b>
+<b class="fc"><i>51</i>&nbsp;       boolean path35 = false;</b>
+<b class="fc"><i>52</i>&nbsp;       boolean path51 = false;</b>
+<b class="fc"><i>53</i>&nbsp;       boolean path53 = false;</b>
+<b class="fc"><i>54</i>&nbsp;       boolean wrong = false;</b>
+<i>55</i>&nbsp;
+<i>56</i>&nbsp;
+<b class="fc"><i>57</i>&nbsp;       for (int i = 0; i &lt; 6; i++)</b>
+<i>58</i>&nbsp;       {
+<b class="fc"><i>59</i>&nbsp;            if(paths.get(i).getOrigin().getId() == 1 &amp;&amp; paths.get(i).getDestination().getId() == 3 &amp;&amp; paths.get(i).getLength() == 15268)</b>
+<b class="fc"><i>60</i>&nbsp;                path13 = true;</b>
+<b class="fc"><i>61</i>&nbsp;            else if(paths.get(i).getOrigin().getId() == 1 &amp;&amp; paths.get(i).getDestination().getId() == 5 &amp;&amp; paths.get(i).getLength() == 19318)</b>
+<b class="fc"><i>62</i>&nbsp;                path15 = true;</b>
+<b class="fc"><i>63</i>&nbsp;            else if(paths.get(i).getOrigin().getId() == 3 &amp;&amp; paths.get(i).getDestination().getId() == 1 &amp;&amp; paths.get(i).getLength() == 15268)</b>
+<b class="fc"><i>64</i>&nbsp;                path31 = true;</b>
+<b class="fc"><i>65</i>&nbsp;            else if(paths.get(i).getOrigin().getId() == 3 &amp;&amp; paths.get(i).getDestination().getId() == 5 &amp;&amp; paths.get(i).getLength() == 4050)</b>
+<b class="fc"><i>66</i>&nbsp;                path35 = true;</b>
+<b class="fc"><i>67</i>&nbsp;            else if(paths.get(i).getOrigin().getId() == 5 &amp;&amp; paths.get(i).getDestination().getId() == 1 &amp;&amp; paths.get(i).getLength() == 22900)</b>
+<b class="fc"><i>68</i>&nbsp;                path51 = true;</b>
+<b class="fc"><i>69</i>&nbsp;            else if(paths.get(i).getOrigin().getId() == 5 &amp;&amp; paths.get(i).getDestination().getId() == 3 &amp;&amp; paths.get(i).getLength() == 15203)</b>
+<b class="fc"><i>70</i>&nbsp;                path53 = true;</b>
+<i>71</i>&nbsp;            else
+<b class="nc"><i>72</i>&nbsp;                wrong = true;</b>
+<i>73</i>&nbsp;       }
+<i>74</i>&nbsp;       
+<b class="fc"><i>75</i>&nbsp;       assertEquals(path13, true);</b>
+<b class="fc"><i>76</i>&nbsp;       assertEquals(path15, true);</b>
+<b class="fc"><i>77</i>&nbsp;       assertEquals(path31, true);</b>
+<b class="fc"><i>78</i>&nbsp;       assertEquals(path35, true);</b>
+<b class="fc"><i>79</i>&nbsp;       assertEquals(path51, true);</b>
+<b class="fc"><i>80</i>&nbsp;       assertEquals(path53, true);</b>
+<b class="fc"><i>81</i>&nbsp;       assertEquals(wrong, false);</b>
+<b class="fc"><i>82</i>&nbsp;   }</b>
+<i>83</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2016-12-09 14:23</div>
+</div>
+</body>
+</html>

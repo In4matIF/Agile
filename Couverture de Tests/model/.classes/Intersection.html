@@ -1,0 +1,171 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Intersection</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">model</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Intersection (model)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Intersection</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    76,9%
+  </span>
+  <span class="absValue">
+    (10/ 13)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    68,8%
+  </span>
+  <span class="absValue">
+    (22/ 32)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package model;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import java.util.ArrayList;
+<i>4</i>&nbsp;import java.util.List;
+<i>5</i>&nbsp;
+<i>6</i>&nbsp;/**
+<i>7</i>&nbsp; * Objet repr�sentant une intersection du plan
+<i>8</i>&nbsp; */
+<i>9</i>&nbsp;public class Intersection {
+<i>10</i>&nbsp;
+<i>11</i>&nbsp;    private Integer id;
+<i>12</i>&nbsp;    private Integer x;
+<i>13</i>&nbsp;    private Integer y;
+<i>14</i>&nbsp;    
+<i>15</i>&nbsp;    /**
+<i>16</i>&nbsp;     * Liste des sections vers d&#39;autres Intersections
+<i>17</i>&nbsp;     */
+<i>18</i>&nbsp;    private List&lt;Section&gt; sections;
+<i>19</i>&nbsp;
+<b class="nc"><i>20</i>&nbsp;    public Intersection() {</b>
+<b class="nc"><i>21</i>&nbsp;    }</b>
+<i>22</i>&nbsp;
+<b class="fc"><i>23</i>&nbsp;    public Intersection(Integer id, Integer x, Integer y) {</b>
+<b class="fc"><i>24</i>&nbsp;        this.id = id;</b>
+<b class="fc"><i>25</i>&nbsp;        this.x = x;</b>
+<b class="fc"><i>26</i>&nbsp;        this.y = y;</b>
+<b class="fc"><i>27</i>&nbsp;        sections = new ArrayList&lt;&gt;();</b>
+<b class="fc"><i>28</i>&nbsp;    }</b>
+<i>29</i>&nbsp;
+<b class="nc"><i>30</i>&nbsp;    public Intersection(Integer id, Integer x, Integer y, ArrayList sections) {</b>
+<b class="nc"><i>31</i>&nbsp;        this.id = id;</b>
+<b class="nc"><i>32</i>&nbsp;        this.x = x;</b>
+<b class="nc"><i>33</i>&nbsp;        this.y = y;</b>
+<b class="nc"><i>34</i>&nbsp;        this.sections = sections;</b>
+<b class="nc"><i>35</i>&nbsp;    }</b>
+<i>36</i>&nbsp;    
+<i>37</i>&nbsp;    public Section getSectionTo(Intersection dest)
+<i>38</i>&nbsp;    {
+<b class="fc"><i>39</i>&nbsp;    	for(Section s : sections)</b>
+<i>40</i>&nbsp;    	{
+<b class="fc"><i>41</i>&nbsp;    		if(s.getDestination().equals(dest))</b>
+<b class="fc"><i>42</i>&nbsp;    			return s;</b>
+<b class="fc"><i>43</i>&nbsp;    	}</b>
+<b class="nc"><i>44</i>&nbsp;    	return null;</b>
+<i>45</i>&nbsp;    }
+<i>46</i>&nbsp;
+<i>47</i>&nbsp;    public Integer getId() {
+<b class="fc"><i>48</i>&nbsp;        return id;</b>
+<i>49</i>&nbsp;    }
+<i>50</i>&nbsp;
+<i>51</i>&nbsp;    public void setId(Integer id) {
+<b class="fc"><i>52</i>&nbsp;        this.id = id;</b>
+<b class="fc"><i>53</i>&nbsp;    }</b>
+<i>54</i>&nbsp;
+<i>55</i>&nbsp;    public Integer getX() {
+<b class="fc"><i>56</i>&nbsp;        return x;</b>
+<i>57</i>&nbsp;    }
+<i>58</i>&nbsp;
+<i>59</i>&nbsp;    public void setX(Integer x) {
+<b class="fc"><i>60</i>&nbsp;        this.x = x;</b>
+<b class="fc"><i>61</i>&nbsp;    }</b>
+<i>62</i>&nbsp;
+<i>63</i>&nbsp;    public Integer getY() {
+<b class="fc"><i>64</i>&nbsp;        return y;</b>
+<i>65</i>&nbsp;    }
+<i>66</i>&nbsp;
+<i>67</i>&nbsp;    public void setY(Integer y) {
+<b class="fc"><i>68</i>&nbsp;        this.y = y;</b>
+<b class="fc"><i>69</i>&nbsp;    }</b>
+<i>70</i>&nbsp;
+<i>71</i>&nbsp;    public List getSections() {
+<b class="fc"><i>72</i>&nbsp;        return sections;</b>
+<i>73</i>&nbsp;    }
+<i>74</i>&nbsp;
+<i>75</i>&nbsp;    public void setSections(ArrayList sections) {
+<b class="fc"><i>76</i>&nbsp;        this.sections = sections;</b>
+<b class="fc"><i>77</i>&nbsp;    }</b>
+<i>78</i>&nbsp;
+<i>79</i>&nbsp;    @Override
+<i>80</i>&nbsp;    public String toString() {
+<b class="nc"><i>81</i>&nbsp;        return &quot;Intersection{&quot; +</b>
+<i>82</i>&nbsp;                &quot;id=&quot; + id +
+<i>83</i>&nbsp;                &quot;, x=&quot; + x +
+<i>84</i>&nbsp;                &quot;, y=&quot; + y +
+<i>85</i>&nbsp;                &quot;, sections=&quot; + sections +
+<i>86</i>&nbsp;                &#39;}&#39;;
+<i>87</i>&nbsp;    }
+<i>88</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2016-12-09 14:23</div>
+</div>
+</body>
+</html>

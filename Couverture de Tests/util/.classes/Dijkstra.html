@@ -1,0 +1,275 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Dijkstra</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">util</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Dijkstra (util)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Dijkstra</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (9/ 9)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    96,8%
+  </span>
+  <span class="absValue">
+    (60/ 62)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package util;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import java.util.ArrayList;
+<i>4</i>&nbsp;import java.util.Collections;
+<i>5</i>&nbsp;import java.util.HashMap;
+<i>6</i>&nbsp;import java.util.HashSet;
+<i>7</i>&nbsp;import java.util.LinkedList;
+<i>8</i>&nbsp;import java.util.List;
+<i>9</i>&nbsp;import java.util.Map;
+<i>10</i>&nbsp;import java.util.Set;
+<i>11</i>&nbsp;
+<i>12</i>&nbsp;import model.*;
+<i>13</i>&nbsp;
+<i>14</i>&nbsp;/**
+<i>15</i>&nbsp; * Objet permettant les calculs de plus court chemin avec Dijkstra
+<i>16</i>&nbsp; */
+<i>17</i>&nbsp;public class Dijkstra {
+<i>18</i>&nbsp;	
+<i>19</i>&nbsp;	/**
+<i>20</i>&nbsp;	 * Noeuds visit�s dans l&#39;algorithme
+<i>21</i>&nbsp;	 */
+<i>22</i>&nbsp;	public Set&lt;Intersection&gt; settledNodes;
+<i>23</i>&nbsp;	
+<i>24</i>&nbsp;	/**
+<i>25</i>&nbsp;	 * Noeuds non visit�s
+<i>26</i>&nbsp;	 */
+<i>27</i>&nbsp;	public Set&lt;Intersection&gt; unSettledNodes;
+<i>28</i>&nbsp;	
+<i>29</i>&nbsp;	/**
+<i>30</i>&nbsp;	 * Map associant les intersections avec leur pr�d�cesseurs dans le graphe
+<i>31</i>&nbsp;	 */
+<i>32</i>&nbsp;	public Map&lt;Intersection, Intersection&gt; predecessors;
+<i>33</i>&nbsp;	
+<i>34</i>&nbsp;	/**
+<i>35</i>&nbsp;	 * Map associant les Intersections avec leur distance les s�parant de l&#39;origine
+<i>36</i>&nbsp;	 */
+<i>37</i>&nbsp;	public Map&lt;Intersection, Integer&gt; distance;
+<i>38</i>&nbsp;	
+<i>39</i>&nbsp;	/**
+<i>40</i>&nbsp;	 * Plan sur lequel baser le calcul de Dijkstra
+<i>41</i>&nbsp;	 */
+<i>42</i>&nbsp;	public Plan plan;
+<i>43</i>&nbsp;
+<i>44</i>&nbsp;	/**
+<i>45</i>&nbsp;	 * Constructeur de l&#39;objet � partir d&#39;un Plan
+<i>46</i>&nbsp;	 * @param p le plan sur lequel appliquer Dijkstra
+<i>47</i>&nbsp;	 */
+<i>48</i>&nbsp;	public Dijkstra(Plan p)
+<b class="fc"><i>49</i>&nbsp;	{</b>
+<b class="fc"><i>50</i>&nbsp;		plan = p;</b>
+<b class="fc"><i>51</i>&nbsp;	}</b>
+<i>52</i>&nbsp;        
+<i>53</i>&nbsp;    /**
+<i>54</i>&nbsp;     * Applique Dijkstra � partir de l&#39;intersection sp�cifi�e
+<i>55</i>&nbsp;     * @param source l&#39;Intersection de d�part
+<i>56</i>&nbsp;     */
+<i>57</i>&nbsp;	public void execute(Intersection source) {
+<b class="fc"><i>58</i>&nbsp;        settledNodes = new HashSet&lt;Intersection&gt;();</b>
+<b class="fc"><i>59</i>&nbsp;        unSettledNodes = new HashSet&lt;Intersection&gt;();</b>
+<b class="fc"><i>60</i>&nbsp;        distance = new HashMap&lt;Intersection, Integer&gt;();</b>
+<b class="fc"><i>61</i>&nbsp;        predecessors = new HashMap&lt;Intersection, Intersection&gt;();</b>
+<i>62</i>&nbsp;        
+<b class="fc"><i>63</i>&nbsp;        distance.put(source, 0);</b>
+<b class="fc"><i>64</i>&nbsp;        unSettledNodes.add(source);</b>
+<i>65</i>&nbsp;        
+<b class="fc"><i>66</i>&nbsp;        while (unSettledNodes.size() &gt; 0) {</b>
+<b class="fc"><i>67</i>&nbsp;        		Intersection node = getMinimum(unSettledNodes);</b>
+<b class="fc"><i>68</i>&nbsp;                settledNodes.add(node);</b>
+<b class="fc"><i>69</i>&nbsp;                unSettledNodes.remove(node);</b>
+<b class="fc"><i>70</i>&nbsp;                findMinimalDistances(node);</b>
+<b class="fc"><i>71</i>&nbsp;        }</b>
+<b class="fc"><i>72</i>&nbsp;    }</b>
+<i>73</i>&nbsp;    
+<i>74</i>&nbsp;	/**
+<i>75</i>&nbsp;	 * Regarde tous les voisins de l&#39;intersection en param�tre
+<i>76</i>&nbsp;	 * et la d�finie comme pr�decesseurs si ceux-ci sont � une distance
+<i>77</i>&nbsp;	 * plus courte en passant par l&#39;intersection
+<i>78</i>&nbsp;	 * @param node une intersection
+<i>79</i>&nbsp;	 */
+<i>80</i>&nbsp;    private void findMinimalDistances(Intersection node) {
+<b class="fc"><i>81</i>&nbsp;        List&lt;Intersection&gt; adjacentNodes = getNeighbors(node);</b>
+<b class="fc"><i>82</i>&nbsp;        for (Intersection target : adjacentNodes) {</b>
+<b class="fc"><i>83</i>&nbsp;                if (getShortestDistance(target) &gt; getShortestDistance(node)</b>
+<b class="fc"><i>84</i>&nbsp;                                + getDistance(node, target)) {</b>
+<b class="fc"><i>85</i>&nbsp;                        distance.put(target, getShortestDistance(node)</b>
+<b class="fc"><i>86</i>&nbsp;                                        + getDistance(node, target));</b>
+<b class="fc"><i>87</i>&nbsp;                        predecessors.put(target, node);</b>
+<b class="fc"><i>88</i>&nbsp;                        unSettledNodes.add(target);</b>
+<i>89</i>&nbsp;                }
+<b class="fc"><i>90</i>&nbsp;        }</b>
+<i>91</i>&nbsp;
+<b class="fc"><i>92</i>&nbsp;    }</b>
+<i>93</i>&nbsp;
+<i>94</i>&nbsp;    /**
+<i>95</i>&nbsp;     * Renvoie la distance entre les intersections node et target
+<i>96</i>&nbsp;     * @param node l&#39;intersection de d�part
+<i>97</i>&nbsp;     * @param target l&#39;intersection d&#39;arriv�e
+<i>98</i>&nbsp;     * @return la distance entre les deux intersections
+<i>99</i>&nbsp;     */
+<i>100</i>&nbsp;    private int getDistance(Intersection node, Intersection target) {
+<b class="fc"><i>101</i>&nbsp;            for (Section edge : plan.getSections()) {</b>
+<b class="fc"><i>102</i>&nbsp;                    if (edge.getOrigin().equals(node)</b>
+<b class="fc"><i>103</i>&nbsp;                                    &amp;&amp; edge.getDestination().equals(target)) {</b>
+<i>104</i>&nbsp;                            //return edge.getLength();
+<b class="fc"><i>105</i>&nbsp;                    		return edge.getDurationSeconds();</b>
+<i>106</i>&nbsp;                    }
+<b class="fc"><i>107</i>&nbsp;            }</b>
+<b class="nc"><i>108</i>&nbsp;            throw new RuntimeException(&quot;Should not happen&quot;);</b>
+<i>109</i>&nbsp;    }
+<i>110</i>&nbsp;
+<i>111</i>&nbsp;    /**
+<i>112</i>&nbsp;     * Renvoie les voisins de l&#39;intersection en param�tre
+<i>113</i>&nbsp;     * @param node une intersection
+<i>114</i>&nbsp;     * @return les voisins de l&#39;intersection
+<i>115</i>&nbsp;     */
+<i>116</i>&nbsp;    private List&lt;Intersection&gt; getNeighbors(Intersection node) {
+<b class="fc"><i>117</i>&nbsp;            List&lt;Intersection&gt; neighbors = new ArrayList&lt;Intersection&gt;();</b>
+<b class="fc"><i>118</i>&nbsp;            for (Section edge : plan.getSections()) {</b>
+<b class="fc"><i>119</i>&nbsp;                    if (edge.getOrigin().equals(node)</b>
+<b class="fc"><i>120</i>&nbsp;                                    &amp;&amp; !isSettled(edge.getDestination())) {</b>
+<b class="fc"><i>121</i>&nbsp;                            neighbors.add(edge.getDestination());</b>
+<i>122</i>&nbsp;                    }
+<b class="fc"><i>123</i>&nbsp;            }</b>
+<b class="fc"><i>124</i>&nbsp;            return neighbors;</b>
+<i>125</i>&nbsp;    }
+<i>126</i>&nbsp;
+<i>127</i>&nbsp;    /**
+<i>128</i>&nbsp;     * Renvoie l&#39;intersection la plus proche de l&#39;origine  parmis les intersections pass�es en param�tre
+<i>129</i>&nbsp;     * @param intersections la collection d&#39;intersection
+<i>130</i>&nbsp;     * @return l&#39;intersection la plus proche parmis la collection
+<i>131</i>&nbsp;     */
+<i>132</i>&nbsp;    private Intersection getMinimum(Set&lt;Intersection&gt; intersections) {
+<b class="fc"><i>133</i>&nbsp;            Intersection minimum = null;</b>
+<b class="fc"><i>134</i>&nbsp;            for (Intersection inter : intersections) {</b>
+<b class="fc"><i>135</i>&nbsp;                    if (minimum == null) {</b>
+<b class="fc"><i>136</i>&nbsp;                            minimum = inter;</b>
+<i>137</i>&nbsp;                    } else {
+<b class="fc"><i>138</i>&nbsp;                            if (getShortestDistance(inter) &lt; getShortestDistance(minimum)) {</b>
+<b class="fc"><i>139</i>&nbsp;                                    minimum = inter;</b>
+<i>140</i>&nbsp;                            }
+<i>141</i>&nbsp;                    }
+<b class="fc"><i>142</i>&nbsp;            }</b>
+<b class="fc"><i>143</i>&nbsp;            return minimum;</b>
+<i>144</i>&nbsp;    }
+<i>145</i>&nbsp;
+<i>146</i>&nbsp;    /**
+<i>147</i>&nbsp;     * Renvoie vrai si l&#39;intersection en param�tre est contenue dans la liste des noeuds visit�s
+<i>148</i>&nbsp;     * @param Intersection l&#39;intersection � v�rifier
+<i>149</i>&nbsp;     * @return true si l&#39;intersection est contenue dans setttledNodes, false sinon
+<i>150</i>&nbsp;     */
+<i>151</i>&nbsp;    private boolean isSettled(Intersection Intersection) {
+<b class="fc"><i>152</i>&nbsp;            return settledNodes.contains(Intersection);</b>
+<i>153</i>&nbsp;    }
+<i>154</i>&nbsp;
+<i>155</i>&nbsp;    /**
+<i>156</i>&nbsp;     * Renvoie la distance la plus courte depuis l&#39;origine vers l&#39;intersection pass� en param�tre
+<i>157</i>&nbsp;     * @param destination l&#39;intersection de destination
+<i>158</i>&nbsp;     * @return la distance � l&#39;intersection depuis l&#39;origine (ou Integer.MAX_VALUE si pas de chemin existant)
+<i>159</i>&nbsp;     */
+<i>160</i>&nbsp;    private int getShortestDistance(Intersection destination) {
+<b class="fc"><i>161</i>&nbsp;            Integer d = distance.get(destination);</b>
+<b class="fc"><i>162</i>&nbsp;            if (d == null) {</b>
+<b class="fc"><i>163</i>&nbsp;                    return Integer.MAX_VALUE;</b>
+<i>164</i>&nbsp;            } else {
+<b class="fc"><i>165</i>&nbsp;                    return d;</b>
+<i>166</i>&nbsp;            }
+<i>167</i>&nbsp;    }
+<i>168</i>&nbsp;
+<i>169</i>&nbsp;    /**
+<i>170</i>&nbsp;     * M�thode renvoyant la liste d&#39;intersections correspondants au chemin le plus court
+<i>171</i>&nbsp;     * entre l&#39;Intersection de d�part et l&#39;intersection d&#39;arrriv�e sp�cifi�e
+<i>172</i>&nbsp;     * @param target l&#39;intersection d&#39;arriv�e
+<i>173</i>&nbsp;     * @return la liste des Intersections du chemin le plus court entre le d�part et l&#39;arriv�e
+<i>174</i>&nbsp;     */
+<i>175</i>&nbsp;    public LinkedList&lt;Intersection&gt; getPath(Intersection target) {
+<b class="fc"><i>176</i>&nbsp;            LinkedList&lt;Intersection&gt; path = new LinkedList&lt;Intersection&gt;();</b>
+<b class="fc"><i>177</i>&nbsp;            Intersection step = target;</b>
+<i>178</i>&nbsp;            // check if a path exists
+<b class="fc"><i>179</i>&nbsp;            if (predecessors.get(step) == null) {</b>
+<b class="nc"><i>180</i>&nbsp;                    return null;</b>
+<i>181</i>&nbsp;            }
+<b class="fc"><i>182</i>&nbsp;            path.add(step);</b>
+<b class="fc"><i>183</i>&nbsp;            while (predecessors.get(step) != null) {</b>
+<b class="fc"><i>184</i>&nbsp;                    step = predecessors.get(step);</b>
+<b class="fc"><i>185</i>&nbsp;                    path.add(step);</b>
+<i>186</i>&nbsp;            }
+<i>187</i>&nbsp;            // Put it into the correct order
+<b class="fc"><i>188</i>&nbsp;            Collections.reverse(path);</b>
+<b class="fc"><i>189</i>&nbsp;            return path;</b>
+<i>190</i>&nbsp;    }
+<i>191</i>&nbsp;
+<i>192</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2016-12-09 14:23</div>
+</div>
+</body>
+</html>

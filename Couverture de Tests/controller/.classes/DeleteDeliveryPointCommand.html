@@ -1,0 +1,159 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: DeleteDeliveryPointCommand</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">controller</a> ]
+</div>
+
+<h1>Coverage Summary for Class: DeleteDeliveryPointCommand (controller)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">DeleteDeliveryPointCommand</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    50%
+  </span>
+  <span class="absValue">
+    (2/ 4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    85,3%
+  </span>
+  <span class="absValue">
+    (29/ 34)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package controller;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import java.util.HashMap;
+<i>4</i>&nbsp;import java.util.LinkedList;
+<i>5</i>&nbsp;import java.util.List;
+<i>6</i>&nbsp;import java.util.Map;
+<i>7</i>&nbsp;
+<i>8</i>&nbsp;import model.*;
+<i>9</i>&nbsp;import util.Dijkstra;
+<i>10</i>&nbsp;import view.Window;
+<i>11</i>&nbsp;
+<i>12</i>&nbsp;public class DeleteDeliveryPointCommand implements Command {
+<i>13</i>&nbsp;
+<i>14</i>&nbsp;	
+<i>15</i>&nbsp;	DeliveryPoint toDelete;
+<i>16</i>&nbsp;	List&lt;CrossingPoint&gt; listOrderedCP;
+<i>17</i>&nbsp;	Map&lt;Integer, CrossingPoint&gt; listCP;
+<i>18</i>&nbsp;	List&lt;Section&gt; listSections;
+<i>19</i>&nbsp;	
+<b class="fc"><i>20</i>&nbsp;	public DeleteDeliveryPointCommand(DeliveryPoint toDelete) {</b>
+<b class="fc"><i>21</i>&nbsp;		this.toDelete = toDelete;</b>
+<b class="fc"><i>22</i>&nbsp;		listCP = new HashMap&lt;&gt;();</b>
+<b class="fc"><i>23</i>&nbsp;		listOrderedCP = new LinkedList&lt;&gt;();</b>
+<b class="fc"><i>24</i>&nbsp;		listSections = new LinkedList&lt;&gt;();</b>
+<b class="fc"><i>25</i>&nbsp;	}</b>
+<i>26</i>&nbsp;
+<i>27</i>&nbsp;	@Override
+<i>28</i>&nbsp;	public boolean doCommand() {
+<b class="fc"><i>29</i>&nbsp;		listCP.putAll(Window.tour.getCrossingPoints());</b>
+<b class="fc"><i>30</i>&nbsp;		listOrderedCP.addAll(Window.tour.getOrdainedCrossingPoints());</b>
+<b class="fc"><i>31</i>&nbsp;		listSections.addAll(Window.tour.getSections());</b>
+<i>32</i>&nbsp;		
+<b class="fc"><i>33</i>&nbsp;		int index = Window.tour.getOrdainedCrossingPoints().indexOf(toDelete);</b>
+<i>34</i>&nbsp;		
+<i>35</i>&nbsp;		//Remove the old path from the Tour
+<b class="fc"><i>36</i>&nbsp;		int startPath = 0;</b>
+<b class="fc"><i>37</i>&nbsp;		int timeSaved = 0;</b>
+<b class="fc"><i>38</i>&nbsp;		while(Window.tour.getSections().get(startPath).getOrigin().getId()!=Window.tour.getOrdainedCrossingPoints().get(index-1).getIntersection().getId())</b>
+<b class="fc"><i>39</i>&nbsp;			startPath++; //Find the first section of the path to delete</b>
+<b class="fc"><i>40</i>&nbsp;		while(Window.tour.getSections().get(startPath).getOrigin().getId()!=Window.tour.getOrdainedCrossingPoints().get(index+1).getIntersection().getId())</b>
+<i>41</i>&nbsp;		{
+<b class="fc"><i>42</i>&nbsp;			timeSaved+=Window.tour.getSections().get(startPath).getDurationSeconds();</b>
+<b class="fc"><i>43</i>&nbsp;			Window.tour.getSections().remove(startPath);</b>
+<i>44</i>&nbsp;		}
+<i>45</i>&nbsp;		
+<b class="fc"><i>46</i>&nbsp;		Dijkstra dijkstra = new Dijkstra(Window.plan);</b>
+<b class="fc"><i>47</i>&nbsp;		dijkstra.execute(Window.tour.getOrdainedCrossingPoints().get(index-1).getIntersection());</b>
+<b class="fc"><i>48</i>&nbsp;		LinkedList&lt;Intersection&gt; intersectionsToAdd = dijkstra.getPath(Window.tour.getOrdainedCrossingPoints().get(index+1).getIntersection());</b>
+<i>49</i>&nbsp;		
+<b class="fc"><i>50</i>&nbsp;		int timeAdd = 0;</b>
+<b class="fc"><i>51</i>&nbsp;		for(int i=0;i&lt;intersectionsToAdd.size()-1;i++)</b>
+<i>52</i>&nbsp;		{
+<b class="fc"><i>53</i>&nbsp;			timeAdd+=intersectionsToAdd.get(i).getSectionTo(intersectionsToAdd.get(i+1)).getDurationSeconds();</b>
+<b class="fc"><i>54</i>&nbsp;			Window.tour.getSections().add(startPath+i,intersectionsToAdd.get(i).getSectionTo(intersectionsToAdd.get(i+1)));</b>
+<i>55</i>&nbsp;		}
+<i>56</i>&nbsp;
+<b class="fc"><i>57</i>&nbsp;		((DeliveryPoint)Window.tour.getOrdainedCrossingPoints().get(index+1)).setWaitTime(((DeliveryPoint)Window.tour.getOrdainedCrossingPoints().get(index+1)).getWaitTime()+timeSaved-timeAdd);</b>
+<b class="fc"><i>58</i>&nbsp;		((DeliveryPoint)Window.tour.getOrdainedCrossingPoints().get(index+1)).setArrival(((DeliveryPoint)Window.tour.getOrdainedCrossingPoints().get(index+1)).getArrival()-timeSaved+timeAdd);</b>
+<b class="fc"><i>59</i>&nbsp;		Window.tour.getCrossingPoints().remove(toDelete.getIntersection().getId());</b>
+<b class="fc"><i>60</i>&nbsp;		Window.tour.getOrdainedCrossingPoints().remove(index);</b>
+<i>61</i>&nbsp;		
+<b class="fc"><i>62</i>&nbsp;		return true;</b>
+<i>63</i>&nbsp;	}
+<i>64</i>&nbsp;	
+<i>65</i>&nbsp;	@Override
+<i>66</i>&nbsp;	public boolean undoCommand() {
+<b class="nc"><i>67</i>&nbsp;		Window.tour.setOrdainedCrossingPoints(listOrderedCP);</b>
+<b class="nc"><i>68</i>&nbsp;		Window.tour.setCrossingPoints(listCP);</b>
+<b class="nc"><i>69</i>&nbsp;		Window.tour.setSections(listSections);</b>
+<b class="nc"><i>70</i>&nbsp;		return true;</b>
+<i>71</i>&nbsp;	}
+<i>72</i>&nbsp;
+<i>73</i>&nbsp;	public boolean isDoable() {
+<b class="nc"><i>74</i>&nbsp;		return true;</b>
+<i>75</i>&nbsp;	}
+<i>76</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2016-12-09 14:23</div>
+</div>
+</body>
+</html>

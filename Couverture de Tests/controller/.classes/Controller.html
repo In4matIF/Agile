@@ -1,0 +1,148 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Controller</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">controller</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Controller (controller)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Controller</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 11)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 17)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package controller;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import view.Window;
+<i>4</i>&nbsp;
+<i>5</i>&nbsp;import java.io.File;
+<i>6</i>&nbsp;
+<i>7</i>&nbsp;import model.DeliveryPoint;
+<i>8</i>&nbsp;
+<i>9</i>&nbsp;/**
+<i>10</i>&nbsp; * Classe pour la StateMachine de l&#39;application
+<i>11</i>&nbsp; */
+<i>12</i>&nbsp;public class Controller {
+<i>13</i>&nbsp;
+<i>14</i>&nbsp;    private Window window;
+<i>15</i>&nbsp;    private CommandList commandList;
+<i>16</i>&nbsp;
+<i>17</i>&nbsp;    private static State currentState;
+<i>18</i>&nbsp;
+<b class="nc"><i>19</i>&nbsp;    protected static final InitState initState = new InitState();</b>
+<b class="nc"><i>20</i>&nbsp;    protected static final PlanState planState = new PlanState();</b>
+<b class="nc"><i>21</i>&nbsp;    protected static final TourState tourState = new TourState();</b>
+<b class="nc"><i>22</i>&nbsp;    protected static final ErrorState errorState = new ErrorState();</b>
+<i>23</i>&nbsp;
+<b class="nc"><i>24</i>&nbsp;    public Controller(Window window) {</b>
+<b class="nc"><i>25</i>&nbsp;        this.currentState = initState;</b>
+<b class="nc"><i>26</i>&nbsp;        this.window = window;</b>
+<b class="nc"><i>27</i>&nbsp;        this.commandList = new CommandList();</b>
+<i>28</i>&nbsp;    }
+<i>29</i>&nbsp;
+<i>30</i>&nbsp;    protected static void setCurrentState(State state){
+<b class="nc"><i>31</i>&nbsp;        currentState = state;</b>
+<i>32</i>&nbsp;    }
+<i>33</i>&nbsp;
+<i>34</i>&nbsp;    public void loadPlan(File file) throws Exception{
+<b class="nc"><i>35</i>&nbsp;        currentState.loadPlan(window,commandList,file);</b>
+<i>36</i>&nbsp;    }
+<i>37</i>&nbsp;
+<i>38</i>&nbsp;    public boolean loadTour(File file) throws Exception{
+<b class="nc"><i>39</i>&nbsp;        return currentState.loadTour(window,commandList, file);</b>
+<i>40</i>&nbsp;    }
+<i>41</i>&nbsp;
+<i>42</i>&nbsp;    public void renitializePlan() throws Exception{
+<b class="nc"><i>43</i>&nbsp;        currentState.renitializePlan(window,commandList);</b>
+<i>44</i>&nbsp;    }
+<i>45</i>&nbsp;
+<i>46</i>&nbsp;    public void renitializeDelivery() throws Exception{
+<b class="nc"><i>47</i>&nbsp;        currentState.renitializeTour(window,commandList);</b>
+<i>48</i>&nbsp;    }
+<i>49</i>&nbsp;
+<i>50</i>&nbsp;    public void generateTourSheet() throws Exception{
+<b class="nc"><i>51</i>&nbsp;        currentState.generateTourSheet(window,commandList);</b>
+<i>52</i>&nbsp;    }
+<i>53</i>&nbsp;    
+<i>54</i>&nbsp;    public void deleteDeliveryPoint(DeliveryPoint toDelete) throws Exception{
+<b class="nc"><i>55</i>&nbsp;    	currentState.deleteDeliveryPoint(window, commandList, toDelete);</b>
+<i>56</i>&nbsp;    }
+<i>57</i>&nbsp;    
+<i>58</i>&nbsp;    public void addDeliveryPoint(DeliveryPoint toAdd) throws Exception{
+<b class="nc"><i>59</i>&nbsp;    	currentState.addDeliveryPoint(window, commandList, toAdd);</b>
+<i>60</i>&nbsp;    }
+<i>61</i>&nbsp;    
+<i>62</i>&nbsp;    public void undo(){
+<b class="nc"><i>63</i>&nbsp;    	currentState.undo(commandList);</b>
+<i>64</i>&nbsp;    }
+<i>65</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2016-12-09 14:23</div>
+</div>
+</body>
+</html>

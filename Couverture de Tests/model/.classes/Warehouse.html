@@ -1,0 +1,126 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Warehouse</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">model</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Warehouse (model)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Warehouse</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    44,4%
+  </span>
+  <span class="absValue">
+    (4/ 9)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    42,9%
+  </span>
+  <span class="absValue">
+    (6/ 14)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package model;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import java.sql.Time;
+<i>4</i>&nbsp;
+<i>5</i>&nbsp;/**
+<i>6</i>&nbsp; * Objet repr�sentant l&#39;entrepot de d�part de la livraison
+<i>7</i>&nbsp; */
+<i>8</i>&nbsp;public class Warehouse extends CrossingPoint{
+<i>9</i>&nbsp;
+<i>10</i>&nbsp;    private long departureTime;
+<i>11</i>&nbsp;
+<b class="nc"><i>12</i>&nbsp;    public Warehouse() {</b>
+<b class="nc"><i>13</i>&nbsp;    }</b>
+<i>14</i>&nbsp;
+<b class="fc"><i>15</i>&nbsp;    public long getBeginTime() { return 0; }</b>
+<i>16</i>&nbsp;
+<b class="nc"><i>17</i>&nbsp;    public void setBeginTime(long beginTime) {}</b>
+<i>18</i>&nbsp;
+<b class="fc"><i>19</i>&nbsp;    public long getEndTime() { return Long.MAX_VALUE; }</b>
+<i>20</i>&nbsp;
+<b class="nc"><i>21</i>&nbsp;    public void setEndTime(long endTime) {}</b>
+<i>22</i>&nbsp;
+<i>23</i>&nbsp;    public Warehouse(Intersection intersection, long departureTime) {
+<b class="fc"><i>24</i>&nbsp;        super(intersection);</b>
+<b class="fc"><i>25</i>&nbsp;        this.departureTime = departureTime;</b>
+<b class="fc"><i>26</i>&nbsp;    }</b>
+<i>27</i>&nbsp;
+<i>28</i>&nbsp;    public long getDepartureTime() {
+<b class="fc"><i>29</i>&nbsp;        return departureTime;</b>
+<i>30</i>&nbsp;    }
+<i>31</i>&nbsp;
+<i>32</i>&nbsp;    public void setDepartureTime(long departureTime) {
+<b class="nc"><i>33</i>&nbsp;        this.departureTime = departureTime;</b>
+<b class="nc"><i>34</i>&nbsp;    }</b>
+<i>35</i>&nbsp;
+<i>36</i>&nbsp;    @Override
+<i>37</i>&nbsp;    public String toString() {
+<b class="nc"><i>38</i>&nbsp;        return &quot;Warehouse{&quot; +</b>
+<b class="nc"><i>39</i>&nbsp;                &quot;intersection=&quot; + this.getIntersection() +</b>
+<i>40</i>&nbsp;                &quot;departureTime=&quot; + departureTime +
+<i>41</i>&nbsp;                &#39;}&#39;;
+<i>42</i>&nbsp;    }
+<i>43</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2016-12-09 14:23</div>
+</div>
+</body>
+</html>
