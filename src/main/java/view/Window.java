@@ -253,7 +253,7 @@ public class Window {
 		timeLeft1.setTextFill(LABEL_TEXT_COLOR);
 		infosTime.add(timeLeft1, 0, 1);
 
-		Label timeLeft2 = new Label("formatSecondeTime(0,true)");
+		Label timeLeft2 = new Label(formatSecondeTime(0,true));
 		timeLeft2.setTextFill(LABEL_TEXT_COLOR);
 		infosTime.add(timeLeft2, 1, 1);
 
