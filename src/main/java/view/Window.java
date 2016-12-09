@@ -60,7 +60,7 @@ import com.sun.prism.BasicStroke;
 public class Window {
 
 	private final int SCENE_WIDTH = 1220;
-	private final int SCENE_HEIGHT = 800;
+	private final int SCENE_HEIGHT = 900;
 	private final int CANVAS_WIDTH = 750;
 	private final int CANVAS_HEIGHT = 650;
 	private final int TEXT_AREA_DELIVERY_WIDTH = 425;
@@ -312,6 +312,8 @@ public class Window {
 	                ajoutGrid.add(addBeginTime, 0, 1);
 	                Label addEndTime = new Label("Fin : ");
 	                ajoutGrid.add(addEndTime, 0, 2);
+	                Label addDuration = new Label("Durée : ");
+	                ajoutGrid.add(addDuration, 0, 3);
 	                TextField tfAddress = new TextField();
 	                tfAddress.setPrefSize(100, 30);
 	                ajoutGrid.add(tfAddress, 1, 0);
@@ -321,12 +323,52 @@ public class Window {
 	                TextField tfEndTime = new TextField();
 	                tfEndTime.setPrefSize(100, 30);
 	                ajoutGrid.add(tfEndTime, 1, 2);
+	                TextField tfDuration = new TextField();
+	                tfDuration.setPrefSize(100, 30);
+	                ajoutGrid.add(tfDuration, 1, 3);
+	                Button addDelivery = new Button();
+	                addDelivery.setText("Valider");
+	        		ajoutGrid.add(addDelivery,1,4);
+	        		addDelivery.setOnAction(
+	        				new EventHandler<ActionEvent>() {
+	        	            @Override
+	        	            public void handle(ActionEvent event) {
+	        	                try {
+	        	                	controller.addDeliveryPoint(new DeliveryPoint(plan.getIntersections().get(Integer.valueOf(tfAddress.getText())),(long)Long.valueOf(tfBeginTime.getText()),(long)Long.valueOf(tfBeginTime.getText()),Integer.valueOf(tfBeginTime.getText())));
+	        		                render();
+	        						renderPlan();
+	        		                renderLivraison();
+	        					} catch (Exception e) {
+	        						// TODO Auto-generated catch block
+	        						e.printStackTrace();
+	        					}
+	        	            }
+	        	         });
 	                Scene dialogScene = new Scene(ajoutGrid, 300, 200);
 	                dialog.setScene(dialogScene);
 	                dialog.show();
 	            }
 	         });
 		grid.add(popup, 4, 2);
+		
+		Button undo = new Button();
+		undo.setText("Annuler");
+		grid.add(undo,2,3);
+		undo.setOnAction(
+				new EventHandler<ActionEvent>() {
+	            @Override
+	            public void handle(ActionEvent event) {
+	                try {
+		                controller.undo();
+		                render();
+						renderPlan();
+		                renderLivraison();
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+	            }
+	         });
 
 		// test purposes only
 		grid.setGridLinesVisible(false);
@@ -585,11 +627,12 @@ public class Window {
 
 			Circle circleAttente = new Circle(20,Color.TRANSPARENT);
 			circleAttente.setStrokeWidth(4);
-			if(0<10)
+			long x = p.getWaitTime();
+			if(x<(long)600)
 			{
 				circleAttente.setStroke(Color.RED);
 			}
-			else if(0<30)
+			else if(x<(long)1800)
 			{
 				circleAttente.setStroke(Color.ORANGE);
 			}
