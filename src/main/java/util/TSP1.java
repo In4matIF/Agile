@@ -11,7 +11,7 @@ public class TSP1 extends TemplateTSP {
 
 	@Override
 	protected Iterator<Integer> iterator(Integer sommetCrt, ArrayList<Integer> nonVus) {
-		//L'itérateur des sommet non vus sera defini par la classe IteratorSeq
+		//L'iterateur des sommet non vus sera defini par la classe IteratorSeq
 		return new IteratorSeq(nonVus, sommetCrt);
 	}
 

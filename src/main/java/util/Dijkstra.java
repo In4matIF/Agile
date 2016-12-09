@@ -17,22 +17,22 @@ import model.*;
 public class Dijkstra {
 	
 	/**
-	 * Noeuds visités dans l'algorithme
+	 * Noeuds visites dans l'algorithme
 	 */
 	public Set<Intersection> settledNodes;
 	
 	/**
-	 * Noeuds non visités
+	 * Noeuds non visites
 	 */
 	public Set<Intersection> unSettledNodes;
 	
 	/**
-	 * Map associant les intersections avec leur prédécesseurs dans le graphe
+	 * Map associant les intersections avec leur predecesseurs dans le graphe
 	 */
 	public Map<Intersection, Intersection> predecessors;
 	
 	/**
-	 * Map associant les Intersections avec leur distance les séparant de l'origine
+	 * Map associant les Intersections avec leur distance les separant de l'origine
 	 */
 	public Map<Intersection, Integer> distance;
 	
@@ -42,7 +42,7 @@ public class Dijkstra {
 	public Plan plan;
 
 	/**
-	 * Constructeur de l'objet à partir d'un Plan
+	 * Constructeur de l'objet a partir d'un Plan
 	 * @param p le plan sur lequel appliquer Dijkstra
 	 */
 	public Dijkstra(Plan p)
@@ -51,8 +51,8 @@ public class Dijkstra {
 	}
         
     /**
-     * Applique Dijkstra à partir de l'intersection spécifiée
-     * @param source l'Intersection de départ
+     * Applique Dijkstra a partir de l'intersection specifiee
+     * @param source l'Intersection de depart
      */
 	public void execute(Intersection source) {
         settledNodes = new HashSet<Intersection>();
@@ -72,8 +72,8 @@ public class Dijkstra {
     }
     
 	/**
-	 * Regarde tous les voisins de l'intersection en paramètre
-	 * et la définie comme prédecesseurs si ceux-ci sont à une distance
+	 * Regarde tous les voisins de l'intersection en parametre
+	 * et la definie comme predecesseurs si ceux-ci sont a une distance
 	 * plus courte en passant par l'intersection
 	 * @param node une intersection
 	 */
@@ -93,8 +93,8 @@ public class Dijkstra {
 
     /**
      * Renvoie la distance entre les intersections node et target
-     * @param node l'intersection de départ
-     * @param target l'intersection d'arrivée
+     * @param node l'intersection de depart
+     * @param target l'intersection d'arrivee
      * @return la distance entre les deux intersections
      */
     private int getDistance(Intersection node, Intersection target) {
@@ -109,7 +109,7 @@ public class Dijkstra {
     }
 
     /**
-     * Renvoie les voisins de l'intersection en paramètre
+     * Renvoie les voisins de l'intersection en parametre
      * @param node une intersection
      * @return les voisins de l'intersection
      */
@@ -125,7 +125,7 @@ public class Dijkstra {
     }
 
     /**
-     * Renvoie l'intersection la plus proche de l'origine  parmis les intersections passées en paramètre
+     * Renvoie l'intersection la plus proche de l'origine  parmis les intersections passees en parametre
      * @param intersections la collection d'intersection
      * @return l'intersection la plus proche parmis la collection
      */
@@ -144,8 +144,8 @@ public class Dijkstra {
     }
 
     /**
-     * Renvoie vrai si l'intersection en paramètre est contenue dans la liste des noeuds visités
-     * @param Intersection l'intersection à vérifier
+     * Renvoie vrai si l'intersection en parametre est contenue dans la liste des noeuds visites
+     * @param Intersection l'intersection a verifier
      * @return true si l'intersection est contenue dans setttledNodes, false sinon
      */
     private boolean isSettled(Intersection Intersection) {
@@ -153,9 +153,9 @@ public class Dijkstra {
     }
 
     /**
-     * Renvoie la distance la plus courte depuis l'origine vers l'intersection passé en paramètre
+     * Renvoie la distance la plus courte depuis l'origine vers l'intersection passe en parametre
      * @param destination l'intersection de destination
-     * @return la distance à l'intersection depuis l'origine (ou Integer.MAX_VALUE si pas de chemin existant)
+     * @return la distance a l'intersection depuis l'origine (ou Integer.MAX_VALUE si pas de chemin existant)
      */
     private int getShortestDistance(Intersection destination) {
             Integer d = distance.get(destination);
@@ -167,10 +167,10 @@ public class Dijkstra {
     }
 
     /**
-     * Méthode renvoyant la liste d'intersections correspondants au chemin le plus court
-     * entre l'Intersection de départ et l'intersection d'arrrivée spécifiée
-     * @param target l'intersection d'arrivée
-     * @return la liste des Intersections du chemin le plus court entre le départ et l'arrivée
+     * Mï¿½thode renvoyant la liste d'intersections correspondants au chemin le plus court
+     * entre l'Intersection de depart et l'intersection d'arrivee specifiee
+     * @param target l'intersection d'arrivee
+     * @return la liste des Intersections du chemin le plus court entre le depart et l'arrivee
      */
     public LinkedList<Intersection> getPath(Intersection target) {
             LinkedList<Intersection> path = new LinkedList<Intersection>();

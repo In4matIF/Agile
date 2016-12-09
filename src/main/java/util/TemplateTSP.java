@@ -164,7 +164,7 @@ public abstract class TemplateTSP implements TSP {
 	 * @param sommetCrt Un entier representant le dernier sommet visite
 	 * @param nonVus Une liste d'entiers contenant les sommets qui n'ont pas encore ete visites
 	 * @param vus Une liste d'entiers contenant les sommets visites (y compris sommetCrt)
-	 * @param coutVus Un entier long designant le temps de parcours nécessaire pour parvenir jusqu'au sommet courant
+	 * @param coutVus Un entier long designant le temps de parcours necessaire pour parvenir jusqu'au sommet courant
 	 * @param graph Un objet Graph contenant toutes les informations sur le graphe sur lequel effectuer la recherche
 	 * @param tpsDebut Un entier long designant le moment ou la resolution a commence
 	 * @param tpsLimite Un entier long designant la limite de temps pour la resolution
@@ -182,13 +182,13 @@ public abstract class TemplateTSP implements TSP {
 		};
 		nonVus.sort(comparatorNonVus);
 
-		 //Vérification du temps d'execution du programme
+		 //Verification du temps d'execution du programme
 		if (System.currentTimeMillis() - tpsDebut > tpsLimite){
 			 tempsLimiteAtteint = true;
 			 return;
 		}
 
-		 //Ajout de l'attente en cas d'arrivée trop en avance
+		 //Ajout de l'attente en cas d'arrivee trop en avance
 		if(coutVus < graph.getCrossingPoints().get(sommetCrt).getBeginTime()) {
 			 coutVus = graph.getCrossingPoints().get(sommetCrt).getBeginTime();
 		}
@@ -198,7 +198,7 @@ public abstract class TemplateTSP implements TSP {
 			coutAlternative = coutVus
 					+ graph.getCrossingPoints().get(sommetCrt).getDuration() //Duree de livraison du sommet courant
 					+ graph.getCrossingPoints().get(sommetCrt).getPaths().get(graph.getIdWarehouse()).getDuration(); //Cout de retour vers l'entrepot
-		if (nonVus.size() == 0 && coutVus < graph.getCrossingPoints().get(sommetCrt).getEndTime()){ // Tous les sommmets ont été visités et la dernière contrainte horaire est respectee
+		if (nonVus.size() == 0 && coutVus < graph.getCrossingPoints().get(sommetCrt).getEndTime()){ // Tous les sommmets ont ete visites et la derniere contrainte horaire est respectee
 			coutVus += graph.getCrossingPoints().get(sommetCrt).getDuration() //Duree de livraison du sommet courant
 					+ graph.getCrossingPoints().get(sommetCrt).getPaths().get(graph.getIdWarehouse()).getDuration(); //Cout de retour vers l'entrepot
 			if (coutVus < coutMeilleureSolution){ //La solution trouvee est meilleure que la precedente
