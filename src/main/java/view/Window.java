@@ -158,6 +158,7 @@ public class Window {
 		this.controller = controller;
 	}
 
+	// Initialise l'interface
 	private void init(){
 		this.deliveryPane = new FlowPane();
 		this.planCanvas = new Group();
@@ -299,6 +300,7 @@ public class Window {
 		feuilleBtn.setStyle("-fx-base: "+BUTTON_COLOR+"; -fx-text-fill: "+BUTTON_FONT_COLOR+";");
 		grid.add(feuilleBtn, 4, 1);
 
+		//ADD LIVRAISON
 		Button popup = new Button();
 		popup.setText("Ajouter une livraison");
 		popup.setStyle("-fx-base: "+BUTTON_COLOR+"; -fx-text-fill: "+BUTTON_FONT_COLOR+";");
@@ -359,6 +361,7 @@ public class Window {
 	         });
 		grid.add(popup, 4, 2);
 		
+		//UNDO BUTTON
 		Button undo = new Button();
 		undo.setText("Annuler");
 		undo.setStyle("-fx-base: "+BUTTON_COLOR+"; -fx-text-fill: "+BUTTON_FONT_COLOR+";");
@@ -522,6 +525,7 @@ public class Window {
 			}
 		});
 
+		//STEP BY STEP CONTROL
 		scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
 			@Override
 			public void handle(KeyEvent event) {
@@ -672,6 +676,7 @@ public class Window {
 
 			openState.put(tour.getOrdainedCrossingPoints().get(i).getIntersection().getId(),false);
 
+			//Details des livraisons
 			clickable.setOnMouseClicked(new EventHandler<MouseEvent>()
 	        {
 	            @Override
