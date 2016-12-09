@@ -46,17 +46,19 @@ public class GenerateTourSheetCommandTest {
      */
     @Test
     public void testCommand() {
-    	LoadPlanCommand LPC = new LoadPlanCommand(new File("/src/main/resources/xml/testGraphPlan.xml"));
+    	LoadPlanCommand LPC = new LoadPlanCommand(new File("src/main/resources/xml/testGraphPlan.xml"));
     	try{
     		LPC.doCommand();
 		}catch (Exception e){}
-        LoadTourCommand LTC = new LoadTourCommand(new File("/src/main/resources/xml/testGraphTour.xml"));
+        LoadTourCommand LTC = new LoadTourCommand(new File("src/main/resources/xml/testGraphTour.xml"));
         try{
         	LTC.doCommand();
         } catch (Exception e){}
     	String bigText = "Prenez la rue v0"
     			+ "Continuez tour droit vers la rue v0"
+    			+ "Livraison, duree : 600"
     			+ "Prenez la 1ere a gauche vers la rue v0"
+    			+ "Livraison, duree : 600"
     			+ "Tournez a gauche vers la rue h0"
     			+ "Tournez a gauche vers la rue v0";
         GTSC.doCommand();
