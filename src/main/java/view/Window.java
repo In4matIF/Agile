@@ -253,7 +253,7 @@ public class Window {
 		timeLeft1.setTextFill(LABEL_TEXT_COLOR);
 		infosTime.add(timeLeft1, 0, 1);
 
-		Label timeLeft2 = new Label("0mn");
+		Label timeLeft2 = new Label("formatSecondeTime(0,true)");
 		timeLeft2.setTextFill(LABEL_TEXT_COLOR);
 		infosTime.add(timeLeft2, 1, 1);
 
@@ -298,7 +298,6 @@ public class Window {
 
 		Button popup = new Button();
 		popup.setText("Ajouter une livraison");
-		popup.setStyle("-fx-base: "+BUTTON_COLOR+"; -fx-text-fill: "+BUTTON_FONT_COLOR+";");
 		popup.setOnAction(
 	        new EventHandler<ActionEvent>() {
 	            @Override
@@ -370,7 +369,7 @@ public class Window {
 					}
 	            }
 	         });
-		undo.setStyle("-fx-base: "+BUTTON_COLOR+"; -fx-text-fill: "+BUTTON_FONT_COLOR+";");
+
 		// test purposes only
 		grid.setGridLinesVisible(false);
 
@@ -443,11 +442,20 @@ public class Window {
 							stepDisplay2.setText("0/" + tour.getSections().size());
 							for(int i=0;i<tour.getSections().size();i++)
 							{
-								int duration = tour.getSections().get(i).getDurationSeconds();
+								int duration=0;
+								if(tour.getCrossingPoints().get(tour.getSections().get(i).getDestination().getId())!=null)
+								{
+									duration = tour.getSections().get(i).getDurationSeconds()
+									+tour.getCrossingPoints().get(tour.getSections().get(i).getDestination().getId()).getDuration();
+									if(tour.getSections().get(i).getDestination().getId() != tour.getIdWarehouse())
+										duration+=((DeliveryPoint)tour.getCrossingPoints().get(tour.getSections().get(i).getDestination().getId())).getWaitTime();
+								}
+								else
+									duration = tour.getSections().get(i).getDurationSeconds();
 								timesPast.add(duration);
 								timeTotal+=duration;
 							}
-							timeLeft2.setText(timeTotal+" sec");
+							timeLeft2.setText(formatSecondeTime(timeTotal,true));
 							renderLivraison();
 						}else{
 							errorPopUp("Le calcul d'une tournée optimale pour ce fichier est impossible.");
@@ -512,8 +520,8 @@ public class Window {
 				{
 					event.consume();
 					timePast+=timesPast.get(noSectionToDraw);
-					timeLeft2.setText((timeTotal-timePast)/60+" min");
-					timePast2.setText(timePast/60+" min");
+					timeLeft2.setText(formatSecondTime(timeTotal-timePast,true));
+					timePast2.setText(formatSecondTime(timePast,true));
 					drawNextStep();
 					stepDisplay2.setText(noSectionToDraw+"/"+tour.getSections().size());
 					nextStreet2.setText(tour.getSections().get(noSectionToDraw).getStreet());
@@ -521,9 +529,12 @@ public class Window {
 				else if(event.getCode() == KeyCode.LEFT)
 				{
 					event.consume();
-					timePast-=timesPast.get(noSectionToDraw-1);
-					timeLeft2.setText((timeTotal-timePast)/60+" min");
-					timePast2.setText(timePast/60+" min");
+					if(noSectionToDraw>0)
+						timePast-=timesPast.get(noSectionToDraw-1);
+					else
+						timePast=timeTotal-timesPast.get(timesPast.size()-1);
+					timeLeft2.setText(formatSecondTime(timeTotal-timePast,true));
+					timePast2.setText(formatSecondTime(timePast,true));
 					drawPreviousStep();
 					stepDisplay2.setText(noSectionToDraw+"/"+tour.getSections().size());
 					nextStreet2.setText(tour.getSections().get(noSectionToDraw).getStreet());
@@ -793,6 +804,7 @@ public class Window {
 		if(noSectionToDraw >= tour.getSections().size())
 		{
 			noSectionToDraw=0;
+			timePast=0;
 			if(colorToDraw == TOUR_PATH_COLOR)
 				colorToDraw = TOUR_VISITED_SECTION_COLOR;
 			else
@@ -804,6 +816,7 @@ public class Window {
 		if(noSectionToDraw == 0)
 		{
 			noSectionToDraw=tour.getSections().size();
+			timePast=timeTotal;
 			if(colorToDraw == TOUR_PATH_COLOR)
 				colorToDraw = TOUR_VISITED_SECTION_COLOR;
 			else
