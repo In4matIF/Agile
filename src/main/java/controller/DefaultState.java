@@ -7,7 +7,7 @@ import view.Window;
 import java.io.File;
 
 /**
- * Objet State g�n�rique pour le design patter State
+ * Objet State generique pour le design patter State
  */
 public class DefaultState implements State{
 

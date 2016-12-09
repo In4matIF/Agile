@@ -1,7 +1,7 @@
 package controller;
 
 /**
- * Commande pour reinitialiser le plan chargé
+ * Commande pour reinitialiser le plan charge
  */
 public class RenitializePlanCommand implements Command {
 

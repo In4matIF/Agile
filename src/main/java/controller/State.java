@@ -7,7 +7,7 @@ import view.Window;
 import java.io.File;
 
 /**
- * Interface pour l'impl�mentation du design pattern State
+ * Interface pour l'implementation du design pattern State
  */
 public interface State {
 

@@ -6,7 +6,7 @@ import model.Tour;
 import view.Window;
 
 /**
- * Etat o� la livraison est charg�e et calcul�e
+ * Etat ou la livraison est chargee et calculee
  */
 public class TourState extends DefaultState{
 

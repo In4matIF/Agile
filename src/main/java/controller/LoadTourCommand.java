@@ -16,7 +16,7 @@ import util.TSP1;
 import view.Window;
 
 /**
- * Commande liée au chargement de la livraison
+ * Commande liee au chargement de la livraison
  */
 public class LoadTourCommand implements Command {
 
@@ -28,7 +28,7 @@ public class LoadTourCommand implements Command {
     }
 
     /**
-     * Applique les algorithmes de calcul de tournée
+     * Applique les algorithmes de calcul de tournee
      */
     @Override
     public boolean doCommand() throws Exception{
@@ -38,7 +38,7 @@ public class LoadTourCommand implements Command {
 		
 		tsp.chercheSolution(10000, g);
 		
-		//Si il n'y a pas de solution trouvée
+		//Si il n'y a pas de solution trouvee
 		if(!tsp.getFoundSolution())
 			return false;
 		
@@ -47,7 +47,7 @@ public class LoadTourCommand implements Command {
 		List<Section> sections = new LinkedList<Section>();
 		List<CrossingPoint> ordainedCrossingPoints = new LinkedList<CrossingPoint>();
 		
-		//Ajout du premier Path au départ de l'entrepot
+		//Ajout du premier Path au depart de l'entrepot
 		paths.forEach(
 				path->{
 					if(path.getOrigin().getId() == g.getIdWarehouse() && (Integer)path.getDestination().getId() == tsp.getMeilleureSolution(1)){
@@ -60,7 +60,7 @@ public class LoadTourCommand implements Command {
 		
 		ordainedCrossingPoints.add(Window.tour.getCrossingPoints().get(tsp.getMeilleureSolution(0)));
 		
-		//Ajout des paths pour chaque étape du tsp
+		//Ajout des paths pour chaque etape du tsp
 		for(int i=1;i<g.getCrossingPoints().size()-1;i++)
 		{
 			Integer id = tsp.getMeilleureSolution(i);
@@ -80,9 +80,9 @@ public class LoadTourCommand implements Command {
 		
 		Integer id = tsp.getMeilleureSolution(g.getCrossingPoints().size()-1);
 		ordainedCrossingPoints.add(Window.tour.getCrossingPoints().get(tsp.getMeilleureSolution(g.getCrossingPoints().size()-1)));
-		ordainedCrossingPoints.add(Window.tour.getCrossingPoints().get(tsp.getMeilleureSolution(0))); //Ajout du Warehouse à la fin
+		ordainedCrossingPoints.add(Window.tour.getCrossingPoints().get(tsp.getMeilleureSolution(0))); //Ajout du Warehouse a la fin
 		
-		//Ajout de la dernière étape du tsp
+		//Ajout de la derniere etape du tsp
 		paths.forEach(
 				path->{
 					if((Integer)path.getOrigin().getId() == id && (Integer)path.getDestination().getId() == g.getIdWarehouse()){
@@ -108,14 +108,14 @@ public class LoadTourCommand implements Command {
     }
     
     /**
-     * Pas encore implémenté
+     * Pas encore implemente
      */
     public boolean undoCommand() {
     	return true;
     }
     
     /**
-     * Pas encore implémenté
+     * Pas encore implemente
      */
     public boolean isDoable() {
 		return false;

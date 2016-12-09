@@ -6,7 +6,7 @@ import view.Window;
 import java.io.File;
 
 /**
- * Plan initial de l'application. Actif au lancement de la fen�tre
+ * Plan initial de l'application. Actif au lancement de la fenetre
  */
 public class InitState extends DefaultState{
 

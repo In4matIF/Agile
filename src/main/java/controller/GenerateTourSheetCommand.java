@@ -17,7 +17,7 @@ import model.Section;
 import view.Window;
 
 /**
- * Commande li鬥･ �ｿｽ la g鬧ｭ鬧ｻation d'une feuille de route
+ * Commande liee a la generation d'une feuille de route
  */
 public class GenerateTourSheetCommand implements Command {
 

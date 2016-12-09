@@ -7,7 +7,7 @@ import view.Window;
 import java.io.File;
 
 /**
- * Etat o� le plan est charg� mais pas la livraison
+ * Etat ou le plan est charge mais pas la livraison
  */
 public class PlanState extends DefaultState{
 

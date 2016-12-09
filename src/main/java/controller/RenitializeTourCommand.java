@@ -1,7 +1,7 @@
 package controller;
 
 /**
- * Etat pour réinitialiser la livraison chargée
+ * Etat pour reinitialiser la livraison chargee
  */
 public class RenitializeTourCommand implements Command {
 
