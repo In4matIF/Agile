@@ -2,15 +2,15 @@ package model;
 
 
 /**
- * Tronçon reliant deux intersections
- * Définis dans le xml du plan
+ * Troncon reliant deux intersections
+ * Definis dans le xml du plan
  */
 public class Section {
 
     private Intersection origin;
     private Intersection destination;
-    private Integer length; //en mètres
-    private Integer speed; //en mètres par secondes
+    private Integer length; //en metres
+    private Integer speed; //en metres par secondes
     private String street;
 
     public Section() {

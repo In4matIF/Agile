@@ -3,7 +3,7 @@ package model;
 import java.sql.Time;
 
 /**
- * Objet représentant l'entrepot de départ de la livraison
+ * Objet representant l'entrepot de depart de la livraison
  */
 public class Warehouse extends CrossingPoint{
 

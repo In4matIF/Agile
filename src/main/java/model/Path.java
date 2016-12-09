@@ -4,13 +4,13 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * Objet repré§¸entant un chemin d'un CrossingPoint ï¿½ un autre.
+ * Objet representant un chemin d'un CrossingPoint a un autre.
  * Contient la liste des sections composant le chemin
  */
 public class Path {
 
     private List<Section> sections;
-    private int length; //en mètres
+    private int length; //en metres
     private int duration; //en secondes
 
     public Path() {

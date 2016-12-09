@@ -15,7 +15,7 @@ import util.Dijkstra;
 public class Graph {
 
     /**
-     * Les arrêtes du graphe
+     * Les arretes du graphe
      */
 	private List<Path> paths;
 	
@@ -25,7 +25,7 @@ public class Graph {
     private Map<Integer, CrossingPoint> crossingPoints;
     
     /**
-     * L'id de l'entrepôt
+     * L'id de l'entrepot
      */
     private int idWarehouse;
 
@@ -34,7 +34,7 @@ public class Graph {
     }
     
     /**
-     * Constructeur de Graph ï¿½ partir d'un Plan et d'un Tour
+     * Constructeur de Graph a partir d'un Plan et d'un Tour
      * Execute Dijkstra pour calculer le graphe
      * @param p l'objet Plan
      * @param t l'object Tour
@@ -46,17 +46,17 @@ public class Graph {
     	crossingPoints.get(idWarehouse).setDuration(0);
     	List<Path> paths = new ArrayList<Path>();
 		
-    	Dijkstra dijkstra = new Dijkstra(p); //Construction du graphe à partir du Plan
+    	Dijkstra dijkstra = new Dijkstra(p); //Construction du graphe ï¿½ partir du Plan
 		
 		for(Map.Entry<Integer,CrossingPoint> origin : t.getCrossingPoints().entrySet())
 		{
-			dijkstra.execute(origin.getValue().getIntersection()); //Application de dijkstra à partir de chaque CrossingPoint
+			dijkstra.execute(origin.getValue().getIntersection()); //Application de dijkstra ï¿½ partir de chaque CrossingPoint
 			
 			for(Map.Entry<Integer,CrossingPoint> destination : t.getCrossingPoints().entrySet())
 			{
 				if(!destination.equals(origin))
 				{
-					//Récupération du chemin le plus court vers chaque CrossingPoint de destination
+					//Rï¿½cupï¿½ration du chemin le plus court vers chaque CrossingPoint de destination
 					LinkedList<Intersection> listinter = dijkstra.getPath(destination.getValue().getIntersection());
 					List<Section> sections = new ArrayList<Section>();
 					int length = 0;
@@ -73,7 +73,7 @@ public class Graph {
 					Path newPath = new Path(sections,length,duration);
 					paths.add(newPath);
 					
-					// Ajout de l'arrête générée au CrossingPoint de départ
+					// Ajout de l'arrï¿½te gï¿½nï¿½rï¿½e au CrossingPoint de dï¿½part
 					origin.getValue().addPath(newPath, listinter.getLast().getId());
 				}
 			}

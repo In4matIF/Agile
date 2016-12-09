@@ -16,13 +16,13 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Objet repr�sentant le plan de la ville
+ * Objet representant le plan de la ville
  * Contient les intersections et les sections
  */
 public class Plan implements Observable{
 
     /**
-     * Map des intersections du Plan avec l'id de l'intersection en cl�
+     * Map des intersections du Plan avec l'id de l'intersection en cle
      */
 	private Map<Integer, Intersection> intersections = new HashMap<Integer, Intersection>();
 	
@@ -40,7 +40,7 @@ public class Plan implements Observable{
     }
 
     /**
-     * Cr�ation d'un objet plan � partir d'un fichier XML de plan
+     * Cr�ation d'un objet plan a partir d'un fichier XML de plan
      * @param xmlFile le xml du plan
      */
     public Plan(File xmlFile) throws Exception{
@@ -57,7 +57,7 @@ public class Plan implements Observable{
 
         NodeList nList = doc.getElementsByTagName("noeud");
 
-        //Cr�ation des objets Intersections
+        //Creation des objets Intersections
         for (int temp = 0; temp < nList.getLength(); temp++) {
             Node nNode = nList.item(temp);
 
@@ -76,7 +76,7 @@ public class Plan implements Observable{
 
         NodeList sList = doc.getElementsByTagName("troncon");
 
-        //Cr�ation des objets Section
+        //Creation des objets Section
         for (int temp = 0; temp < sList.getLength(); temp++) {
             Node sNode = sList.item(temp);
 

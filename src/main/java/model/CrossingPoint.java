@@ -4,12 +4,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Classe abstraite qui reprï¿½sente un point de passage du livreur (Warehouse ou DeliveryPoint)
+ * Classe abstraite qui represente un point de passage du livreur (Warehouse ou DeliveryPoint)
  */
 public abstract class CrossingPoint {
 
     /**
-     * Intersection liée au CrossingPoint
+     * Intersection liee au CrossingPoint
      */
 	private Intersection intersection;
 	
@@ -19,12 +19,12 @@ public abstract class CrossingPoint {
     private Map<Integer, Path> paths;
     
     /**
-     * Durée de livraison
+     * Duree de livraison
      */
     private Integer duration;
     
     /**
-     * Début de la plage horaire de livraison
+     * Debut de la plage horaire de livraison
      */
     protected long beginTime = 0;
     

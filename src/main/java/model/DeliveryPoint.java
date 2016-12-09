@@ -6,7 +6,7 @@ import model.Intersection;
 import java.sql.Time;
 
 /**
- * Objet reprï¿½sentant un point de livraison pour le vendeur
+ * Objet representant un point de livraison pour le vendeur
  */
 public class DeliveryPoint extends CrossingPoint {
 
@@ -16,12 +16,12 @@ public class DeliveryPoint extends CrossingPoint {
 	private long waitTime;
 	
 	/**
-	 * Heure d'arrivée au point (en secondes)
+	 * Heure d'arrivee au point (en secondes)
 	 */
     private long arrival;
     
     /**
-     * Heure de départ du point (en secondes)
+     * Heure de depart du point (en secondes)
      */
     private long departure;
 

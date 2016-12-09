@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Objet repr�sentant les informations de la livraison
+ * Objet representant les informations de la livraison
  */
 public class Tour implements Observable{
 
@@ -26,7 +26,7 @@ public class Tour implements Observable{
     private Integer duration; //en secondes
     private Integer idWarehouse; //id de l'entrepot
     private List<Intersection> intersections; //
-    private List<CrossingPoint> ordainedCrossingPoints; //Liste ordonn�e de crossing points pour
+    private List<CrossingPoint> ordainedCrossingPoints; //Liste ordonnee de crossing points pour
     													//l'ajout et la suppression de points
 
     public Tour() {
@@ -39,9 +39,9 @@ public class Tour implements Observable{
     }
     
     /**
-     * Constructeur de l'objet � partir du fichier xml de livraison ainsi que du plan
+     * Constructeur de l'objet a partir du fichier xml de livraison ainsi que du plan
      * @param xmlFile le fichier de livraison
-     * @param plan l'objet plan cr�� en amont
+     * @param plan l'objet plan cree en amont
      */
     public Tour(File xmlFile, Plan plan) throws Exception{
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
@@ -65,7 +65,7 @@ public class Tour implements Observable{
                 + Integer.parseInt(strTime[1]) * 60
                 + Integer.parseInt(strTime[2]);
 
-        //Cr�ation de l'entrepot
+        //Creation de l'entrepot
         Warehouse warehouse = new Warehouse(
                 plan.getIntersections().get(Integer.parseInt(tElement.getAttribute("adresse"))),
                 departure
@@ -78,7 +78,7 @@ public class Tour implements Observable{
 
         NodeList tList = doc.getElementsByTagName("livraison");
 
-        //Cr�ation des points de livraison
+        //Creation des points de livraison
         for (int temp = 0; temp < tList.getLength(); temp++) {
 
             Node tNode = tList.item(temp);
