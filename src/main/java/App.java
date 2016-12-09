@@ -25,7 +25,7 @@ public class App extends Application {
     }
 
     /**
-     * Ouvre la fenêtre principale
+     * Ouvre la fenetre principale
      */
     @Override
     public void start(Stage primaryStage) throws Exception {

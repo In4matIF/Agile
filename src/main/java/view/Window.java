@@ -122,7 +122,7 @@ public class Window {
 	}
 
 	/**
-	 * Crﾃｩe une nouvelle fenﾃｪtre
+	 * Cree une nouvelle fenetre
 	 *
 	 * @param primaryStage
 	 *            Le container principale de l'interface
@@ -140,19 +140,19 @@ public class Window {
 	}
 
 	/**
-	 * Rﾃｩcupﾃｨre le contrﾃｴleur de l'application (MVC)
+	 * Recupere le controleur de l'application (MVC)
 	 *
-	 * @return Le contrﾃｴleur de l'application (MVC)
+	 * @return Le controleur de l'application (MVC)
 	 */
 	public Controller getController() {
 		return controller;
 	}
 
 	/**
-	 * Change la valeur du contrﾃｴleur de l'application (MVC)
+	 * Change la valeur du controleur de l'application (MVC)
 	 *
 	 * @param controller
-	 *            Le nouveau contrﾃｴleur de l'application (MVC)
+	 *            Le nouveau controleur de l'application (MVC)
 	 */
 	public void setController(Controller controller) {
 		this.controller = controller;
@@ -169,7 +169,7 @@ public class Window {
 
 	/**
 	 * Configure la gestion des panels dans l'interface graphique, ainsi que les
-	 * actions liﾃｩes aux boutons de l'interface
+	 * actions liees aux boutons de l'interface
 	 */
 	public void render() {
 		init();
