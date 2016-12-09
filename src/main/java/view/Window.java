@@ -410,7 +410,7 @@ public class Window {
 							errorPopUp("Le calcul d'une tournée optimale pour ce fichier est impossible.");
 						}
 					} catch (Exception e) {
-						if(e.getMessage().equals("Fichier incompatible.")){
+						if(e.getMessage()!=null && e.getMessage().equals("Fichier incompatible.")){
 							currentTourFile = TOUR_FILE_TEXT;
 							render();
 							try{

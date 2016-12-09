@@ -27,8 +27,12 @@ public abstract class TemplateTSP implements TSP {
 	private ArrayList<Pair> obviousIssues = new ArrayList<Pair>();
     protected ArrayList<Integer> listDuree = new ArrayList<Integer>();;
     protected ArrayList<Integer> listCout = new ArrayList<Integer>();;
+    private long coutAlternative = 0;
+    private int maxVus = 0;
+    private long coutMeilleureAlternative = 0;
+    private Integer[] meilleureAlternative;
 
-	public ArrayList<Pair> getObviousIssues() {
+    public ArrayList<Pair> getObviousIssues() {
 		return obviousIssues;
 	}
 	
@@ -41,11 +45,12 @@ public abstract class TemplateTSP implements TSP {
 	public void chercheSolution(long tpsLimite, Graph graph) {
 		tempsLimiteAtteint = false;
 		coutMeilleureSolution = Long.MAX_VALUE;
+		coutMeilleureAlternative = Long.MAX_VALUE;
 		dureeMinimale = Integer.MAX_VALUE;
 		coutMinimal = Integer.MAX_VALUE;
 		meilleureSolution = new Integer[graph.getCrossingPoints().size()];
 
-		ArrayList<Integer> vus = new ArrayList<Integer>(graph.getCrossingPoints().size());
+		ArrayList<Integer> vus = new ArrayList<Integer>();
 		ArrayList<Integer> nonVus = new ArrayList<Integer>();
 
 		if (!isPossible(graph)){
@@ -77,21 +82,26 @@ public abstract class TemplateTSP implements TSP {
 		Warehouse warehouse = (Warehouse)(graph.getCrossingPoints().get(graph.getIdWarehouse()));
 		branchAndBound(graph.getIdWarehouse(), nonVus, vus, warehouse.getDepartureTime(), graph, System.currentTimeMillis(), tpsLimite);
 
-		if(foundSolution){
-			long crtTime = warehouse.getDepartureTime();
-			for(int i = 1; i < meilleureSolution.length; i ++){
-				DeliveryPoint crtPoint = (DeliveryPoint) (graph.getCrossingPoints().get(meilleureSolution[i]));
-				crtTime += graph.getCrossingPoints().get(meilleureSolution[i-1]).getPaths().get(meilleureSolution[i]).getDuration();
-				if(crtTime < crtPoint.getBeginTime()){
-					crtPoint.setWaitTime(crtPoint.getBeginTime() - crtTime);
-				}else{
-					crtPoint.setWaitTime(0);
-				}
-				crtPoint.setArrival(crtTime);
-				crtTime += crtPoint.getWaitTime() + crtPoint.getDuration();
-				crtPoint.setDeparture(crtTime);
-			}
-		}
+		Integer [] finalPath = new Integer[graph.getCrossingPoints().size()];
+		if(foundSolution) {
+            finalPath = meilleureSolution;
+        }else {
+            finalPath = meilleureAlternative;
+        }
+        long crtTime = warehouse.getDepartureTime();
+        for(int i = 1; i < finalPath.length; i ++) {
+            DeliveryPoint crtPoint = (DeliveryPoint) (graph.getCrossingPoints().get(finalPath[i]));
+            crtTime += graph.getCrossingPoints().get(finalPath[i - 1]).getPaths().get(finalPath[i]).getDuration();
+            if (crtTime < crtPoint.getBeginTime()) {
+                crtPoint.setWaitTime(crtPoint.getBeginTime() - crtTime);
+            } else {
+                crtPoint.setWaitTime(0);
+            }
+            crtPoint.setArrival(crtTime);
+            crtTime += crtPoint.getWaitTime() + crtPoint.getDuration();
+            crtPoint.setDeparture(crtTime);
+        }
+
 	}
 	
 	public Integer getMeilleureSolution(int i){
@@ -99,11 +109,21 @@ public abstract class TemplateTSP implements TSP {
 			return null;
 		return meilleureSolution[i];
 	}
+
+	public Integer getMeilleureAlternative(int i){
+		if ((meilleureAlternative == null) || (i<0) || (i>=meilleureAlternative.length))
+			return null;
+		return meilleureAlternative[i];
+	}
 	
 	public long getCoutMeilleureSolution(){
 		return coutMeilleureSolution;
 	}
-	
+
+	public long getCoutMeilleureAlternative(){
+		return coutMeilleureAlternative;
+	}
+
 	/**
 	 * Methode devant etre redefinie par les sous-classes de TemplateTSP
 	 * @param sommetCourant
@@ -149,6 +169,8 @@ public abstract class TemplateTSP implements TSP {
 		 if(coutVus < graph.getCrossingPoints().get(sommetCrt).getBeginTime()) {
 			 coutVus = graph.getCrossingPoints().get(sommetCrt).getBeginTime();
 		 }
+		 if(sommetCrt != graph.getIdWarehouse())
+		    coutAlternative = coutVus + graph.getCrossingPoints().get(sommetCrt).getDuration() + graph.getCrossingPoints().get(sommetCrt).getPaths().get(graph.getIdWarehouse()).getDuration();
 	    if (nonVus.size() == 0 && coutVus < graph.getCrossingPoints().get(sommetCrt).getEndTime()){ // tous les sommets ont ete visites
             //coutVus += graph.getCrossingPoints().get(sommetCrt).getPaths().get(graph.getIdWarehouse()).getLength(); // on ajoute le dernier cout retour vers l'ntrepot
             coutVus += graph.getCrossingPoints().get(sommetCrt).getDuration() + graph.getCrossingPoints().get(sommetCrt).getPaths().get(graph.getIdWarehouse()).getDuration(); // on ajoute le dernier cout retour vers l'ntrepot
@@ -158,6 +180,12 @@ public abstract class TemplateTSP implements TSP {
 	    		foundSolution = true;
 	    	}
 	    } else if (coutVus + bound(sommetCrt, nonVus) < coutMeilleureSolution && coutVus < graph.getCrossingPoints().get(sommetCrt).getEndTime()){
+            if(vus.size() > maxVus || (coutAlternative < coutMeilleureAlternative && vus.size() == maxVus)) {
+                meilleureAlternative = new Integer[vus.size()];
+                vus.toArray(meilleureAlternative);
+                coutMeilleureAlternative = coutAlternative;
+                maxVus = vus.size();
+            }
 	        Iterator<Integer> it = iterator(sommetCrt, nonVus);
 	        while (it.hasNext()){
 	        	Integer prochainSommet = it.next();
