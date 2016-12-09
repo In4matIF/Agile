@@ -76,12 +76,12 @@ public class Window {
 	private final int SELECTED_CIRCLE_RADIUS = 14;
 	private final int NON_SELECTED_CIRCLE_RADIUS = 6;
 
-	private final Color PLAN_INTERSECTION_COLOR = Color.AQUA;
-	private final Color PLAN_SECTION_COLOR = Color.AQUA;
-	private final Color TOUR_DELIVERY_COLOR = Color.web("#FF00EF");
-	private final Color TOUR_WHAREHOUSE_COLOR = Color.web("#00FF3A");
-	private final Color TOUR_PATH_COLOR = Color.RED;
-	private final Color TOUR_VISITED_SECTION_COLOR = Color.YELLOW;
+	private final Color PLAN_INTERSECTION_COLOR = Color.web("#00373A");
+	private final Color PLAN_SECTION_COLOR = Color.web("#00373A");
+	private final Color TOUR_DELIVERY_COLOR = Color.web("#E5514D");
+	private final Color TOUR_WHAREHOUSE_COLOR = Color.web("#E5B34D");
+	private final Color TOUR_PATH_COLOR = Color.web("#3E589A");
+	private final Color TOUR_VISITED_SECTION_COLOR = Color.web("#E5514D");
 	private final Color DELIVERY_BG = Color.web("#17767A");
 	private final Color DELIVERY_DETAIL_BG = Color.web("#2F868A");
 	private final Color DELIVERY_TEXT_COLOR = Color.web("#B0E1E3");
@@ -106,7 +106,7 @@ public class Window {
 	private List<GridPane> deliveryGP;
 	private ScrollPane deliveryPaneScroll;
 	private Map<Integer,Boolean> openState;
-	
+
 	public static Plan plan;
 	private String currentPlanFile = PLAN_FILE_TEXT;
 	public static Tour tour;
@@ -120,7 +120,7 @@ public class Window {
 
 	/**
 	 * Crﾃｩe une nouvelle fenﾃｪtre
-	 * 
+	 *
 	 * @param primaryStage
 	 *            Le container principale de l'interface
 	 */
@@ -138,7 +138,7 @@ public class Window {
 
 	/**
 	 * Rﾃｩcupﾃｨre le contrﾃｴleur de l'application (MVC)
-	 * 
+	 *
 	 * @return Le contrﾃｴleur de l'application (MVC)
 	 */
 	public Controller getController() {
@@ -147,7 +147,7 @@ public class Window {
 
 	/**
 	 * Change la valeur du contrﾃｴleur de l'application (MVC)
-	 * 
+	 *
 	 * @param controller
 	 *            Le nouveau contrﾃｴleur de l'application (MVC)
 	 */
@@ -214,42 +214,42 @@ public class Window {
 		infosPos.setPadding(new Insets(2.0));
 		infosPos.setAlignment(Pos.CENTER_LEFT);
 		grid.add(infosPos, 3, 1);
-		
+
 		Label stepDisplay1 = new Label("Etape");
 		stepDisplay1.setTextFill(LABEL_TEXT_COLOR);
 		infosPos.add(stepDisplay1, 0, 0);
-		
+
 		Label stepDisplay2 = new Label("0/0");
 		stepDisplay2.setTextFill(LABEL_TEXT_COLOR);
 		infosPos.add(stepDisplay2, 1, 0);
-		
+
 		Label nextStreet1 = new Label("Prochaine rue ");
 		nextStreet1.setTextFill(LABEL_TEXT_COLOR);
 		infosPos.add(nextStreet1, 0, 1);
-		
+
 		Label nextStreet2 = new Label();
 		nextStreet2.setTextFill(LABEL_TEXT_COLOR);
 		infosPos.add(nextStreet2, 1, 1);
-		
+
 		GridPane infosTime = new GridPane();
 		infosTime.setHgap(30.0);
 		infosTime.setVgap(2.0);
 		infosTime.setPadding(new Insets(2.0));
 		infosTime.setAlignment(Pos.CENTER_LEFT);
 		grid.add(infosTime, 3, 2);
-		
+
 		Label timePast1 = new Label("Temps Passé");
 		timePast1.setTextFill(LABEL_TEXT_COLOR);
 		infosTime.add(timePast1, 0, 0);
-		
+
 		Label timePast2 = new Label("0mn");
 		timePast2.setTextFill(LABEL_TEXT_COLOR);
 		infosTime.add(timePast2, 1, 0);
-		
+
 		Label timeLeft1 = new Label("Temps Restant");
 		timeLeft1.setTextFill(LABEL_TEXT_COLOR);
 		infosTime.add(timeLeft1, 0, 1);
-		
+
 		Label timeLeft2 = new Label("0mn");
 		timeLeft2.setTextFill(LABEL_TEXT_COLOR);
 		infosTime.add(timeLeft2, 1, 1);
@@ -324,7 +324,7 @@ public class Window {
 	            }
 	         });
 		grid.add(popup, 4, 2);
-		
+
 		// test purposes only
 		grid.setGridLinesVisible(false);
 
@@ -447,10 +447,11 @@ public class Window {
 			public void handle(ActionEvent feiulleEvent) {
 				try {
 					controller.generateTourSheet();
+					errorPopUp("La feuille de route a été générée avec succès !");
 				}catch (Exception e){}
 			}
 		});
-		
+
 		scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {
@@ -565,7 +566,7 @@ public class Window {
 			stack.getChildren().add(temp);
 			stack.getChildren().add(tmpGP);
 			StackPane circleStack = new StackPane();
-			
+
 			Circle circleAttente = new Circle(20,Color.TRANSPARENT);
 			circleAttente.setStrokeWidth(4);
 			if(0<10)
@@ -581,16 +582,16 @@ public class Window {
 				circleAttente.setStroke(Color.GREEN);
 			}
 			tmpGP.add(circleStack, NON_SELECTED_CIRCLE_RADIUS, 0);
-			circleStack.getChildren().add(circleAttente); 
+			circleStack.getChildren().add(circleAttente);
 			circleStack.getChildren().add(textAttente);
 			deliveryPane.getChildren().add(deliveryVB);
-			
+
 			Rectangle clickable = new Rectangle(RECTANGLE_WIDTH,RECTANGLE_HEIGHT);
 			clickable.setFill(Color.TRANSPARENT);
 			clickable.setStroke(BORDER_COLOR);
-			
+
 			openState.put(tour.getOrdainedCrossingPoints().get(i).getIntersection().getId(),false);
-			
+
 			clickable.setOnMouseClicked(new EventHandler<MouseEvent>()
 	        {
 	            @Override
@@ -701,7 +702,7 @@ public class Window {
 					planCanvas.getChildren().add(line);
 				}
 		);
-		
+
 		tour.getCrossingPoints().forEach((integer, crossingPoint) -> {
 
 			float x = crossingPoint.getIntersection().getX() * WIDTH_RATIO;
@@ -718,7 +719,7 @@ public class Window {
 
 		});
 	}
-	
+
 	public void drawNextStep() {
 		float xOrigin = tour.getSections().get(noSectionToDraw).getOrigin().getX() * WIDTH_RATIO;
 		float yOrigin = tour.getSections().get(noSectionToDraw).getOrigin().getY() * HEIGHT_RATIO;
@@ -738,7 +739,7 @@ public class Window {
 				colorToDraw = TOUR_PATH_COLOR;
 		}
 	}
-	
+
 	public void drawPreviousStep() {
 		if(noSectionToDraw == 0)
 		{
