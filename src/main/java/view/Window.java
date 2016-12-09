@@ -301,6 +301,7 @@ public class Window {
 
 		Button popup = new Button();
 		popup.setText("Ajouter une livraison");
+		popup.setStyle("-fx-base: "+BUTTON_COLOR+"; -fx-text-fill: "+BUTTON_FONT_COLOR+";");
 		popup.setOnAction(
 	        new EventHandler<ActionEvent>() {
 	            @Override
@@ -360,6 +361,7 @@ public class Window {
 		
 		Button undo = new Button();
 		undo.setText("Annuler");
+		undo.setStyle("-fx-base: "+BUTTON_COLOR+"; -fx-text-fill: "+BUTTON_FONT_COLOR+";");
 		grid.add(undo,2,3);
 		undo.setOnAction(
 				new EventHandler<ActionEvent>() {
