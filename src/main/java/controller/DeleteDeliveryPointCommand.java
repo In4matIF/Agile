@@ -1,7 +1,9 @@
 package controller;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import model.*;
 import util.Dijkstra;
@@ -11,18 +13,21 @@ public class DeleteDeliveryPointCommand implements Command {
 
 	
 	DeliveryPoint toDelete;
-	List<CrossingPoint> listCP;
+	List<CrossingPoint> listOrderedCP;
+	Map<Integer, CrossingPoint> listCP;
 	List<Section> listSections;
 	
 	public DeleteDeliveryPointCommand(DeliveryPoint toDelete) {
 		this.toDelete = toDelete;
-		listCP = new LinkedList<>();
+		listCP = new HashMap<>();
+		listOrderedCP = new LinkedList<>();
 		listSections = new LinkedList<>();
 	}
 
 	@Override
 	public boolean doCommand() {
-		listCP.addAll(Window.tour.getOrdainedCrossingPoints());
+		listCP.putAll(Window.tour.getCrossingPoints());
+		listOrderedCP.addAll(Window.tour.getOrdainedCrossingPoints());
 		listSections.addAll(Window.tour.getSections());
 		
 		int index = Window.tour.getOrdainedCrossingPoints().indexOf(toDelete);
@@ -59,7 +64,8 @@ public class DeleteDeliveryPointCommand implements Command {
 	
 	@Override
 	public boolean undoCommand() {
-		Window.tour.setOrdainedCrossingPoints(listCP);
+		Window.tour.setOrdainedCrossingPoints(listOrderedCP);
+		Window.tour.setCrossingPoints(listCP);
 		Window.tour.setSections(listSections);
 		return true;
 	}
