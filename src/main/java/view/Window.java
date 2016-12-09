@@ -245,7 +245,7 @@ public class Window {
 		timePast1.setTextFill(LABEL_TEXT_COLOR);
 		infosTime.add(timePast1, 0, 0);
 
-		Label timePast2 = new Label("0mn");
+		Label timePast2 = new Label(formatSecondTime(0,true));
 		timePast2.setTextFill(LABEL_TEXT_COLOR);
 		infosTime.add(timePast2, 1, 0);
 
