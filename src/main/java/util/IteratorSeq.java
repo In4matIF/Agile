@@ -3,15 +3,18 @@ package util;
 import java.util.Collection;
 import java.util.Iterator;
 
+/**
+ * Classe de l'iterateur des sommets derivee de l'iterateur d'entier
+ */
 public class IteratorSeq implements Iterator<Integer> {
 
 	private Integer[] candidats;
 	private int nbCandidats;
 
 	/**
-	 * Cree un iterateur pour iterer sur l'ensemble des sommets de nonVus
-	 * @param nonVus
-	 * @param sommetCrt
+	 * Constructeur de l'iterateur pour iterer sur l'ensemble des sommets de nonVus à partir du sommet courant
+	 * @param nonVus Une liste d'entiers contenant l'id des sommets non vus
+	 * @param sommetCrt Un entier contenant l'id du sommet courant
 	 */
 	public IteratorSeq(Collection<Integer> nonVus, int sommetCrt){
 		this.candidats = new Integer[nonVus.size()];
