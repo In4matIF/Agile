@@ -16,7 +16,7 @@ import util.TSP1;
 import view.Window;
 
 /**
- * Commande liï¿½e au chargement de la livraison
+ * Commande liée au chargement de la livraison
  */
 public class LoadTourCommand implements Command {
 
@@ -28,26 +28,29 @@ public class LoadTourCommand implements Command {
     }
 
     /**
-     * Applique les algorithmes de calcul de tournï¿½e
+     * Applique les algorithmes de calcul de tournée
      */
     @Override
     public boolean doCommand() throws Exception{
 		Window.tour = new Tour(file, Window.plan);
 		Graph g = new Graph(Window.plan, Window.tour);
 		TSP1 tsp = new TSP1();
+		
 		tsp.chercheSolution(10000, g);
+		
+		//Si il n'y a pas de solution trouvée
 		if(!tsp.getFoundSolution())
 			return false;
+		
 		List<Path> paths = g.getPaths();
 		List<Intersection> intersections = new LinkedList<Intersection>();
 		List<Section> sections = new LinkedList<Section>();
 		List<CrossingPoint> ordainedCrossingPoints = new LinkedList<CrossingPoint>();
 		
+		//Ajout du premier Path au départ de l'entrepot
 		paths.forEach(
 				path->{
-					//System.out.println(path.getOrigin().getId() +" -> " + path.getDestination().getId());
 					if(path.getOrigin().getId() == g.getIdWarehouse() && (Integer)path.getDestination().getId() == tsp.getMeilleureSolution(1)){
-						//System.out.println(path.getOrigin().getId() + "->" + path.getDestination().getId() + " **************************************");
 						for(int j = 0; j < path.getSections().size(); j++)
 						{
 							sections.add(path.getSections().get(j));
@@ -57,17 +60,14 @@ public class LoadTourCommand implements Command {
 		
 		ordainedCrossingPoints.add(Window.tour.getCrossingPoints().get(tsp.getMeilleureSolution(0)));
 		
+		//Ajout des paths pour chaque étape du tsp
 		for(int i=1;i<g.getCrossingPoints().size()-1;i++)
 		{
-			//System.out.print(tsp.getMeilleureSolution(i)+" -> ");
 			Integer id = tsp.getMeilleureSolution(i);
 			Integer id2 = tsp.getMeilleureSolution(i+1);
-			//System.out.println(id+" : " +id2);
 			paths.forEach(
 					path->{
-						//System.out.println(path.getOrigin().getId() +" -> " + path.getDestination().getId());
 						if((Integer)path.getOrigin().getId() == id && (Integer)path.getDestination().getId() == id2){
-							//System.out.println(path.getOrigin().getId() + "->" + path.getDestination().getId() + " **************************************");
 							for(int j = 0; j < path.getSections().size(); j++)
 							{
 								sections.add(path.getSections().get(j));
@@ -78,18 +78,14 @@ public class LoadTourCommand implements Command {
 			ordainedCrossingPoints.add(Window.tour.getCrossingPoints().get(tsp.getMeilleureSolution(i)));
 		}
 		
-		//System.out.print(tsp.getMeilleureSolution(i)+" -> ");
 		Integer id = tsp.getMeilleureSolution(g.getCrossingPoints().size()-1);
 		ordainedCrossingPoints.add(Window.tour.getCrossingPoints().get(tsp.getMeilleureSolution(g.getCrossingPoints().size()-1)));
-		ordainedCrossingPoints.add(Window.tour.getCrossingPoints().get(tsp.getMeilleureSolution(0))); //Ajout du Warehouse ï¿½ la fin
+		ordainedCrossingPoints.add(Window.tour.getCrossingPoints().get(tsp.getMeilleureSolution(0))); //Ajout du Warehouse à la fin
 		
-		
-		
+		//Ajout de la dernière étape du tsp
 		paths.forEach(
 				path->{
-					//System.out.println(path.getOrigin().getId() +" -> " + path.getDestination().getId());
 					if((Integer)path.getOrigin().getId() == id && (Integer)path.getDestination().getId() == g.getIdWarehouse()){
-						//System.out.println(path.getOrigin().getId() + "->" + path.getDestination().getId() + " **************************************");
 						for(int j = 0; j < path.getSections().size(); j++)
 						{
 							sections.add(path.getSections().get(j));
@@ -97,9 +93,7 @@ public class LoadTourCommand implements Command {
 					}
 				});
 		
-		
 		intersections.add(Window.tour.getCrossingPoints().get(tsp.getMeilleureSolution(g.getCrossingPoints().size()-1)).getIntersection());
-		//System.out.println(tsp.getMeilleureSolution(g.getCrossingPoints().size()-1));
 		
 		Window.tour.setIntersections(intersections);
 		
@@ -113,11 +107,17 @@ public class LoadTourCommand implements Command {
         return true;
     }
     
+    /**
+     * Pas encore implémenté
+     */
     public boolean undoCommand() {
     	return true;
     }
     
-	public boolean isDoable() {
+    /**
+     * Pas encore implémenté
+     */
+    public boolean isDoable() {
 		return false;
 	}
 }
