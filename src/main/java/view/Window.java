@@ -298,6 +298,7 @@ public class Window {
 
 		Button popup = new Button();
 		popup.setText("Ajouter une livraison");
+		popup.setStyle("-fx-base: "+BUTTON_COLOR+"; -fx-text-fill: "+BUTTON_FONT_COLOR+";");
 		popup.setOnAction(
 	        new EventHandler<ActionEvent>() {
 	            @Override
@@ -369,7 +370,7 @@ public class Window {
 					}
 	            }
 	         });
-
+		undo.setStyle("-fx-base: "+BUTTON_COLOR+"; -fx-text-fill: "+BUTTON_FONT_COLOR+";");
 		// test purposes only
 		grid.setGridLinesVisible(false);
 
