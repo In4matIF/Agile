@@ -29,10 +29,12 @@ public class DeleteDeliveryPointCommand implements Command {
 		
 		//Remove the old path from the Tour
 		int startPath = 0;
+		int timeSaved = 0;
 		while(Window.tour.getSections().get(startPath).getOrigin().getId()!=Window.tour.getOrdainedCrossingPoints().get(index-1).getIntersection().getId())
 			startPath++; //Find the first section of the path to delete
 		while(Window.tour.getSections().get(startPath).getOrigin().getId()!=Window.tour.getOrdainedCrossingPoints().get(index+1).getIntersection().getId())
 		{
+			timeSaved+=Window.tour.getSections().get(startPath).getDurationSeconds();
 			Window.tour.getSections().remove(startPath);
 		}
 		
@@ -40,12 +42,15 @@ public class DeleteDeliveryPointCommand implements Command {
 		dijkstra.execute(Window.tour.getOrdainedCrossingPoints().get(index-1).getIntersection());
 		LinkedList<Intersection> intersectionsToAdd = dijkstra.getPath(Window.tour.getOrdainedCrossingPoints().get(index+1).getIntersection());
 		
-		
+		int timeAdd = 0;
 		for(int i=0;i<intersectionsToAdd.size()-1;i++)
 		{
+			timeAdd+=intersectionsToAdd.get(i).getSectionTo(intersectionsToAdd.get(i+1)).getDurationSeconds();
 			Window.tour.getSections().add(startPath+i,intersectionsToAdd.get(i).getSectionTo(intersectionsToAdd.get(i+1)));
 		}
-		
+
+		((DeliveryPoint)Window.tour.getOrdainedCrossingPoints().get(index+1)).setWaitTime(((DeliveryPoint)Window.tour.getOrdainedCrossingPoints().get(index+1)).getWaitTime()+timeSaved-timeAdd);
+		((DeliveryPoint)Window.tour.getOrdainedCrossingPoints().get(index+1)).setArrival(((DeliveryPoint)Window.tour.getOrdainedCrossingPoints().get(index+1)).getArrival()-timeSaved+timeAdd);
 		Window.tour.getCrossingPoints().remove(toDelete.getIntersection().getId());
 		Window.tour.getOrdainedCrossingPoints().remove(index);
 		
