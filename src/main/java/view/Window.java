@@ -455,7 +455,7 @@ public class Window {
 								timesPast.add(duration);
 								timeTotal+=duration;
 							}
-							timeLeft2.setText(formatSecondeTime(timeTotal,true));
+							timeLeft2.setText(formatSecondTime(timeTotal,true));
 							renderLivraison();
 						}else{
 							errorPopUp("Le calcul d'une tournée optimale pour ce fichier est impossible.");
